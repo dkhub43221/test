@@ -1,5 +1,4 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-
 local executor = identifyexecutor and identifyexecutor() or "Unknown Executor"
 
 local customTheme = {
@@ -48,88 +47,55 @@ local Window = Rayfield:CreateWindow({
    Theme = customTheme,
    DisableRayfieldPrompts = false,
    DisableBuildWarnings = false,
-   ConfigurationSaving = {
-      Enabled = false,
-      FolderName = "BlackThemeHub",
-      FileName = "BigHub"
-   },
-   Discord = {
-      Enabled = true,
-      Invite = "Fy7PanRV",
-      RememberJoins = true
-   },
+   ConfigurationSaving = {Enabled = false, FolderName = "BlackThemeHub", FileName = "BigHub"},
+   Discord = {Enabled = true, Invite = "Fy7PanRV", RememberJoins = true},
    KeySystem = false,
-   KeySettings = {
-      Title = "X-DK | V1",
-      Subtitle = "Enter Key Below",
-      Note = "Buy A Key At Discord.gg/dkshub",
-      FileName = "Key",
-      SaveKey = true,
-      GrabKeyFromSite = false,
-      Key = {""},
-      Theme = customTheme
-   }
+   KeySettings = {Title = "X-DK | V1", Subtitle = "Enter Key Below", Note = "Buy A Key At Discord.gg/dkshub", FileName = "Key", SaveKey = true, GrabKeyFromSite = false, Key = {""}, Theme = customTheme}
 })
 
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+local Backpack = LocalPlayer:WaitForChild("Backpack")
+
+-- Autofarm Tab
 local AutofarmTab = Window:CreateTab("Autofarm", "clock-4")
 AutofarmTab:CreateSection("Box Autofarm")
-
-
-local ToggleEnabled = false
-local player = game.Players.LocalPlayer
-
+local boxToggle = false
 AutofarmTab:CreateToggle({
     Name = "Box Autofarm",
     CurrentValue = false,
     Flag = "BoxToggle",
     Callback = function(value)
-        ToggleEnabled = value
-        if ToggleEnabled then
+        boxToggle = value
+        if boxToggle then
             spawn(function()
-                while ToggleEnabled do
-                    local character = player.Character or player.CharacterAdded:Wait()
+                while boxToggle do
+                    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
                     local rootPart = character:WaitForChild("HumanoidRootPart")
-
                     rootPart.CFrame = CFrame.new(-121, 4, 301)
                     task.wait(0.2)
-
                     local box = workspace:WaitForChild("Job"):WaitForChild("Box"):WaitForChild("BOX1")
-                    local clickDetector = box:WaitForChild("ClickDetector")
-
-                    fireclickdetector(clickDetector)
+                    fireclickdetector(box:WaitForChild("ClickDetector"))
                     task.wait(0.2)
-
-                    local backpack = player:WaitForChild("Backpack")
-                    local boxTool = backpack:FindFirstChild("Box")
-                    if boxTool then
-                        player.Character.Humanoid:EquipTool(boxTool)
-                    else
-                        print("No Box tool found in backpack.")
-                    end
-
+                    local boxTool = Backpack:FindFirstChild("Box")
+                    if boxTool then LocalPlayer.Character.Humanoid:EquipTool(boxTool) end
                     rootPart.CFrame = CFrame.new(-111, 4, 146)
                     task.wait(0.5)
                 end
             end)
         end
-    end,
+    end
 })
 
 AutofarmTab:CreateSection("Mop Autofarm")
-
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local backpack = player:WaitForChild("Backpack")
-local giveMop = game:GetService("ReplicatedStorage"):FindFirstChild("GiveMop")
-
-local function equipMop()
-    local mop = backpack:FindFirstChild("Mop")
-    if mop then
-        mop.Parent = character
-    end
-end
-
+local giveMop = ReplicatedStorage:FindFirstChild("GiveMop")
 local cleaningEnabled = false
+local function equipMop()
+    local mop = Backpack:FindFirstChild("Mop")
+    if mop then mop.Parent = LocalPlayer.Character end
+end
 
 AutofarmTab:CreateToggle({
     Name = "Mop Autofarm",
@@ -143,70 +109,43 @@ AutofarmTab:CreateToggle({
                     for _, part in pairs(workspace.CleanPart:GetChildren()) do
                         if not cleaningEnabled then break end
                         if giveMop then
-                            if giveMop:IsA("RemoteEvent") then
-                                giveMop:FireServer()
-                            elseif giveMop:IsA("RemoteFunction") then
-                                giveMop:InvokeServer()
-                            end
+                            if giveMop:IsA("RemoteEvent") then giveMop:FireServer()
+                            elseif giveMop:IsA("RemoteFunction") then giveMop:InvokeServer() end
                             task.wait(1)
                             equipMop()
                         end
                         local targetPos
-                        if part:IsA("BasePart") then
-                            targetPos = part.Position
-                        elseif part:IsA("Model") and part.PrimaryPart then
-                            targetPos = part.PrimaryPart.Position
-                        end
-                        if targetPos then
-                            character:MoveTo(targetPos)
-                            task.wait(3)
-                        end
+                        if part:IsA("BasePart") then targetPos = part.Position
+                        elseif part:IsA("Model") and part.PrimaryPart then targetPos = part.PrimaryPart.Position end
+                        if targetPos then LocalPlayer.Character:MoveTo(targetPos) task.wait(3) end
                         for _, prompt in pairs(part:GetDescendants()) do
-                            if prompt:IsA("ProximityPrompt") then
-                                fireproximityprompt(prompt)
-                                task.wait(0.5)
-                            end
+                            if prompt:IsA("ProximityPrompt") then fireproximityprompt(prompt) task.wait(0.5) end
                         end
                     end
                     task.wait(1)
                 end
             end)
         end
-    end,
+    end
 })
 
+-- Card Tab
 local CardTab = Window:CreateTab("Card", "credit-card")
 CardTab:CreateSection("Autofarm Card")
-
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local RunService = game:GetService("RunService")
-
-local LocalPlayer = Players.LocalPlayer
-local Backpack = LocalPlayer:WaitForChild("Backpack")
-
 local autoEquipLaptop = false
 
 local function equipLaptop()
     local character = LocalPlayer.Character
     if not character then return end
-
     local laptopTool = Backpack:FindFirstChild("Laptop")
-    if laptopTool then
-        laptopTool.Parent = character
-    end
+    if laptopTool then laptopTool.Parent = character end
 end
 
 RunService.RenderStepped:Connect(function()
     if autoEquipLaptop then
         local character = LocalPlayer.Character
-        if character then
-            local inHand = character:FindFirstChild("Laptop")
-            local inBackpack = Backpack:FindFirstChild("Laptop")
-
-            if not inHand and inBackpack then
-                inBackpack.Parent = character
-            end
+        if character and not character:FindFirstChild("Laptop") and Backpack:FindFirstChild("Laptop") then
+            Backpack.Laptop.Parent = character
         end
     end
 end)
@@ -229,38 +168,30 @@ CardTab:CreateToggle({
     CurrentValue = false,
     Callback = function(state)
         autoEquipLaptop = state
-        if state then
-            equipLaptop()
-        end
-    end,
+        if state then equipLaptop() end
+    end
 })
 
-
-local Paragraph = CardTab:CreateParagraph({
+CardTab:CreateParagraph({
     Title = "Warning!",
     Content = "Hello Mr.Hacker😎, U Will Need 10-15K To Start This Autofarm."
 })
 
 _G.autofarm = false
 local farmDelay = 0.01
-
 CardTab:CreateToggle({
     Name = "Start Card Autofarm",
     CurrentValue = false,
     Flag = "AutoFarmToggle",
     Callback = function(Value)
         _G.autofarm = Value
-
         if Value then
-            local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-            local hrp = character:WaitForChild("HumanoidRootPart")
+            local hrp = LocalPlayer.Character:WaitForChild("HumanoidRootPart")
             hrp.CFrame = CFrame.new(226, 4, -540)
-
             local giverPunch = ReplicatedStorage:WaitForChild("Assets"):WaitForChild("Other"):WaitForChild("GiverPunchmade")
-            local args1 = { [1] = true, [2] = "NEW123" }
-            local args2 = { [1] = false, [2] = "NEW123" }
-
-            task.spawn(function()
+            local args1 = {[1]=true,[2]="NEW123"}
+            local args2 = {[1]=false,[2]="NEW123"}
+            spawn(function()
                 while _G.autofarm do
                     giverPunch:InvokeServer(unpack(args1))
                     task.wait(farmDelay)
@@ -272,283 +203,123 @@ CardTab:CreateToggle({
     end
 })
 
-local TeleportationTab = Window:CreateTab("Teleportation", "map-pin") -- Title
-local TeleportationSection = TeleportationTab:CreateSection("Teleports")
+-- Teleportation Tab
+local TeleportationTab = Window:CreateTab("Teleportation", "map-pin")
+TeleportationTab:CreateSection("Teleports")
 
-local teleportLocations1 = {
-    {Name = "Mop Job", Position = CFrame.new(-101, 4, 18)},
-    {Name = "Box Job", Position = CFrame.new(-118, 4, 300)},
-    {Name = "Pizza Job", Position = CFrame.new(166, 5, 49)},
-    {Name = "Thrift Job", Position = CFrame.new(-8, 4, 17)},
-}
-
-local locationNames1 = {}
-for _, location in ipairs(teleportLocations1) do
-    table.insert(locationNames1, location.Name)
-end
-
-local DropdownTeleport1 = TeleportationTab:CreateDropdown({
-    Name = "Jobs",
-    Options = locationNames1,
-    CurrentOption = {locationNames1[1]},
-    MultipleOptions = false,
-    Flag = "TeleportLocationDropdown1",
-    Callback = function(Options)
-        local selectedLocation
-        for _, location in ipairs(teleportLocations1) do
-            if location.Name == Options[1] then
-                selectedLocation = location
-                break
+local function createTeleportDropdown(tab, name, locations)
+    local locationNames = {}
+    for _, loc in ipairs(locations) do table.insert(locationNames, loc.Name) end
+    return tab:CreateDropdown({
+        Name = name,
+        Options = locationNames,
+        CurrentOption = {locationNames[1]},
+        MultipleOptions = false,
+        Flag = name.."Dropdown",
+        Callback = function(options)
+            local selected
+            for _, loc in ipairs(locations) do
+                if loc.Name == options[1] then selected = loc break end
+            end
+            local char = LocalPlayer.Character
+            if char and char:FindFirstChild("HumanoidRootPart") and selected then
+                char.HumanoidRootPart.CFrame = selected.Position
             end
         end
-        
-        local player = game.Players.LocalPlayer
-        if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-            player.Character.HumanoidRootPart.CFrame = selectedLocation.Position
-        else
-            warn("No valid character or HumanoidRootPart found!")
-        end
-    end
-})
+    })
+end
 
-
-
-local teleportLocations2 = {
-    {Name = "Ice Box", Position = CFrame.new(-11354, 4, 291)},
-    {Name = "Pharmacy", Position = CFrame.new(41, 5, -264)},
-    {Name = "Father & Son", Position = CFrame.new(41, 5, -331)},
-    {Name = "Sneaker Zone", Position = CFrame.new(38, 5, -346)},
-    {Name = "Dealership", Position = CFrame.new(845, 5, -7)},
-    {Name = "Gun Store", Position = CFrame.new(-51811, 4, -15)},
-    {Name = "London Drip", Position = CFrame.new(-158, 4, 6)},
-    {Name = "JD", Position = CFrame.new(-125, 4, 41)},
+local jobs = {
+    {Name="Mop Job", Position=CFrame.new(-101,4,18)},
+    {Name="Box Job", Position=CFrame.new(-118,4,300)},
+    {Name="Pizza Job", Position=CFrame.new(166,5,49)},
+    {Name="Thrift Job", Position=CFrame.new(-8,4,17)}
+}
+local shops = {
+    {Name="Ice Box", Position=CFrame.new(-11354,4,291)},
+    {Name="Pharmacy", Position=CFrame.new(41,5,-264)},
+    {Name="Father & Son", Position=CFrame.new(41,5,-331)},
+    {Name="Sneaker Zone", Position=CFrame.new(38,5,-346)},
+    {Name="Dealership", Position=CFrame.new(845,5,-7)},
+    {Name="Gun Store", Position=CFrame.new(-51811,4,-15)},
+    {Name="London Drip", Position=CFrame.new(-158,4,6)},
+    {Name="JD", Position=CFrame.new(-125,4,41)}
+}
+local apartments = {
+    {Name="Apartment 1", Position=CFrame.new(108104,-443,222)},
+    {Name="Apartment 2", Position=CFrame.new(-134830,-196,3306)}
+}
+local dealers = {
+    {Name="Illegal Dealer", Position=CFrame.new(108104,-443,222)},
+    {Name="Card & Laptop Dealer", Position=CFrame.new(226,4,-541)},
+    {Name="Illegal Manger", Position=CFrame.new(-15,5,-338)},
+    {Name="Jewelry Manger", Position=CFrame.new(504,29,-857)}
+}
+local gangLockers = {
+    {Name="TNT Locker", Position=CFrame.new(269,5,132)},
+    {Name="ATB Locker", Position=CFrame.new(93,4,-703)},
+    {Name="SG Locker", Position=CFrame.new(188,4,-395)},
+    {Name="KAO Locker", Position=CFrame.new(328,7,82)},
+    {Name="AF Locker", Position=CFrame.new(162,5,518)},
+    {Name="EOS Locker", Position=CFrame.new(374,22,409)},
+    {Name="AOD Locker", Position=CFrame.new(6,5,509)},
+    {Name="LAC Locker", Position=CFrame.new(-166,4,-773)},
+    {Name="P9 Locker", Position=CFrame.new(459,7,160)},
+    {Name="TPL Locker", Position=CFrame.new(318,7,230)},
+    {Name="SF Locker", Position=CFrame.new(599,7,223)},
+    {Name="NGF Locker", Position=CFrame.new(571,20,174)},
+    {Name="DF Locker", Position=CFrame.new(870,5,498)}
+}
+local other = {
+    {Name="Seed Farm", Position=CFrame.new(542,29,-761)},
+    {Name="Wheel Spin", Position=CFrame.new(145,5,92)},
+    {Name="MET Station", Position=CFrame.new(18284,-78,-128)},
+    {Name="Mall Haul", Position=CFrame.new(458,29,-907)},
+    {Name="Abd's Smash", Position=CFrame.new(169,5,-24)},
+    {Name="Safe Spot", Position=CFrame.new(960,4,-84)}
 }
 
-local locationNames2 = {}
-for _, location in ipairs(teleportLocations2) do
-    table.insert(locationNames2, location.Name)
-end
+createTeleportDropdown(TeleportationTab,"Jobs",jobs)
+createTeleportDropdown(TeleportationTab,"Shops",shops)
+createTeleportDropdown(TeleportationTab,"Apartments",apartments)
+createTeleportDropdown(TeleportationTab,"Dealer & Buyers",dealers)
+createTeleportDropdown(TeleportationTab,"Gang Lockers",gangLockers)
+createTeleportDropdown(TeleportationTab,"Other",other)
 
-local DropdownTeleport2 = TeleportationTab:CreateDropdown({
-    Name = "Shops",
-    Options = locationNames2,
-    CurrentOption = {locationNames2[1]},
-    MultipleOptions = false,
-    Flag = "TeleportLocationDropdown2",
-    Callback = function(Options)
-        local selectedLocation
-        for _, location in ipairs(teleportLocations2) do
-            if location.Name == Options[1] then
-                selectedLocation = location
-                break
-            end
-        end
-        
-        local player = game.Players.LocalPlayer
-        if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-            player.Character.HumanoidRootPart.CFrame = selectedLocation.Position
-        else
-            warn("No valid character or HumanoidRootPart found!")
+-- Player Teleports
+TeleportationTab:CreateSection("Player Teleports")
+local playerList = {}
+local selectedPlayer = nil
+
+local playerDropdown = TeleportationTab:CreateDropdown({
+    Name="Select Player",
+    Options=playerList,
+    CurrentOption={},
+    MultipleOptions=false,
+    Flag="PlayerDropdown",
+    Callback=function(options) selectedPlayer = options[1] end
+})
+
+local teleportButton = TeleportationTab:CreateButton({
+    Name="Teleport!",
+    Callback=function()
+        local target = Players:FindFirstChild(selectedPlayer)
+        local char = LocalPlayer.Character
+        if target and target.Character and char and char.PrimaryPart then
+            char:SetPrimaryPartCFrame(target.Character:GetPrimaryPartCFrame())
         end
     end
 })
 
-local teleportLocations3 = {
-    {Name = "Apartment 1", Position = CFrame.new(108104, -443, 222)},
-    {Name = "Apartment 2", Position = CFrame.new(-134830, -196, 3306)},
-}
-
-local locationNames3 = {}
-for _, location in ipairs(teleportLocations3) do
-    table.insert(locationNames3, location.Name)
+local function updatePlayers()
+    local newList = {}
+    for _,p in ipairs(Players:GetPlayers()) do
+        if p ~= LocalPlayer then table.insert(newList,p.Name) end
+    end
+    playerList = newList
+    playerDropdown:Set(playerList)
 end
 
-local DropdownTeleport3 = TeleportationTab:CreateDropdown({
-    Name = "Apartments",
-    Options = locationNames3,
-    CurrentOption = {locationNames3[1]},
-    MultipleOptions = false,
-    Flag = "TeleportLocationDropdown3",
-    Callback = function(Options)
-        local selectedLocation
-        for _, location in ipairs(teleportLocations3) do
-            if location.Name == Options[1] then
-                selectedLocation = location
-                break
-            end
-        end
-
-        local player = game.Players.LocalPlayer
-        if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-            player.Character.HumanoidRootPart.CFrame = selectedLocation.Position
-        else
-            warn("No valid character or HumanoidRootPart found!")
-        end
-    end
-})
-
-
-
-local teleportLocations4 = {
-    {Name = "Illegal Dealer", Position = CFrame.new(108104, -443, 222)},
-    {Name = "Card & Laptop Dealer", Position = CFrame.new(226, 4, -541)},
-    {Name = "Illegal Manger", Position = CFrame.new(-15, 5, -338)},
-    {Name = "Jewelry Manger", Position = CFrame.new(504, 29, -857)},
-}
-
-local locationNames4 = {}
-for _, location in ipairs(teleportLocations4) do
-    table.insert(locationNames4, location.Name)
-end
-
-local DropdownTeleport4 = TeleportationTab:CreateDropdown({
-    Name = "Dealer & Buyers",
-    Options = locationNames4,
-    CurrentOption = {locationNames4[1]},
-    MultipleOptions = false,
-    Flag = "TeleportLocationDropdown4",
-    Callback = function(Options)
-        local selectedLocation
-        for _, location in ipairs(teleportLocations4) do
-            if location.Name == Options[1] then
-                selectedLocation = location
-                break
-            end
-        end
-        
-        local player = game.Players.LocalPlayer
-        if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-            player.Character.HumanoidRootPart.CFrame = selectedLocation.Position
-        else
-            warn("No valid character or HumanoidRootPart found!")
-        end
-    end
-})
-
-local teleportLocations5 = {
-    {Name = "TNT Locker", Position = CFrame.new(269, 5, 132)},
-    {Name = "ATB Locker", Position = CFrame.new(93, 4, -703)},
-    {Name = "SG Locker", Position = CFrame.new(188, 4, -395)},
-    {Name = "KAO Locker", Position = CFrame.new(328, 7, 82)},
-    {Name = "AF Locker", Position = CFrame.new(162, 5, 518)},
-    {Name = "EOS Locker", Position = CFrame.new(374, 22, 409)},
-    {Name = "AOD Locker", Position = CFrame.new(6, 5, 509)},
-    {Name = "LAC Locker", Position = CFrame.new(-166, 4, -773)},
-    {Name = "P9 Locker", Position = CFrame.new(459, 7, 160)},
-    {Name = "TPL Locker", Position = CFrame.new(318, 7, 230)},
-    {Name = "SF Locker", Position = CFrame.new(599, 7, 223)},
-    {Name = "NGF Locker", Position = CFrame.new(571, 20, 174)},
-    {Name = "DF Locker", Position = CFrame.new(870, 5, 498)},
-}
-
-local locationNames5 = {}
-for _, location in ipairs(teleportLocations5) do
-    table.insert(locationNames5, location.Name)
-end
-
-local DropdownTeleport5 = TeleportationTab:CreateDropdown({
-    Name = "Gang Lockers",
-    Options = locationNames5,
-    CurrentOption = {locationNames5[1]},
-    MultipleOptions = false,
-    Flag = "TeleportLocationDropdown5",
-    Callback = function(Options)
-        local selectedLocation
-        for _, location in ipairs(teleportLocations5) do
-            if location.Name == Options[1] then
-                selectedLocation = location
-                break
-            end
-        end
-        
-        local player = game.Players.LocalPlayer
-        if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-            player.Character.HumanoidRootPart.CFrame = selectedLocation.Position
-        else
-            warn("No valid character or HumanoidRootPart found!")
-        end
-    end
-})
-
-local teleportLocations6 = {
-    {Name = "Seed Farm", Position = CFrame.new(542, 29, -761)},
-    {Name = "Wheel Spin", Position = CFrame.new(145, 5, 92)},
-    {Name = "MET Station", Position = CFrame.new(18284, -78, -128)},
-    {Name = "Mall Haul", Position = CFrame.new(458, 29, -907)},
-    {Name = "Abd's Smash", Position = CFrame.new(169, 5, -24)},
-    {Name = "Safe Spot", Position = CFrame.new(960, 4, -84)},
-}
-
-local locationNames6 = {}
-for _, location in ipairs(teleportLocations6) do
-    table.insert(locationNames6, location.Name)
-end
-
-local DropdownTeleport6 = TeleportationTab:CreateDropdown({
-    Name = "Other",
-    Options = locationNames6,
-    CurrentOption = {locationNames6[1]},
-    MultipleOptions = false,
-    Flag = "TeleportLocationDropdown6",
-    Callback = function(Options)
-        local selectedLocation
-        for _, location in ipairs(teleportLocations6) do
-            if location.Name == Options[1] then
-                selectedLocation = location
-                break
-            end
-        end
-        
-        local player = game.Players.LocalPlayer
-        if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-            player.Character.HumanoidRootPart.CFrame = selectedLocation.Position
-        else
-            warn("No valid character or HumanoidRootPart found!")
-        end
-    end
-})
-
-local Section = TeleportationTab:CreateSection("Player Teleports")
-
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local dkIsANigger = {}
-
-local SelectedPlayer = nil
-
-local function UpdateDropdown()
-    local NewOptions = {}
-    for _, player in ipairs(Players:GetPlayers()) do
-        if player ~= LocalPlayer then
-            table.insert(NewOptions, player.Name)
-        end
-    end
-    dkIsANigger = NewOptions
-    TeleportDropdown:Set(dkIsANigger)
-end
-
-local TeleportDropdown = TeleportationTab:CreateDropdown({
-    Name = "Select Player",
-    Options = dkIsANigger,
-    CurrentOption = {},
-    MultipleOptions = false,
-    Flag = "PlayerDropdown",
-    Callback = function(options)
-        SelectedPlayer = options[1]
-    end,
-})
-
-local TeleportButton = TeleportationTab:CreateButton({
-    Name = "Teleport!",
-    Callback = function()
-        local TargetPlayer = Players:FindFirstChild(SelectedPlayer)
-        if TargetPlayer and TargetPlayer.Character and LocalPlayer.Character and LocalPlayer.Character.PrimaryPart then
-            LocalPlayer.Character:SetPrimaryPartCFrame(TargetPlayer.Character:GetPrimaryPartCFrame())
-        end
-    end,
-})
-
-Players.PlayerAdded:Connect(UpdateDropdown)
-Players.PlayerRemoving:Connect(UpdateDropdown)
-
-UpdateDropdown()
+Players.PlayerAdded:Connect(updatePlayers)
+Players.PlayerRemoving:Connect(updatePlayers)
+updatePlayers()
