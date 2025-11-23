@@ -331,6 +331,8 @@ local defaultWalkSpeed = 16
 local currentWalkSpeed = 16
 
 local PlayerTab = Window:CreateTab("Player", "user")
+local PlayerTab = Window:CreateSection("Speed")
+
 
 local ToggleAndInput = PlayerTab:CreateToggle({
     Name = "Enable Speed",
