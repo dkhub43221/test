@@ -326,6 +326,23 @@ updatePlayers()
 local PlayerTab = Window:CreateTab("Player", "wand")
 PlayerTab:CreateSection("Speed")
 
+local itemsFolder = ReplicatedStorage:WaitForChild("GetItemsSafe")
+local itemNames = {}
+
+for _, item in pairs(itemsFolder:GetChildren()) do
+    table.insert(itemNames, item.Name)
+end
+
+local itemDropdown = PlayerTab:CreateDropdown({
+    Name = "Select Item",
+    Options = itemNames,
+    CurrentOption = itemNames[1] or "",
+    Flag = "SelectedItem",
+    Callback = function(option)
+        print("Selected item: " .. option)
+    end
+})
+
 local WalkSpeedEnabled = false
 local defaultWalkSpeed = 16
 local currentWalkSpeed = 16
