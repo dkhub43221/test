@@ -71,8 +71,9 @@ local Window = Rayfield:CreateWindow({
    }
 })
 
-AutofarmTab:Window:CreateTab("Autofarm", "clock-4")
+local AutofarmTab = Window:CreateTab("Autofarm", "clock-4")
 AutofarmTab:CreateSection("Box Autofarm")
+
 
 local ToggleEnabled = false
 local player = game.Players.LocalPlayer
@@ -174,8 +175,9 @@ AutofarmTab:CreateToggle({
     end,
 })
 
-CardTab:Window:CreateTab("Card", "credit-card")
-CardTab:CreateSection("Autofarm Card V1"))
+local CardTab = Window:CreateTab("Card", "credit-card")
+CardTab:CreateSection("Autofarm Card V1")
+
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
