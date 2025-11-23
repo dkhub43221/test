@@ -357,7 +357,7 @@ local ToggleAndInput = PlayerTab:CreateToggle({
 })
 
 local WalkSpeedInput = PlayerTab:CreateInput({
-    Name = "Speed (16-150),
+    Name = "Speed (16-150)",
     PlaceholderText = "Enter WalkSpeed",
     RemoveTextAfterFocusLost = false,
     Callback = function(Value)
