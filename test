@@ -176,130 +176,98 @@ AutofarmTab:CreateToggle({
 })
 
 local CardTab = Window:CreateTab("Card", "credit-card")
-CardTab:CreateSection("Autofarm Card V1")
-
+CardTab:CreateSection("Autofarm Card")
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local VirtualInputManager = game:GetService("VirtualInputManager")
 local RunService = game:GetService("RunService")
-local StarterGui = game:GetService("StarterGui")
-local player = Players.LocalPlayer
 
-local dupeAmount = 10
+local LocalPlayer = Players.LocalPlayer
+local Backpack = LocalPlayer:WaitForChild("Backpack")
 
-local function notifyFarmed(finalAmount)
-    Rayfield:Notify({
-        Title = "Success",
-        Content = "You have Duped " .. tostring(finalAmount) .. " cards and laptops.",
-        Duration = 6
-    })
+local autoEquipLaptop = false
+
+local function equipLaptop()
+    local character = LocalPlayer.Character
+    if not character then return end
+
+    local laptopTool = Backpack:FindFirstChild("Laptop")
+    if laptopTool then
+        laptopTool.Parent = character
+    end
 end
 
-CardTab:CreateInput({
-    Name = "Amount To Farm",
-    PlaceholderText = "Input..",
-    RemoveTextAfterFocusLost = false,
-    Flag = "DupeAmount",
-    Callback = function(value)
-        dupeAmount = tonumber(value) or 10
-        if dupeAmount <= 0 then
-            dupeAmount = 10
+RunService.RenderStepped:Connect(function()
+    if autoEquipLaptop then
+        local character = LocalPlayer.Character
+        if character then
+            local inHand = character:FindFirstChild("Laptop")
+            local inBackpack = Backpack:FindFirstChild("Laptop")
+
+            if not inHand and inBackpack then
+                inBackpack.Parent = character
+            end
         end
     end
+end)
+
+Backpack.ChildAdded:Connect(function(tool)
+    if autoEquipLaptop and tool:IsA("Tool") and tool.Name == "Laptop" then
+        tool.Parent = LocalPlayer.Character
+    end
+end)
+
+LocalPlayer.CharacterAdded:Connect(function()
+    if autoEquipLaptop then
+        repeat task.wait() until Backpack:FindFirstChild("Laptop") or LocalPlayer.Character
+        equipLaptop()
+    end
+end)
+
+CardTab:CreateToggle({
+    Name = "Auto Equip Laptop",
+    CurrentValue = false,
+    Callback = function(state)
+        autoEquipLaptop = state
+        if state then
+            equipLaptop()
+        end
+    end,
 })
 
-local function duplicateCardsAndLaptops()
-    if dupeAmount <= 0 then return end
 
-    StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, false)
-    RunService:Set3dRenderingEnabled(false)
+local Paragraph = CardTab:CreateParagraph({
+    Title = "Warning!",
+    Content = "Hello Mr.Hacker😎, U Will Need 10-15K To Start This Autofarm."
+})
 
-    fireclickdetector(game.Workspace["Streetz War"].Anonymous.ClickDetector)
-    task.wait()
-    player.PlayerGui:WaitForChild("DealerGui")
-    local shopGui = player.PlayerGui.DealerGui.ShopFrame
-    shopGui.Visible = true
-    player.PlayerGui.DealerGui.Frame.Visible = false
+_G.autofarm = false
+local farmDelay = 0.01
 
-    repeat task.wait() until player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-    player.Character.HumanoidRootPart.CFrame = CFrame.new(-55, 4.5, 170)
-    task.wait(0.5)
+CardTab:CreateToggle({
+    Name = "Start Card Autofarm",
+    CurrentValue = false,
+    Flag = "AutoFarmToggle",
+    Callback = function(Value)
+        _G.autofarm = Value
 
-    local cardButton = shopGui["Blank Card"]
-    local laptopButton = shopGui["laptop"]
+        if Value then
+            local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+            local hrp = character:WaitForChild("HumanoidRootPart")
+            hrp.CFrame = CFrame.new(226, 4, -540)
 
-    for i = 1, dupeAmount do
-        task.wait()
-        if cardButton.Visible then
-            local cardPos = cardButton.AbsolutePosition
-            VirtualInputManager:SendMouseButtonEvent(cardPos.X + 150, cardPos.Y + 60, 0, true, game, 0)
-            task.wait()
-            VirtualInputManager:SendMouseButtonEvent(cardPos.X + 150, cardPos.Y + 60, 0, false, game, 0)
+            local giverPunch = ReplicatedStorage:WaitForChild("Assets"):WaitForChild("Other"):WaitForChild("GiverPunchmade")
+            local args1 = { [1] = true, [2] = "NEW123" }
+            local args2 = { [1] = false, [2] = "NEW123" }
+
+            task.spawn(function()
+                while _G.autofarm do
+                    giverPunch:InvokeServer(unpack(args1))
+                    task.wait(farmDelay)
+                    giverPunch:InvokeServer(unpack(args2))
+                    task.wait(farmDelay)
+                end
+            end)
         end
-
-        if laptopButton.Visible then
-            local laptopPos = laptopButton.AbsolutePosition
-            VirtualInputManager:SendMouseButtonEvent(laptopPos.X + 150, laptopPos.Y + 60, 0, true, game, 0)
-            task.wait()
-            VirtualInputManager:SendMouseButtonEvent(laptopPos.X + 150, laptopPos.Y + 60, 0, false, game, 0)
-        end
-    end
-
-    RunService:Set3dRenderingEnabled(true)
-
-    local exitButton = shopGui.exit
-    VirtualInputManager:SendMouseButtonEvent(exitButton.AbsolutePosition.X + 300, exitButton.AbsolutePosition.Y + 65, 0, true, game, 0)
-    task.wait()
-    VirtualInputManager:SendMouseButtonEvent(exitButton.AbsolutePosition.X + 300, exitButton.AbsolutePosition.Y + 65, 0, false, game, 0)
-
-    player.Character.HumanoidRootPart.CFrame = CFrame.new(949, 4, -102)
-    task.wait(2)
-
-    local laptopCount = 0
-    for _, v in pairs(player.Backpack:GetChildren()) do
-        if v.Name == "Laptop" then
-            laptopCount = laptopCount + 1
-        end
-    end
-
-    for i = 1, laptopCount - 1 do
-        spawn(function()
-            local args = { true, "NEW123" }
-            ReplicatedStorage.Assets.Other.GiverPunchmade:InvokeServer(unpack(args))
-        end)
-    end
-
-    task.wait(4)
-    if player.Backpack:FindFirstChild("Laptop") then
-        player.Backpack.Laptop.Parent = player.Character
-    end
-    task.wait(4)
-
-    local cardCount = 0
-    for _, v in pairs(player.Backpack:GetChildren()) do
-        if v.Name == "Loaded Card" then
-            cardCount = cardCount + 1
-        end
-    end
-
-    for i = 1, cardCount do
-        spawn(function()
-            local args = { false, "NEW123" }
-            ReplicatedStorage.Assets.Other.GiverPunchmade:InvokeServer(unpack(args))
-        end)
-    end
-
-    task.wait(1)
-    player.Character.Humanoid:UnequipTools()
-
-    StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, true)
-    notifyFarmed(dupeAmount)
-end
-
-CardTab:CreateButton({
-    Name = "",
-    Callback = function()
-        duplicateCardsAndLaptops()
     end
 })
