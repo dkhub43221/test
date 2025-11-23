@@ -59,7 +59,7 @@ local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
 local Backpack = LocalPlayer:WaitForChild("Backpack")
 
--- Autofarm Tab
+
 local AutofarmTab = Window:CreateTab("Autofarm", "clock-4")
 AutofarmTab:CreateSection("Box Autofarm")
 local boxToggle = false
@@ -129,7 +129,6 @@ AutofarmTab:CreateToggle({
     end
 })
 
--- Card Tab
 local CardTab = Window:CreateTab("Card", "credit-card")
 CardTab:CreateSection("Autofarm Card")
 local autoEquipLaptop = false
@@ -286,7 +285,7 @@ createTeleportDropdown(TeleportationTab,"Dealer & Buyers",dealers)
 createTeleportDropdown(TeleportationTab,"Gang Lockers",gangLockers)
 createTeleportDropdown(TeleportationTab,"Other",other)
 
--- Player Teleports
+
 TeleportationTab:CreateSection("Player Teleports")
 local playerList = {}
 local selectedPlayer = nil
@@ -323,3 +322,52 @@ end
 Players.PlayerAdded:Connect(updatePlayers)
 Players.PlayerRemoving:Connect(updatePlayers)
 updatePlayers()
+
+local PlayerTab = Window:CreateTab("Player", "wand")
+PlayerTab:CreateSection("Box Autofarm")
+
+local cameraShakeDisabled = false
+local defaultWalkSpeed = 16
+local currentWalkSpeed = 16
+
+local PlayerTab = Window:CreateTab("Player", "user")
+
+local ToggleAndInput = PlayerTab:CreateToggle({
+    Name = "Enable Speed",
+    CurrentValue = false,
+    Flag = "CameraShakeWalkspeedToggle",
+    Callback = function(state)
+        local player = game.Players.LocalPlayer
+        local char = player.Character
+        if char then
+            if char:FindFirstChild("CharacterScripts") then
+                char.CharacterScripts.Enabled = not state
+                cameraShakeDisabled = state
+            end
+            if char:FindFirstChild("Humanoid") then
+                local humanoid = char.Humanoid
+                if state then
+                    humanoid.WalkSpeed = math.clamp(currentWalkSpeed, 0, 150)
+                else
+                    humanoid.WalkSpeed = defaultWalkSpeed
+                end
+            end
+        end
+    end
+})
+
+local WalkSpeedInput = PlayerTab:CreateInput({
+    Name = "Speed (16-150),
+    PlaceholderText = "Enter WalkSpeed",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(Value)
+        local numberValue = tonumber(Value)
+        if numberValue then
+            currentWalkSpeed = math.clamp(numberValue, 0, 150)
+            local char = game.Players.LocalPlayer.Character
+            if char and char:FindFirstChild("Humanoid") and ToggleAndInput.CurrentValue then
+                char.Humanoid.WalkSpeed = currentWalkSpeed
+            end
+        end
+    end
+})
