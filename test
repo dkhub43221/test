@@ -279,14 +279,13 @@ local teleportLocations1 = {
     {Name = "Mop Job", Position = CFrame.new(-101, 4, 18)},
     {Name = "Box Job", Position = CFrame.new(-118, 4, 300)},
     {Name = "Pizza Job", Position = CFrame.new(166, 5, 49)},
-    {name = "Thrift Job", Position = CFrame.new(-8, 4, 17)},
+    {Name = "Thrift Job", Position = CFrame.new(-8, 4, 17)},
 }
 
 local locationNames1 = {}
 for _, location in ipairs(teleportLocations1) do
     table.insert(locationNames1, location.Name)
 end
-end)
 
 local DropdownTeleport1 = TeleportationTab:CreateDropdown({
     Name = "Jobs",
@@ -311,6 +310,7 @@ local DropdownTeleport1 = TeleportationTab:CreateDropdown({
         end
     end
 })
+
 
 
 local teleportLocations2 = {
