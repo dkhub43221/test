@@ -324,14 +324,11 @@ Players.PlayerRemoving:Connect(updatePlayers)
 updatePlayers()
 
 local PlayerTab = Window:CreateTab("Player", "wand")
-PlayerTab:CreateSection("Box Autofarm")
+PlayerTab:CreateSection("Speed")
 
 local cameraShakeDisabled = false
 local defaultWalkSpeed = 16
 local currentWalkSpeed = 16
-
-local PlayerTab = Window:CreateTab("Player", "user")
-local PlayerTab = Window:CreateSection("Speed")
 
 
 local ToggleAndInput = PlayerTab:CreateToggle({
