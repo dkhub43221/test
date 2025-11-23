@@ -273,7 +273,7 @@ CardTab:CreateToggle({
 })
 
 local TeleportationTab = Window:CreateTab("Teleportation", "map-pin") -- Title
-local TeleportationSection = TeleportsTab:CreateSection("Teleports")
+local TeleportationSection = TeleportationTab:CreateSection("Teleports")
 
 local teleportLocations1 = {
     {Name = "Mop Job", Position = CFrame.new(-101, 4, 18)},
