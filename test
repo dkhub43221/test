@@ -326,30 +326,21 @@ updatePlayers()
 local PlayerTab = Window:CreateTab("Player", "wand")
 PlayerTab:CreateSection("Speed")
 
-local cameraShakeDisabled = false
+local WalkSpeedEnabled = false
 local defaultWalkSpeed = 16
 local currentWalkSpeed = 16
 
-
-local ToggleAndInput = PlayerTab:CreateToggle({
+local WalkSpeedToggle = PlayerTab:CreateToggle({
     Name = "Enable Speed",
-    CurrentValue = false,
-    Flag = "CameraShakeWalkspeedToggle",
-    Callback = function(state)
-        local player = game.Players.LocalPlayer
-        local char = player.Character
-        if char then
-            if char:FindFirstChild("CharacterScripts") then
-                char.CharacterScripts.Enabled = not state
-                cameraShakeDisabled = state
-            end
-            if char:FindFirstChild("Humanoid") then
-                local humanoid = char.Humanoid
-                if state then
-                    humanoid.WalkSpeed = math.clamp(currentWalkSpeed, 0, 150)
-                else
-                    humanoid.WalkSpeed = defaultWalkSpeed
-                end
+    Callback = function()
+        WalkSpeedEnabled = not WalkSpeedEnabled
+        local character = game.Players.LocalPlayer.Character
+        if character and character:FindFirstChild("Humanoid") then
+            local humanoid = character.Humanoid
+            if WalkSpeedEnabled then
+                humanoid.WalkSpeed = currentWalkSpeed
+            else
+                humanoid.WalkSpeed = defaultWalkSpeed
             end
         end
     end
@@ -357,15 +348,22 @@ local ToggleAndInput = PlayerTab:CreateToggle({
 
 local WalkSpeedInput = PlayerTab:CreateInput({
     Name = "Speed (16-150)",
-    PlaceholderText = "Enter WalkSpeed",
+    PlaceholderText = tostring(currentWalkSpeed),
     RemoveTextAfterFocusLost = false,
     Callback = function(Value)
-        local numberValue = tonumber(Value)
-        if numberValue then
-            currentWalkSpeed = math.clamp(numberValue, 0, 150)
-            local char = game.Players.LocalPlayer.Character
-            if char and char:FindFirstChild("Humanoid") and ToggleAndInput.CurrentValue then
-                char.Humanoid.WalkSpeed = currentWalkSpeed
+        local numValue = tonumber(Value)
+        if numValue then
+            if numValue > 150 then
+                numValue = 150
+            elseif numValue < 0 then
+                numValue = 0
+            end
+            currentWalkSpeed = numValue
+            if WalkSpeedEnabled then
+                local character = game.Players.LocalPlayer.Character
+                if character and character:FindFirstChild("Humanoid") then
+                    character.Humanoid.WalkSpeed = currentWalkSpeed
+                end
             end
         end
     end
