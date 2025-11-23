@@ -159,12 +159,12 @@ AutofarmTab:CreateToggle({
                         end
                         if targetPos then
                             character:MoveTo(targetPos)
-                            task.wait(3)
+                            task.wait(0.2)
                         end
                         for _, prompt in pairs(part:GetDescendants()) do
                             if prompt:IsA("ProximityPrompt") then
                                 fireproximityprompt(prompt)
-                                task.wait(0.5)
+                                task.wait(0.2)
                             end
                         end
                     end
