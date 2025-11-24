@@ -518,11 +518,14 @@ CombatTab:CreateSection("Kill All V1")
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
-local LocalPlayer = Players.LocalPlayer
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
+local LocalPlayer = Players.LocalPlayer
+local ShootRemote = ReplicatedStorage.Communication.Events:FindFirstChild("shoot")
+
+local TPActive = false
 local Locking = false
 local LockTarget = nil
-local TPActive = false
 
 local function LockOn(Target)
     if not Target or not Target.Character then return end
@@ -539,16 +542,24 @@ end
 
 RunService.RenderStepped:Connect(function()
     if Locking and LockTarget then
-        workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, LockTarget.Position)
+        workspace.CurrentCamera.CFrame = CFrame.new(
+            workspace.CurrentCamera.CFrame.Position,
+            LockTarget.Position
+        )
     end
 end)
 
 local function isInSafeZone(player)
     if not workspace:FindFirstChild("SafeZones") then return false end
     for _, zone in ipairs(workspace.SafeZones:GetChildren()) do
-        if zone:IsA("BasePart") and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-            local root = player.Character.HumanoidRootPart
-            if (root.Position - zone.Position).Magnitude <= (zone.Size.Magnitude / 2) then
+        if zone:IsA("BasePart")
+            and player.Character
+            and player.Character:FindFirstChild("HumanoidRootPart") then
+
+            local dist = (player.Character.HumanoidRootPart.Position - zone.Position).Magnitude
+            local maxDist = zone.Size.Magnitude / 2
+
+            if dist <= maxDist then
                 return true
             end
         end
@@ -559,31 +570,41 @@ end
 CombatTab:CreateToggle({
     Name = "Instant Kill",
     CurrentValue = false,
-    Flag = "TPPlayers",
+    Flag = "InstantKillToggle",
     Callback = function(state)
         TPActive = state
+
         if state then
-            spawn(function()
+            task.spawn(function()
                 while TPActive do
                     for _, plr in ipairs(Players:GetPlayers()) do
+
                         if not TPActive then break end
-                        if plr ~= LocalPlayer and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") and not isInSafeZone(plr) then
-                            local myRoot = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-                            local targetRoot = plr.Character.HumanoidRootPart
-                            if myRoot and targetRoot then
-                                myRoot.CFrame = targetRoot.CFrame * CFrame.new(0,0,-3)
-                                task.wait(0.2)
-                                LockOn(plr)
-                                local timer = 0
-                                while timer < 6 and TPActive do
-                                    task.wait(0.1)
-                                    timer = timer + 0.1
+                        if plr == LocalPlayer then continue end
+                        if not plr.Character or not plr.Character:FindFirstChild("HumanoidRootPart") then continue end
+                        if isInSafeZone(plr) then continue end
+
+                        local myRoot = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                        local targetRoot = plr.Character:FindFirstChild("HumanoidRootPart")
+
+                        if myRoot and targetRoot then
+                            myRoot.CFrame = targetRoot.CFrame * CFrame.new(0,0,-3)
+
+                            task.wait(0.15)
+
+                            LockOn(plr)
+
+                            if ShootRemote then
+                                for i = 1, 100 do
+                                    ShootRemote:FireServer(plr)
                                 end
-                                Unlock()
                             end
+
+                            task.wait(6)
+                            Unlock()
                         end
                     end
-                    task.wait(0.5)
+                    task.wait(0.4)
                 end
             end)
         else
