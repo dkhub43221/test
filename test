@@ -543,6 +543,19 @@ RunService.RenderStepped:Connect(function()
     end
 end)
 
+local function isInSafeZone(player)
+    if not workspace:FindFirstChild("SafeZones") then return false end
+    for _, zone in ipairs(workspace.SafeZones:GetChildren()) do
+        if zone:IsA("BasePart") and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local root = player.Character.HumanoidRootPart
+            if (root.Position - zone.Position).Magnitude <= (zone.Size.Magnitude / 2) then
+                return true
+            end
+        end
+    end
+    return false
+end
+
 CombatTab:CreateToggle({
     Name = "Instant Kill",
     CurrentValue = false,
@@ -554,7 +567,7 @@ CombatTab:CreateToggle({
                 while TPActive do
                     for _, plr in ipairs(Players:GetPlayers()) do
                         if not TPActive then break end
-                        if plr ~= LocalPlayer and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+                        if plr ~= LocalPlayer and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") and not isInSafeZone(plr) then
                             local myRoot = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
                             local targetRoot = plr.Character.HumanoidRootPart
                             if myRoot and targetRoot then
