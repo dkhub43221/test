@@ -923,16 +923,27 @@ CombatTab:CreateColorPicker({
 local VisualsTab = Window:CreateTab("Visuals", "pencil")
 VisualsTab:CreateSection("Colorpicker")
 
+lastplayercolor = Color3.fromRGB(255, 255, 255)
+
 local ColorPicker = VisualsTab:CreateColorPicker({
-    Name = "ColorPicker",
-    Default = Color3.fromRGB(255, 255, 255),
+    Name = "Name Color",
+    Default = lastplayercolor,
     Callback = function(color)
-        lastplayercolor = color
-        if lastplayername ~= "" then updateCharacterGui("Name", lastplayername) end
-        if lastplayerlvl ~= "" then updateCharacterGui("Level", "LVL " .. lastplayerlvl) end
-        if lastplayeremoji ~= "" then updateCharacterGui("Extras", "[" .. lastplayeremoji .. "]") end
+        if color then
+            lastplayercolor = color
+            if lastplayername ~= "" then
+                updateCharacterGui("Name", lastplayername)
+            end
+            if lastplayerlvl ~= "" then
+                updateCharacterGui("Level", "LVL " .. lastplayerlvl)
+            end
+            if lastplayeremoji ~= "" then
+                updateCharacterGui("Extras", "[" .. lastplayeremoji .. "]")
+            end
+        end
     end
 })
+
 
 VisualsTab:CreateSection("Player")
 
