@@ -600,7 +600,7 @@ CombatTab:CreateToggle({
                                 end
                             end
 
-                            task.wait(6)
+                            task.wait(3)
                             Unlock()
                         end
                     end
