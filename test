@@ -466,3 +466,181 @@ local JumpPowerInput = PlayerTab:CreateInput({
         end
     end
 })
+
+PlayerTab:CreateSection("No-Clip")
+
+local player = game:GetService("Players").LocalPlayer
+local noclip = false
+local noclipLoop
+
+local function toggleNoclip(state)
+    noclip = state
+    if noclip then
+        noclipLoop = task.spawn(function()
+            while noclip do
+                if player.Character then
+                    for _, part in pairs(player.Character:GetDescendants()) do
+                        if part:IsA("BasePart") then
+                            part.CanCollide = false
+                        end
+                    end
+                end
+                task.wait()
+            end
+        end)
+    else
+        if noclipLoop then
+            task.cancel(noclipLoop)
+        end
+        if player.Character then
+            for _, part in pairs(player.Character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = true
+                end
+            end
+        end
+    end
+end
+
+
+PlayerTab:CreateToggle({
+    Name = "No Clip",
+    CurrentValue = false,
+    Flag = "NoclipToggle",
+    Callback = function(Value)
+        toggleNoclip(Value)
+    end
+})
+
+local CombatTab = Window:CreateTab("Combat", "swords")
+CombatTab:CreateSection("Gun Mods")
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LocalPlayer = Players.LocalPlayer
+local Backpack = LocalPlayer:WaitForChild("Backpack")
+
+local ToolsFolder = ReplicatedStorage.Assets.Tools
+
+local NoSpread = false
+local MaxDamage = false
+local FastFireRate = false
+local NoRecoil = false
+local InfiniteAmmo = false
+
+local NoSpreadToggle = PlayerTab:CreateToggle({
+    Name = "No Spread",
+    CurrentValue = NoSpread,
+    Callback = function(Value)
+        NoSpread = Value
+        for _, module in ipairs(ToolsFolder:GetChildren()) do
+            if module:IsA("ModuleScript") then
+                local ok, gunSettings = pcall(require, module)
+                if ok and type(gunSettings) == "table" then
+                    local bullet = gunSettings.BulletSettings
+                    if bullet and type(bullet) == "table" then
+                        if setreadonly then setreadonly(bullet, false) end
+                        bullet.MaxSpread = NoSpread and 0 or bullet.MaxSpread
+                        if setreadonly then setreadonly(bullet, true) end
+                    end
+                end
+            end
+        end
+    end
+})
+
+local InfiniteAmmoToggle = CombatTab:CreateToggle({
+    Name = "Enable Infinite Ammo",
+    CurrentValue = InfiniteAmmo,
+    Callback = function(Value)
+        InfiniteAmmo = Value
+    end
+})
+
+task.spawn(function()
+    while true do
+        if InfiniteAmmo then
+            for _, tool in ipairs(Backpack:GetChildren()) do
+                if tool:IsA("Tool") then
+                    local stuff = tool:FindFirstChild("Stuff")
+                    if stuff then
+                        local values = stuff:FindFirstChild("Values")
+                        if values then
+                            local currentAmmo = values:FindFirstChild("CurrentAmmo")
+                            if currentAmmo then currentAmmo.Value = 10 end
+                            local storedAmmo = values:FindFirstChild("StoredAmmo")
+                            if storedAmmo then storedAmmo.Value = 10 end
+                        end
+                    end
+                end
+            end
+        end
+        task.wait(0.1)
+    end
+end)
+
+local MaxDamageToggle = CombatTab:CreateToggle({
+    Name = "Enable 1 Tap",
+    CurrentValue = MaxDamage,
+    Callback = function(Value)
+        MaxDamage = Value
+        for _, module in ipairs(ToolsFolder:GetChildren()) do
+            if module:IsA("ModuleScript") then
+                local ok, gunSettings = pcall(require, module)
+                if ok and type(gunSettings) == "table" then
+                    local bullet = gunSettings.BulletSettings
+                    if bullet and type(bullet) == "table" then
+                        if setreadonly then setreadonly(bullet, false) end
+                        bullet.Damage = MaxDamage and 100 or bullet.Damage
+                        if setreadonly then setreadonly(bullet, true) end
+                    end
+                end
+            end
+        end
+    end
+})
+
+local FastFireRateToggle = CombatTab:CreateToggle({
+    Name = "Enable Full Auto",
+    CurrentValue = FastFireRate,
+    Callback = function(Value)
+        FastFireRate = Value
+        for _, module in ipairs(ToolsFolder:GetChildren()) do
+            if module:IsA("ModuleScript") then
+                local ok, gunSettings = pcall(require, module)
+                if ok and type(gunSettings) == "table" then
+                    local bullet = gunSettings.BulletSettings
+                    if bullet and type(bullet) == "table" then
+                        if setreadonly then setreadonly(bullet, false) end
+                        bullet.FireRate = FastFireRate and 100 or bullet.FireRate
+                        bullet.Speed = FastFireRate and 100000000 or bullet.Speed
+                        if setreadonly then setreadonly(bullet, true) end
+                    end
+                end
+            end
+        end
+    end
+})
+
+local NoRecoilToggle = CombatTab:CreateToggle({
+    Name = "Enable No Recoil",
+    CurrentValue = NoRecoil,
+    Callback = function(Value)
+        NoRecoil = Value
+        for _, module in ipairs(ToolsFolder:GetChildren()) do
+            if module:IsA("ModuleScript") then
+                local ok, gunSettings = pcall(require, module)
+                if ok and type(gunSettings) == "table" then
+                    local recoil = gunSettings.RecoilSettings
+                    if recoil and type(recoil) == "table" then
+                        if setreadonly then setreadonly(recoil, false) end
+                        recoil.RecoilSpeed = NoRecoil and 0 or recoil.RecoilSpeed
+                        if setreadonly then setreadonly(recoil, true) end
+                    end
+                end
+            end
+        end
+    end
+})
+
+
