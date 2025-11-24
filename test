@@ -326,6 +326,16 @@ updatePlayers()
 local PlayerTab = Window:CreateTab("Player", "wand")
 PlayerTab:CreateSection("Speed")
 
+local DisableCameraShakeButton = PlayerTab:CreateButton({
+    Name = "Disable Camera Shake - enable before walkspeed",
+    Callback = function()
+        local char = game:GetService("Players").LocalPlayer.Character
+        if char and char:FindFirstChild("CharacterScripts") then
+            char.CharacterScripts.Enabled = false
+        end
+    end
+})
+
 local WalkSpeedEnabled = false
 local defaultWalkSpeed = 16
 local currentWalkSpeed = 16
@@ -346,20 +356,10 @@ local WalkSpeedToggle = PlayerTab:CreateToggle({
     end
 })
 
-local DisableCameraShakeButton = PlayerTab:CreateButton({
-    Name = "Disable Camera Shake - enable before walkspeed",
-    Callback = function()
-        local char = game:GetService("Players").LocalPlayer.Character
-        if char and char:FindFirstChild("CharacterScripts") then
-            char.CharacterScripts.Enabled = false
-        end
-    end
-})
-
 
 local WalkSpeedInput = PlayerTab:CreateInput({
     Name = "Speed (0-150)",
-    PlaceholderText = tostring(currentWalkSpeed),
+    PlaceholderText = "Input",
     RemoveTextAfterFocusLost = false,
     Callback = function(Value)
         local numValue = tonumber(Value)
@@ -379,6 +379,48 @@ local WalkSpeedInput = PlayerTab:CreateInput({
         end
     end
 })
+
+PlayerTab:CreateSection("Inf Jump")
+
+local InfiniteJumpEnabled = false
+local jumpPower = 50
+
+local InfiniteJumpToggle = PlayerTab:CreateToggle({
+    Name = "Enable Inf Jump",
+    CurrentValue = InfiniteJumpEnabled,
+    Callback = function(Value)
+        InfiniteJumpEnabled = Value
+    end
+})
+
+local InfiniteJumpPowerInput = PlayerTab:CreateInput({
+    Name = "Jump Power (50-200)",
+    PlaceholderText = "Input",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(Value)
+        local num = tonumber(Value)
+        if num then
+            if num > 200 then
+                num = 200
+            elseif num < 0 then
+                num = 0
+            end
+            jumpPower = num
+        end
+    end
+})
+
+local UIS = game:GetService("UserInputService")
+UIS.JumpRequest:Connect(function()
+    if InfiniteJumpEnabled then
+        local char = game.Players.LocalPlayer.Character
+        if char and char:FindFirstChild("Humanoid") then
+            char.Humanoid.JumpPower = jumpPower
+            char.Humanoid:ChangeState("Jumping")
+        end
+    end
+end)
+
 
 PlayerTab:CreateSection("Jump Power")
 
@@ -404,7 +446,7 @@ local JumpPowerToggle = PlayerTab:CreateToggle({
 
 local JumpPowerInput = PlayerTab:CreateInput({
     Name = "Jump Power (50-300)",
-    PlaceholderText = tostring(currentJumpPower),
+    PlaceholderText = "Input",
     RemoveTextAfterFocusLost = false,
     Callback = function(Value)
         local numValue = tonumber(Value)
