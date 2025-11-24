@@ -923,23 +923,19 @@ CombatTab:CreateColorPicker({
 local VisualsTab = Window:CreateTab("Visuals", "pencil")
 VisualsTab:CreateSection("Colorpicker")
 
-lastplayercolor = Color3.fromRGB(255, 255, 255)
+local lastplayercolor = Color3.fromRGB(255, 255, 255)
 
 local ColorPicker = VisualsTab:CreateColorPicker({
-    Name = "Name Color",
-    Default = lastplayercolor,
-    Callback = function(color)
-        if color then
-            lastplayercolor = color
-            if lastplayername ~= "" then
-                updateCharacterGui("Name", lastplayername)
-            end
-            if lastplayerlvl ~= "" then
-                updateCharacterGui("Level", "LVL " .. lastplayerlvl)
-            end
-            if lastplayeremoji ~= "" then
-                updateCharacterGui("Extras", "[" .. lastplayeremoji .. "]")
-            end
+    Name = "Color Picker",
+    Default = lastplayercolor, -- Set default color
+    Flag = "ColorPicker1", -- Unique identifier for config
+    Callback = function(Value)
+        if Value then
+            lastplayercolor = Value
+            -- Example usage: update character GUI if you have a function for it
+            if lastplayername ~= "" then updateCharacterGui("Name", lastplayername) end
+            if lastplayerlvl ~= "" then updateCharacterGui("Level", "LVL " .. lastplayerlvl) end
+            if lastplayeremoji ~= "" then updateCharacterGui("Extras", "[" .. lastplayeremoji .. "]") end
         end
     end
 })
@@ -950,7 +946,7 @@ VisualsTab:CreateSection("Player")
 local lastplayername = ""
 local lastplayerlvl = ""
 local lastplayeremoji = ""
-local lastplayercolor = Color3.fromRGB(255, 255, 255)
+
 
 local function updateCharacterGui(field, text)
     local character = game.Players.LocalPlayer.Character
@@ -960,13 +956,12 @@ local function updateCharacterGui(field, text)
             local guiElement = nameGui.Main:FindFirstChild(field)
             if guiElement then
                 guiElement.Text = text
-                guiElement.TextColor3 = lastplayercolor
             end
         end
     end
 end
 
-local InputName = VisualsTab:CreateInput({
+local Input = VisualsTab:CreateInput({
     Name = "Enter Custom Name",
     PlaceholderText = "Input",
     RemoveTextAfterFocusLost = false,
@@ -976,8 +971,8 @@ local InputName = VisualsTab:CreateInput({
     end
 })
 
-local InputLevel = VisualsTab:CreateInput({
-    Name = "Enter Custom Level",
+local Input = VisualsTab:CreateInput({
+    Name = "Enter Custom  Level",
     PlaceholderText = "Input",
     RemoveTextAfterFocusLost = false,
     Callback = function(text)
@@ -986,8 +981,8 @@ local InputLevel = VisualsTab:CreateInput({
     end
 })
 
-local InputEmoji = VisualsTab:CreateInput({
-    Name = "Enter Custom Emoji",
+local Input = VisualsTab:CreateInput({
+    Name = "Enter Custom Omojie",
     PlaceholderText = "Input",
     RemoveTextAfterFocusLost = false,
     Callback = function(text)
