@@ -522,6 +522,7 @@ local LocalPlayer = Players.LocalPlayer
 
 local Locking = false
 local LockTarget = nil
+local TPActive = false
 
 local function LockOn(Target)
     if not Target or not Target.Character then return end
@@ -547,27 +548,37 @@ CombatTab:CreateToggle({
     CurrentValue = false,
     Flag = "TPPlayers",
     Callback = function(state)
+        TPActive = state
         if state then
             spawn(function()
-                for _, plr in ipairs(Players:GetPlayers()) do
-                    if plr ~= LocalPlayer then
-                        repeat task.wait() until LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-                        local myRoot = LocalPlayer.Character.HumanoidRootPart
-                        local targetChar = plr.Character
-                        local targetRoot = targetChar and targetChar:FindFirstChild("HumanoidRootPart")
-                        if targetRoot then
-                            myRoot.CFrame = targetRoot.CFrame * CFrame.new(0,0,-3)
-                            task.wait(0.2)
-                            LockOn(plr)
-                            task.wait(6)
-                            Unlock()
+                while TPActive do
+                    for _, plr in ipairs(Players:GetPlayers()) do
+                        if not TPActive then break end
+                        if plr ~= LocalPlayer and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+                            local myRoot = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                            local targetRoot = plr.Character.HumanoidRootPart
+                            if myRoot and targetRoot then
+                                myRoot.CFrame = targetRoot.CFrame * CFrame.new(0,0,-3)
+                                task.wait(0.2)
+                                LockOn(plr)
+                                local timer = 0
+                                while timer < 6 and TPActive do
+                                    task.wait(0.1)
+                                    timer = timer + 0.1
+                                end
+                                Unlock()
+                            end
                         end
                     end
+                    task.wait(0.5)
                 end
             end)
+        else
+            Unlock()
         end
     end
 })
+
 
 CombatTab:CreateSection("Gun Mods")
 
@@ -1035,6 +1046,44 @@ local Input = VisualsTab:CreateInput({
         lastplayeremoji = text
         updateCharacterGui("Extras", "[" .. text .. "]")
     end
+})
+
+VisualsTab:CreateSection("Streamer Mode")
+
+local Toggle = VisualsTab:CreateToggle({
+    Name = "Enable Streamer Mode",
+    CurrentValue = false,
+    Flag = "Toggle_Combined",
+    Callback = function(Value)
+        local Player = game.Players.LocalPlayer
+        local PlayerGui = Player:WaitForChild("PlayerGui")
+
+
+        for _, v in ipairs(PlayerGui:GetDescendants()) do
+            if v:IsA("TextLabel") and v.Text:find(Player.Name) then
+                v.Text = "**Streamer**"
+                v.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+                v.BorderSizePixel = 2
+                v.BorderColor3 = Color3.fromRGB(255, 255, 255)
+                print("Username label found and changed to discord.gg/dkshub:", v:GetFullName())
+                break
+            end
+        end
+
+
+        for _, player in pairs(game.Players:GetPlayers()) do
+            local character = player.Character
+            if character and character:FindFirstChild("Head") then
+                local nameGui = character.Head:FindFirstChild("NameGui")
+                if nameGui and nameGui:FindFirstChild("Main") then
+                    local nameLabel = nameGui.Main:FindFirstChild("Name")
+                    if nameLabel then
+                        nameLabel.Text = "*Masked*"
+                    end
+                end
+            end
+        end
+    end,
 })
 
 
