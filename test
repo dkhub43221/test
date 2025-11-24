@@ -1,4 +1,5 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/dkhub43221/loading-screen/refs/heads/main/dkhub",true))()
 
 local customTheme = {
     TextColor = Color3.fromRGB(255, 255, 255),
@@ -65,120 +66,7 @@ local Window = Rayfield:CreateWindow({
     }
 })
 
-local existingGui = game.CoreGui:FindFirstChild("CustomScreenGui")
-if existingGui then existingGui:Destroy() end
 
--- DK's Hub Loading GUI
-coroutine.wrap(function()
-    local uis = game:GetService("UserInputService")
-    local TweenService = game:GetService("TweenService")
-
-    local screenGui = Instance.new("ScreenGui")
-    screenGui.Name = "CustomScreenGui"
-    screenGui.Parent = game.CoreGui
-    screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-    local frame = Instance.new("Frame")
-    frame.Size = UDim2.new(1, 0, 1, 0)
-    frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-    frame.Parent = screenGui
-
-    local titleLabel = Instance.new("TextLabel")
-    titleLabel.Size = UDim2.new(1, 0, 0.15, 0)
-    titleLabel.Position = UDim2.new(0, 0, 0.2, 7.5)
-    titleLabel.Text = ""
-    titleLabel.TextScaled = true
-    titleLabel.Font = Enum.Font.GothamBlack
-    titleLabel.TextColor3 = Color3.fromRGB(77, 251, 16) -- Green
-    titleLabel.BackgroundTransparency = 1
-    titleLabel.Parent = frame
-
-    local function animateTitle(label, text)
-        while true do
-            for i = 1, #text do
-                label.Text = string.sub(text, 1, i) .. "|"
-                wait(0.1)
-            end
-            wait(0.5)
-            label.Text = text
-            wait(0.5)
-        end
-    end
-
-    coroutine.wrap(function()
-        animateTitle(titleLabel, "DK'S HUB")
-    end)()
-
-    -- Progress Bar
-    local progressBarFrame = Instance.new("Frame")
-    progressBarFrame.Size = UDim2.new(0, 600, 0, 30)
-    progressBarFrame.Position = UDim2.new(0.5, -300, 0.5, 35)
-    progressBarFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    progressBarFrame.BorderColor3 = Color3.fromRGB(77, 251, 16)
-    progressBarFrame.BorderSizePixel = 3
-    progressBarFrame.Parent = screenGui
-
-    local progressBar = Instance.new("Frame")
-    progressBar.Size = UDim2.new(0, 0, 1, 0)
-    progressBar.BackgroundColor3 = Color3.fromRGB(77, 251, 16)
-    progressBar.Parent = progressBarFrame
-
-    local percentageLabel = Instance.new("TextLabel")
-    percentageLabel.Size = UDim2.new(1, 0, 1, 0)
-    percentageLabel.BackgroundTransparency = 1
-    percentageLabel.TextColor3 = Color3.fromRGB(77, 251, 16)
-    percentageLabel.Font = Enum.Font.SourceSansBold
-    percentageLabel.TextSize = 20
-    percentageLabel.Text = "0% Completed"
-    percentageLabel.Parent = progressBarFrame
-
-    local startTime = tick()
-    local duration = 7
-
-    game:GetService("RunService").Heartbeat:Connect(function()
-        local elapsed = tick() - startTime
-        local progress = math.min(elapsed / duration, 1)
-        progressBar.Size = UDim2.new(progress, 0, 1, 0)
-        percentageLabel.Text = tostring(math.floor(progress * 100)) .. "% Completed"
-    end)
-
-    local welcomeLabel = Instance.new("TextLabel")
-    welcomeLabel.Size = UDim2.new(0.8, 0, 0.08, 0)
-    welcomeLabel.Position = UDim2.new(0.1, 0, 0.4, 0)
-    welcomeLabel.Text = "Loading..."
-    welcomeLabel.Font = Enum.Font.GothamBold
-    welcomeLabel.TextSize = 32
-    welcomeLabel.TextColor3 = Color3.fromRGB(77, 251, 16)
-    welcomeLabel.BackgroundTransparency = 1
-    welcomeLabel.Parent = frame
-
-    wait(0.5)
-    welcomeLabel.Text = "Detecting Game..."
-    wait(1.5)
-
-    local success, productInfo = pcall(function()
-        return game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
-    end)
-
-    if success and productInfo then
-        welcomeLabel.Text = "Game Detected: " .. productInfo.Name
-    else
-        welcomeLabel.Text = "Game Detection Failed."
-    end
-
-    wait(1)
-    welcomeLabel.Text = "Initializing Script..."
-    wait(4)
-    screenGui:Destroy()
-end)()
-
-uis = game:GetService("UserInputService")
-TweenService = game:GetService("TweenService")
-
-existingGui = game.CoreGui:FindFirstChild("CustomScreenGui")
-if existingGui then
-    existingGui:Destroy()
-end
 
 ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "CustomScreenGui"
