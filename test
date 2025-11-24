@@ -346,8 +346,19 @@ local WalkSpeedToggle = PlayerTab:CreateToggle({
     end
 })
 
+local DisableCameraShakeButton = PlayerTab:CreateButton({
+    Name = "Disable Camera Shake - enable before walkspeed",
+    Callback = function()
+        local char = game:GetService("Players").LocalPlayer.Character
+        if char and char:FindFirstChild("CharacterScripts") then
+            char.CharacterScripts.Enabled = false
+        end
+    end
+})
+
+
 local WalkSpeedInput = PlayerTab:CreateInput({
-    Name = "Set Walk Speed (0-150)",
+    Name = "Speed (0-150)",
     PlaceholderText = tostring(currentWalkSpeed),
     RemoveTextAfterFocusLost = false,
     Callback = function(Value)
@@ -363,6 +374,51 @@ local WalkSpeedInput = PlayerTab:CreateInput({
                 local character = game.Players.LocalPlayer.Character
                 if character and character:FindFirstChild("Humanoid") then
                     character.Humanoid.WalkSpeed = currentWalkSpeed
+                end
+            end
+        end
+    end
+})
+
+PlayerTab:CreateSection("Jump Power")
+
+local JumpPowerEnabled = false
+local defaultJumpPower = 50
+local currentJumpPower = 50
+
+local JumpPowerToggle = PlayerTab:CreateToggle({
+    Name = "Enable Jump Power",
+    CurrentValue = JumpPowerEnabled,
+    Callback = function(Value)
+        JumpPowerEnabled = Value
+        local character = game.Players.LocalPlayer.Character
+        if character and character:FindFirstChild("Humanoid") then
+            if JumpPowerEnabled then
+                character.Humanoid.JumpPower = currentJumpPower
+            else
+                character.Humanoid.JumpPower = defaultJumpPower
+            end
+        end
+    end
+})
+
+local JumpPowerInput = PlayerTab:CreateInput({
+    Name = "Jump Power (50-300)",
+    PlaceholderText = tostring(currentJumpPower),
+    RemoveTextAfterFocusLost = false,
+    Callback = function(Value)
+        local numValue = tonumber(Value)
+        if numValue then
+            if numValue > 300 then
+                numValue = 300
+            elseif numValue < 0 then
+                numValue = 0
+            end
+            currentJumpPower = numValue
+            if JumpPowerEnabled then
+                local character = game.Players.LocalPlayer.Character
+                if character and character:FindFirstChild("Humanoid") then
+                    character.Humanoid.JumpPower = currentJumpPower
                 end
             end
         end
