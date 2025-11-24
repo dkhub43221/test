@@ -528,27 +528,6 @@ local FastFireRate = false
 local NoRecoil = false
 local InfiniteAmmo = false
 
-local NoSpreadToggle = PlayerTab:CreateToggle({
-    Name = "No Spread",
-    CurrentValue = NoSpread,
-    Callback = function(Value)
-        NoSpread = Value
-        for _, module in ipairs(ToolsFolder:GetChildren()) do
-            if module:IsA("ModuleScript") then
-                local ok, gunSettings = pcall(require, module)
-                if ok and type(gunSettings) == "table" then
-                    local bullet = gunSettings.BulletSettings
-                    if bullet and type(bullet) == "table" then
-                        if setreadonly then setreadonly(bullet, false) end
-                        bullet.MaxSpread = NoSpread and 0 or bullet.MaxSpread
-                        if setreadonly then setreadonly(bullet, true) end
-                    end
-                end
-            end
-        end
-    end
-})
-
 local InfiniteAmmoToggle = CombatTab:CreateToggle({
     Name = "Enable Infinite Ammo",
     CurrentValue = InfiniteAmmo,
@@ -643,4 +622,305 @@ local NoRecoilToggle = CombatTab:CreateToggle({
     end
 })
 
+local NoSpreadToggle = CombatTab:CreateToggle({
+    Name = "Enable No Spread",
+    CurrentValue = NoSpread,
+    Callback = function(Value)
+        NoSpread = Value
+        for _, module in ipairs(ToolsFolder:GetChildren()) do
+            if module:IsA("ModuleScript") then
+                local ok, gunSettings = pcall(require, module)
+                if ok and type(gunSettings) == "table" then
+                    local bullet = gunSettings.BulletSettings
+                    if bullet and type(bullet) == "table" then
+                        if setreadonly then setreadonly(bullet, false) end
+                        bullet.MaxSpread = NoSpread and 0 or bullet.MaxSpread
+                        if setreadonly then setreadonly(bullet, true) end
+                    end
+                end
+            end
+        end
+    end
+})
 
+CombatTab:CreateSection("Silent Aim")
+
+local players = game:GetService("Players")
+local workspace = game:GetService("Workspace")
+local user_input_service = game:GetService("UserInputService")
+local run_service = game:GetService("RunService")
+
+local camera = workspace.CurrentCamera
+local local_player = players.LocalPlayer
+
+local script_data = {
+    functions = {},
+    locals = {
+        silent_aim_target = nil,
+        silent_aim_is_targetting = false,
+        silent_aim_enabled = false
+    }
+}
+
+script_data.functions.new_connection = function(signal, func)
+    return signal:Connect(func)
+end
+
+script_data.functions.get_direction = function(origin, destination)
+    return ((destination - origin).Unit * 1000)
+end
+
+script_data.functions.world_to_screen = function(position)
+    local viewport_position, on_screen = camera:WorldToViewportPoint(position)
+    return {
+        position = Vector2.new(viewport_position.X, viewport_position.Y),
+        on_screen = on_screen
+    }
+end
+
+script_data.functions.has_character = function(player)
+    return player
+        and player.Character
+        and player.Character:FindFirstChildWhichIsA("Humanoid", false) ~= nil
+end
+
+script_data.functions.get_closest_player = function()
+    local mouse_position = user_input_service:GetMouseLocation()
+    local radius = math.huge
+    local closest_player
+
+    for _, player in players:GetPlayers() do
+        if player ~= local_player and script_data.functions.has_character(player) then
+            local screen_position = script_data.functions.world_to_screen(player.Character.HumanoidRootPart.Position)
+            if screen_position.on_screen then
+                local distance = (mouse_position - screen_position.position).Magnitude
+                if distance <= radius then
+                    radius = distance
+                    closest_player = player
+                end
+            end
+        end
+    end
+
+    return closest_player
+end
+
+local SilentAimToggle = CombatTab:CreateToggle({
+    Name = "Enable Silent Aim",
+    CurrentValue = false,
+    Flag = "SilentAimToggle",
+    Callback = function(Value)
+        script_data.locals.silent_aim_enabled = Value
+    end
+})
+
+script_data.functions.new_connection(run_service.RenderStepped, function()
+    if script_data.locals.silent_aim_enabled then
+        local new_target = script_data.functions.get_closest_player()
+        script_data.locals.silent_aim_is_targetting = new_target ~= nil
+        script_data.locals.silent_aim_target = new_target
+    else
+        script_data.locals.silent_aim_is_targetting = false
+        script_data.locals.silent_aim_target = nil
+    end
+end)
+
+local __namecall
+__namecall = hookmetamethod(game, "__namecall", function(self, ...)
+    local args, method = {...}, tostring(getnamecallmethod())
+    if not checkcaller()
+        and script_data.locals.silent_aim_enabled
+        and script_data.locals.silent_aim_is_targetting
+        and script_data.locals.silent_aim_target
+        and self == workspace
+        and method == "Raycast" then
+        local origin = args[1]
+        args[2] = script_data.functions.get_direction(origin, script_data.locals.silent_aim_target.Character.HumanoidRootPart.Position)
+        return __namecall(self, unpack(args))
+    end
+    return __namecall(self, ...)
+end)
+
+CombatTab:CreateSection("Fov Circle")
+
+local localPlayerFov = LocalPlayer
+local mouseFov = localPlayerFov:GetMouse()
+
+local aimCircleRadius = 100
+local aimCircleThickness = 2
+local circleColor = Color3.fromRGB(128, 0, 128)
+local rainbowFOV = false
+
+local aimCircle
+local fovEnabled = false
+
+local function createAimCircle()
+    if not aimCircle then
+        aimCircle = Drawing.new("Circle")
+        aimCircle.Visible = true
+        aimCircle.Filled = false
+        aimCircle.Color = circleColor
+        aimCircle.Thickness = aimCircleThickness
+    end
+    aimCircle.Radius = aimCircleRadius
+end
+
+local hue = 0
+local function getRainbowColor()
+    hue = (hue + 1) % 360
+    return Color3.fromHSV(hue / 360, 1, 1)
+end
+
+RunService.RenderStepped:Connect(function()
+    if fovEnabled then
+        if not aimCircle then
+            createAimCircle()
+        end
+        aimCircle.Position = Vector2.new(mouseFov.X, mouseFov.Y + 40)
+        aimCircle.Visible = true
+        aimCircle.Radius = aimCircleRadius
+        aimCircle.Thickness = aimCircleThickness
+        aimCircle.Color = rainbowFOV and getRainbowColor() or circleColor
+    else
+        if aimCircle then
+            aimCircle.Visible = false
+        end
+    end
+end)
+
+CombatTab:CreateToggle({
+    Name = "Enable FOV Circle",
+    CurrentValue = false,
+    Callback = function(Value)
+        fovEnabled = Value
+        if fovEnabled and not aimCircle then
+            createAimCircle()
+        end
+    end,
+})
+
+CombatTab:CreateSlider({
+    Name = "FOV Radius",
+    Range = {100, 300},
+    Increment = 5,
+    Suffix = "units",
+    CurrentValue = aimCircleRadius,
+    Callback = function(Value)
+        aimCircleRadius = Value
+        if aimCircle then
+            aimCircle.Radius = aimCircleRadius
+        end
+    end,
+})
+
+CombatTab:CreateColorPicker({
+    Name = "Fov Colorpicker",
+    Color = circleColor,
+    Callback = function(Value)
+        circleColor = Value
+        if aimCircle and not rainbowFOV then
+            aimCircle.Color = circleColor
+        end
+    end,
+})
+
+CombatTab:CreateSection("Snap Lines")
+
+local UserInputServiceSnap = UserInputService
+local CameraSnap = Camera
+local LocalPlayerSnap = LocalPlayer
+
+local FOVRadius = 150
+local MaxDistance = 300
+local AimPartName = "HumanoidRootPart"
+local arrowColor = Color3.fromRGB(255, 0, 0)
+local arrowEnabled = false
+
+local arrow = Drawing.new("Line")
+arrow.Visible = false
+arrow.Thickness = 1
+arrow.Color = arrowColor
+
+local function isInFOV(player)
+    local char = player.Character
+    if not char then return false end
+
+    local part = char:FindFirstChild("Head")
+    local humanoid = char:FindFirstChildOfClass("Humanoid")
+    if not part or not humanoid or humanoid.Health <= 0 then return false end
+
+    local screenPos, onScreen = CameraSnap:WorldToViewportPoint(part.Position)
+    if not onScreen then return false end
+
+    local mousePos = UserInputServiceSnap:GetMouseLocation()
+    local dist = (Vector2.new(screenPos.X, screenPos.Y) - mousePos).Magnitude
+    return dist <= FOVRadius
+end
+
+local function getClosestPlayerSnap()
+    local closest
+    local shortest = MaxDistance
+
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= LocalPlayerSnap and player.Character then
+            local char = player.Character
+            local hrp = char:FindFirstChild(AimPartName)
+            local humanoid = char:FindFirstChildOfClass("Humanoid")
+
+            if hrp and humanoid and humanoid.Health > 0 and isInFOV(player) then
+                local dist = (LocalPlayerSnap.Character.HumanoidRootPart.Position - hrp.Position).Magnitude
+                if dist < shortest then
+                    shortest = dist
+                    closest = player
+                end
+            end
+        end
+    end
+
+    return closest
+end
+
+RunService.RenderStepped:Connect(function()
+    if not arrowEnabled then
+        arrow.Visible = false
+        return
+    end
+
+    local target = getClosestPlayerSnap()
+    if target and target.Character then
+        local part = target.Character:FindFirstChild(AimPartName)
+        if part then
+            local screenPos, onScreen = CameraSnap:WorldToViewportPoint(part.Position)
+
+            if onScreen then
+                local mousePos = UserInputServiceSnap:GetMouseLocation()
+                arrow.From = mousePos
+                arrow.To = Vector2.new(screenPos.X, screenPos.Y)
+                arrow.Color = arrowColor
+                arrow.Visible = true
+                return
+            end
+        end
+    end
+
+    arrow.Visible = false
+end)
+
+CombatTab:CreateToggle({
+    Name = "Enable Snapline",
+    CurrentValue = false,
+    Callback = function(value)
+        arrowEnabled = value
+        if not value then
+            arrow.Visible = false
+        end
+    end
+})
+
+CombatTab:CreateColorPicker({
+    Name = "Snapline Colorpicker",
+    Color = arrowColor,
+    Callback = function(color)
+        arrowColor = color
+    end
+})
