@@ -1,5 +1,5 @@
-loadstring(game:HttpGet('https://raw.githubusercontent.com/Pixeluted/adoniscries/main/Source.lua'))()
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Pixeluted/adoniscries/main/Source.lua'))()
 local executor = identifyexecutor and identifyexecutor() or "Unknown Executor"
 
 local customTheme = {
@@ -827,9 +827,12 @@ CombatTab:CreateColorPicker({
 
 CombatTab:CreateSection("Snap Lines")
 
-local UserInputServiceSnap = UserInputService
-local CameraSnap = Camera
-local LocalPlayerSnap = LocalPlayer
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local Camera = workspace.CurrentCamera
+
+local LocalPlayer = Players.LocalPlayer
 
 local FOVRadius = 150
 local MaxDistance = 300
@@ -845,31 +848,26 @@ arrow.Color = arrowColor
 local function isInFOV(player)
     local char = player.Character
     if not char then return false end
-
     local part = char:FindFirstChild("Head")
     local humanoid = char:FindFirstChildOfClass("Humanoid")
     if not part or not humanoid or humanoid.Health <= 0 then return false end
-
-    local screenPos, onScreen = CameraSnap:WorldToViewportPoint(part.Position)
+    local screenPos, onScreen = Camera:WorldToViewportPoint(part.Position)
     if not onScreen then return false end
-
-    local mousePos = UserInputServiceSnap:GetMouseLocation()
+    local mousePos = UserInputService:GetMouseLocation()
     local dist = (Vector2.new(screenPos.X, screenPos.Y) - mousePos).Magnitude
     return dist <= FOVRadius
 end
 
-local function getClosestPlayerSnap()
+local function getClosestPlayer()
     local closest
     local shortest = MaxDistance
-
     for _, player in ipairs(Players:GetPlayers()) do
-        if player ~= LocalPlayerSnap and player.Character then
+        if player ~= LocalPlayer and player.Character then
             local char = player.Character
             local hrp = char:FindFirstChild(AimPartName)
             local humanoid = char:FindFirstChildOfClass("Humanoid")
-
             if hrp and humanoid and humanoid.Health > 0 and isInFOV(player) then
-                local dist = (LocalPlayerSnap.Character.HumanoidRootPart.Position - hrp.Position).Magnitude
+                local dist = (LocalPlayer.Character.HumanoidRootPart.Position - hrp.Position).Magnitude
                 if dist < shortest then
                     shortest = dist
                     closest = player
@@ -877,7 +875,6 @@ local function getClosestPlayerSnap()
             end
         end
     end
-
     return closest
 end
 
@@ -886,15 +883,13 @@ RunService.RenderStepped:Connect(function()
         arrow.Visible = false
         return
     end
-
-    local target = getClosestPlayerSnap()
+    local target = getClosestPlayer()
     if target and target.Character then
         local part = target.Character:FindFirstChild(AimPartName)
         if part then
-            local screenPos, onScreen = CameraSnap:WorldToViewportPoint(part.Position)
-
+            local screenPos, onScreen = Camera:WorldToViewportPoint(part.Position)
             if onScreen then
-                local mousePos = UserInputServiceSnap:GetMouseLocation()
+                local mousePos = UserInputService:GetMouseLocation()
                 arrow.From = mousePos
                 arrow.To = Vector2.new(screenPos.X, screenPos.Y)
                 arrow.Color = arrowColor
@@ -903,7 +898,6 @@ RunService.RenderStepped:Connect(function()
             end
         end
     end
-
     arrow.Visible = false
 end)
 
