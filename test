@@ -1,325 +1,1169 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/dkhub43221/loading-screen/refs/heads/main/dkhub",true))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Pixeluted/adoniscries/main/Source.lua'))()
+local executor = identifyexecutor and identifyexecutor() or "Unknown Executor"
 
 local customTheme = {
-    TextColor = Color3.fromRGB(255, 255, 255),
-    Background = Color3.fromRGB(15, 15, 15),
-    Topbar = Color3.fromRGB(15, 15, 15),
-    Shadow = Color3.fromRGB(255, 255, 255),
-    NotificationBackground = Color3.fromRGB(15, 15, 15),
-    NotificationTextColor = Color3.fromRGB(255, 255, 255),
-    NotificationActionsBackground = Color3.fromRGB(35, 0, 70),
-    TabBackground = Color3.fromRGB(15, 15, 15),
-    TabStroke = Color3.fromRGB(15, 15, 15),
-    TabBackgroundSelected = Color3.fromRGB(15, 15, 15),
-    TabTextColor = Color3.fromRGB(149, 149, 149),
-    SelectedTabTextColor = Color3.fromRGB(255, 255, 255),
-    ElementBackground = Color3.fromRGB(15, 15, 15),
-    ElementBackgroundHover = Color3.fromRGB(15, 15, 15),
-    SecondaryElementBackground = Color3.fromRGB(15, 15, 15),
-    ElementStroke = Color3.fromRGB(77, 251, 16),
-    SecondaryElementStroke = Color3.fromRGB(77, 251, 16),
-    SliderBackground = Color3.fromRGB(255, 255, 255),
-    SliderProgress = Color3.fromRGB(77, 251, 16),
-    SliderStroke = Color3.fromRGB(77, 251, 16),
-    ToggleBackground = Color3.fromRGB(15, 15, 15),
-    ToggleEnabled = Color3.fromRGB(77, 251, 16),
-    ToggleDisabled = Color3.fromRGB(255, 255, 255),
-    ToggleEnabledStroke = Color3.fromRGB(77, 251, 16),
-    ToggleDisabledStroke = Color3.fromRGB(15, 15, 15),
-    ToggleEnabledOuterStroke = Color3.fromRGB(255, 255, 255),
-    ToggleDisabledOuterStroke = Color3.fromRGB(255, 255, 255),
-    DropdownSelected = Color3.fromRGB(15, 15, 15),
-    DropdownUnselected = Color3.fromRGB(15, 15, 15),
-    InputBackground = Color3.fromRGB(15, 15, 15),
-    InputStroke = Color3.fromRGB(77, 251, 16),
+   TextColor = Color3.fromRGB(255, 255, 255),
+   Background = Color3.fromRGB(0, 0, 0),
+   Topbar = Color3.fromRGB(0, 0, 0),
+   TopbarLine = Color3.fromRGB(255, 255, 255),
+   Shadow = Color3.fromRGB(0, 0, 0),
+   Accent = Color3.fromRGB(255, 255, 255),
+   NotificationBackground = Color3.fromRGB(0, 0, 0),
+   NotificationActionsBackground = Color3.fromRGB(0, 0, 0),
+   TabBackground = Color3.fromRGB(0, 0, 0),
+   TabStroke = Color3.fromRGB(0, 0, 0),
+   TabBackgroundSelected = Color3.fromRGB(0, 0, 0),
+   TabTextColor = Color3.fromRGB(149, 149, 149),
+   SelectedTabTextColor = Color3.fromRGB(255, 255, 255),
+   ElementBackground = Color3.fromRGB(0, 0, 0),
+   ElementBackgroundHover = Color3.fromRGB(20, 20, 20),
+   SecondaryElementBackground = Color3.fromRGB(0, 0, 0),
+   ElementStroke = Color3.fromRGB(255, 255, 255),
+   SecondaryElementStroke = Color3.fromRGB(255, 255, 255),
+   SliderBackground = Color3.fromRGB(0, 0, 0),
+   SliderProgress = Color3.fromRGB(255, 255, 255),
+   SliderStroke = Color3.fromRGB(255, 255, 255),
+   ToggleBackground = Color3.fromRGB(0, 0, 0),
+   ToggleEnabled = Color3.fromRGB(255, 255, 255),
+   ToggleDisabled = Color3.fromRGB(100, 100, 100),
+   ToggleEnabledStroke = Color3.fromRGB(255, 255, 255),
+   ToggleDisabledStroke = Color3.fromRGB(100, 100, 100),
+   ToggleEnabledOuterStroke = Color3.fromRGB(255, 255, 255),
+   ToggleDisabledOuterStroke = Color3.fromRGB(100, 100, 100),
+   DropdownSelected = Color3.fromRGB(0, 0, 0),
+   DropdownUnselected = Color3.fromRGB(0, 0, 0),
+   InputBackground = Color3.fromRGB(0, 0, 0),
+   InputStroke = Color3.fromRGB(255, 255, 255),
+   PlaceholderColor = Color3.fromRGB(150, 150, 150),
+   KeyInputBackground = Color3.fromRGB(0, 0, 0),
+   KeyInputTextColor = Color3.fromRGB(255, 255, 255)
 }
 
 local Window = Rayfield:CreateWindow({
-    Name = "Miami Streets - V1 by q11_2 | discord.gg/ukZVmDFWG [free]",
-    Icon = 112029241653427,
-    LoadingTitle = "",
-    LoadingSubtitle = "",
-    Theme = customTheme,
-    DisableRayfieldPrompts = false,
-    DisableBuildWarnings = false,
-    ConfigurationSaving = {
-        Enabled = false,
-        FolderName = "GreenBlackThemeHub",
-        FileName = "BigHub"
-    },
-    Discord = {
-        Enabled = false,
-        Invite = "",
-        RememberJoins = true
-    },
-    KeySystem = false,
-    KeySettings = {
-        Title = "",
-        Subtitle = "",
-        Note = "",
-        FileName = "",
-        SaveKey = true,
-        GrabKeyFromSite = false,
-        Key = { "" },
-        Theme = customTheme
-    }
+   Name = "DK's Hub | Streetz War 2 | V0.0 [BETA] | " .. executor,
+   Icon = nil,
+   LoadingTitle = "",
+   LoadingSubtitle = "",
+   Theme = customTheme,
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false,
+   ConfigurationSaving = {Enabled = false, FolderName = "BlackThemeHub", FileName = "BigHub"},
+   Discord = {Enabled = true, Invite = "Fy7PanRV", RememberJoins = true},
+   KeySystem = false,
+   KeySettings = {Title = "X-DK | V1", Subtitle = "Enter Key Below", Note = "Buy A Key At Discord.gg/dkshub", FileName = "Key", SaveKey = true, GrabKeyFromSite = false, Key = {""}, Theme = customTheme}
 })
 
-local MainTab = Window:CreateTab("Main", nil)
-MainTab:CreateSection("Inf Money")
+local DupeTab = Window:CreateTab("Dupe", "layers-2")
+DupeTab:CreateSection("Gun Dupe")
 
-local Paragraph = MainTab:CreateParagraph({
-   Title = "Instructions",
-   Content = [[Step 1: Buy Taki items🛍️
-Step 2: Make one Taki and tp to sell chips💨
-Step 3: Click Get Max Money💸
-Step 4: U need less that 5k to do this dupe‼️]]
-})
-
-MainTab:CreateButton({
-    Name = "Goto taki items",
+DupeTab:CreateButton({
+    Name = "Dupe Tools",
     Callback = function()
+        local ReplicatedStorage = game:GetService("ReplicatedStorage")
         local player = game.Players.LocalPlayer
         local character = player.Character or player.CharacterAdded:Wait()
-        local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-        humanoidRootPart.CFrame = CFrame.new(Vector3.new(-292, 13, 771))
-    end,
-})
+        local equippedTool = character:FindFirstChildOfClass("Tool")
 
-MainTab:CreateButton({
-    Name = "Goto sell chips",
-    Callback = function()
-        local player = game.Players.LocalPlayer
-        local character = player.Character or player.CharacterAdded:Wait()
-        local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-        humanoidRootPart.CFrame = CFrame.new(Vector3.new(149, 12, 395))
-    end,
-})
+        if equippedTool then
+            local safe = workspace:WaitForChild("Apartments"):WaitForChild("LuxuryApartment"):WaitForChild("Safe")
 
-MainTab:CreateButton({
-    Name = "Get Max Money",
-    Callback = function()
-        for i = 1, 1000 do
-            fireproximityprompt(workspace["Taki Buyer NPC"].UpperTorso.Main.CollectPrompt)
+            local storeArgs = {safe}
+            ReplicatedStorage:WaitForChild("StoreItemSafe"):FireServer(unpack(storeArgs))
+
+            local takeArgs = {equippedTool.Name, safe}
+            for i = 1, 5 do
+                ReplicatedStorage:WaitForChild("TakeItemSafe"):FireServer(unpack(takeArgs))
+                wait(0.3)
+            end
+        else
+            warn("No tool equipped!")
         end
-    end,
+    end
 })
 
-local Divider = MainTab:CreateDivider()
+Paragraph = DupeTab:CreateParagraph({
+    Title = "Usage:",
+    Content = "To do the dupe click 'purchase apartment' then go in front of the safe click 'Dupe Tools' then it will dupe if doesnt dupe try again but this is the only apartment it will work in."
+})
+
+DupeTab:CreateButton({
+    Name = "Buy Apartment - 120£",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        local char = player.Character or player.CharacterAdded:Wait()
+        local hrp = char:WaitForChild("HumanoidRootPart")
+        hrp.CFrame = CFrame.new(2565, -307, -138)
+        fireproximityprompt(workspace.Apartments.LuxuryApartment.Door.door.ProximityPrompt)
+    end
+})
 
 local Players = game:GetService("Players")
-local player = Players.LocalPlayer
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+local Backpack = LocalPlayer:WaitForChild("Backpack")
 
-local enabled = false
 
-local function getHRP()
-    local char = player.Character or player.CharacterAdded:Wait()
-    return char:WaitForChild("HumanoidRootPart")
+local AutofarmTab = Window:CreateTab("Autofarm", "clock-4")
+AutofarmTab:CreateSection("Box Autofarm")
+local boxToggle = false
+AutofarmTab:CreateToggle({
+    Name = "Box Autofarm",
+    CurrentValue = false,
+    Flag = "BoxToggle",
+    Callback = function(value)
+        boxToggle = value
+        if boxToggle then
+            spawn(function()
+                while boxToggle do
+                    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+                    local rootPart = character:WaitForChild("HumanoidRootPart")
+                    rootPart.CFrame = CFrame.new(-121, 4, 301)
+                    task.wait(0.2)
+                    local box = workspace:WaitForChild("Job"):WaitForChild("Box"):WaitForChild("BOX1")
+                    fireclickdetector(box:WaitForChild("ClickDetector"))
+                    task.wait(0.2)
+                    local boxTool = Backpack:FindFirstChild("Box")
+                    if boxTool then LocalPlayer.Character.Humanoid:EquipTool(boxTool) end
+                    rootPart.CFrame = CFrame.new(-111, 4, 146)
+                    task.wait(0.5)
+                end
+            end)
+        end
+    end
+})
+
+AutofarmTab:CreateSection("Mop Autofarm")
+local giveMop = ReplicatedStorage:FindFirstChild("GiveMop")
+local cleaningEnabled = false
+local function equipMop()
+    local mop = Backpack:FindFirstChild("Mop")
+    if mop then mop.Parent = LocalPlayer.Character end
 end
 
-local function collectAllCash()
-    local cashFolder = workspace:FindFirstChild("CashF")
-    if not cashFolder then return end
+AutofarmTab:CreateToggle({
+    Name = "Mop Autofarm",
+    CurrentValue = false,
+    Flag = "CleanToggle",
+    Callback = function(value)
+        cleaningEnabled = value
+        if cleaningEnabled then
+            spawn(function()
+                while cleaningEnabled do
+                    for _, part in pairs(workspace.CleanPart:GetChildren()) do
+                        if not cleaningEnabled then break end
+                        if giveMop then
+                            if giveMop:IsA("RemoteEvent") then giveMop:FireServer()
+                            elseif giveMop:IsA("RemoteFunction") then giveMop:InvokeServer() end
+                            task.wait(1)
+                            equipMop()
+                        end
+                        local targetPos
+                        if part:IsA("BasePart") then targetPos = part.Position
+                        elseif part:IsA("Model") and part.PrimaryPart then targetPos = part.PrimaryPart.Position end
+                        if targetPos then LocalPlayer.Character:MoveTo(targetPos) task.wait(3) end
+                        for _, prompt in pairs(part:GetDescendants()) do
+                            if prompt:IsA("ProximityPrompt") then fireproximityprompt(prompt) task.wait(0.5) end
+                        end
+                    end
+                    task.wait(1)
+                end
+            end)
+        end
+    end
+})
 
-    local hrp = getHRP()
+local CardTab = Window:CreateTab("Card", "credit-card")
+CardTab:CreateSection("Autofarm Card")
+local autoEquipLaptop = false
 
-    for _, cash in ipairs(cashFolder:GetChildren()) do
-        if not enabled then break end
+local function equipLaptop()
+    local character = LocalPlayer.Character
+    if not character then return end
+    local laptopTool = Backpack:FindFirstChild("Laptop")
+    if laptopTool then laptopTool.Parent = character end
+end
 
-        local targetPart = cash:IsA("BasePart") and cash or cash:FindFirstChildWhichIsA("BasePart")
-        if targetPart then
-            hrp.CFrame = targetPart.CFrame + Vector3.new(0, 1.5, 0)
-            task.wait(0.05)
+RunService.RenderStepped:Connect(function()
+    if autoEquipLaptop then
+        local character = LocalPlayer.Character
+        if character and not character:FindFirstChild("Laptop") and Backpack:FindFirstChild("Laptop") then
+            Backpack.Laptop.Parent = character
+        end
+    end
+end)
 
-            for _, obj in ipairs(cash:GetDescendants()) do
-                if obj:IsA("ProximityPrompt") then
-                    fireproximityprompt(obj)
-                    task.wait(0.03)
+Backpack.ChildAdded:Connect(function(tool)
+    if autoEquipLaptop and tool:IsA("Tool") and tool.Name == "Laptop" then
+        tool.Parent = LocalPlayer.Character
+    end
+end)
+
+LocalPlayer.CharacterAdded:Connect(function()
+    if autoEquipLaptop then
+        repeat task.wait() until Backpack:FindFirstChild("Laptop") or LocalPlayer.Character
+        equipLaptop()
+    end
+end)
+
+CardTab:CreateToggle({
+    Name = "Auto Equip Laptop",
+    CurrentValue = false,
+    Callback = function(state)
+        autoEquipLaptop = state
+        if state then equipLaptop() end
+    end
+})
+
+CardTab:CreateParagraph({
+    Title = "Warning!",
+    Content = "Hello Mr.Hacker😎, U Will Need 10-15K To Start This Autofarm."
+})
+
+_G.autofarm = false
+local farmDelay = 0.01
+CardTab:CreateToggle({
+    Name = "Start Card Autofarm",
+    CurrentValue = false,
+    Flag = "AutoFarmToggle",
+    Callback = function(Value)
+        _G.autofarm = Value
+        if Value then
+            local hrp = LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+            hrp.CFrame = CFrame.new(226, 4, -540)
+            local giverPunch = ReplicatedStorage:WaitForChild("Assets"):WaitForChild("Other"):WaitForChild("GiverPunchmade")
+            local args1 = {[1]=true,[2]="NEW123"}
+            local args2 = {[1]=false,[2]="NEW123"}
+            spawn(function()
+                while _G.autofarm do
+                    giverPunch:InvokeServer(unpack(args1))
+                    task.wait(farmDelay)
+                    giverPunch:InvokeServer(unpack(args2))
+                    task.wait(farmDelay)
+                end
+            end)
+        end
+    end
+})
+
+-- Teleportation Tab
+local TeleportationTab = Window:CreateTab("Teleportation", "map-pin")
+TeleportationTab:CreateSection("Teleports")
+
+local function createTeleportDropdown(tab, name, locations)
+    local locationNames = {}
+    for _, loc in ipairs(locations) do table.insert(locationNames, loc.Name) end
+    return tab:CreateDropdown({
+        Name = name,
+        Options = locationNames,
+        CurrentOption = {locationNames[1]},
+        MultipleOptions = false,
+        Flag = name.."Dropdown",
+        Callback = function(options)
+            local selected
+            for _, loc in ipairs(locations) do
+                if loc.Name == options[1] then selected = loc break end
+            end
+            local char = LocalPlayer.Character
+            if char and char:FindFirstChild("HumanoidRootPart") and selected then
+                char.HumanoidRootPart.CFrame = selected.Position
+            end
+        end
+    })
+end
+
+local jobs = {
+    {Name="Mop Job", Position=CFrame.new(-101,4,18)},
+    {Name="Box Job", Position=CFrame.new(-118,4,300)},
+    {Name="Pizza Job", Position=CFrame.new(166,5,49)},
+    {Name="Thrift Job", Position=CFrame.new(-8,4,17)}
+}
+local shops = {
+    {Name="Ice Box", Position=CFrame.new(-11354,4,291)},
+    {Name="Pharmacy", Position=CFrame.new(41,5,-264)},
+    {Name="Father & Son", Position=CFrame.new(41,5,-331)},
+    {Name="Sneaker Zone", Position=CFrame.new(38,5,-346)},
+    {Name="Dealership", Position=CFrame.new(845,5,-7)},
+    {Name="Gun Store", Position=CFrame.new(-51811,4,-15)},
+    {Name="London Drip", Position=CFrame.new(-158,4,6)},
+    {Name="JD", Position=CFrame.new(-125,4,41)}
+}
+local apartments = {
+    {Name="Apartment 1", Position=CFrame.new(108104,-443,222)},
+    {Name="Apartment 2", Position=CFrame.new(-134830,-196,3306)}
+}
+local dealers = {
+    {Name="Illegal Dealer", Position=CFrame.new(108104,-443,222)},
+    {Name="Card & Laptop Dealer", Position=CFrame.new(226,4,-541)},
+    {Name="Illegal Manger", Position=CFrame.new(-15,5,-338)},
+    {Name="Jewelry Manger", Position=CFrame.new(504,29,-857)}
+}
+local gangLockers = {
+    {Name="TNT Locker", Position=CFrame.new(269,5,132)},
+    {Name="ATB Locker", Position=CFrame.new(93,4,-703)},
+    {Name="SG Locker", Position=CFrame.new(188,4,-395)},
+    {Name="KAO Locker", Position=CFrame.new(328,7,82)},
+    {Name="AF Locker", Position=CFrame.new(162,5,518)},
+    {Name="EOS Locker", Position=CFrame.new(374,22,409)},
+    {Name="AOD Locker", Position=CFrame.new(6,5,509)},
+    {Name="LAC Locker", Position=CFrame.new(-166,4,-773)},
+    {Name="P9 Locker", Position=CFrame.new(459,7,160)},
+    {Name="TPL Locker", Position=CFrame.new(318,7,230)},
+    {Name="SF Locker", Position=CFrame.new(599,7,223)},
+    {Name="NGF Locker", Position=CFrame.new(571,20,174)},
+    {Name="DF Locker", Position=CFrame.new(870,5,498)}
+}
+local other = {
+    {Name="Seed Farm", Position=CFrame.new(542,29,-761)},
+    {Name="Wheel Spin", Position=CFrame.new(145,5,92)},
+    {Name="MET Station", Position=CFrame.new(18284,-78,-128)},
+    {Name="Mall Haul", Position=CFrame.new(458,29,-907)},
+    {Name="Abd's Smash", Position=CFrame.new(169,5,-24)},
+    {Name="Safe Spot", Position=CFrame.new(960,4,-84)}
+}
+
+createTeleportDropdown(TeleportationTab,"Jobs",jobs)
+createTeleportDropdown(TeleportationTab,"Shops",shops)
+createTeleportDropdown(TeleportationTab,"Apartments",apartments)
+createTeleportDropdown(TeleportationTab,"Dealer & Buyers",dealers)
+createTeleportDropdown(TeleportationTab,"Gang Lockers",gangLockers)
+createTeleportDropdown(TeleportationTab,"Other",other)
+
+
+TeleportationTab:CreateSection("Player Teleports")
+local playerList = {}
+local selectedPlayer = nil
+
+local playerDropdown = TeleportationTab:CreateDropdown({
+    Name="Select Player",
+    Options=playerList,
+    CurrentOption={},
+    MultipleOptions=false,
+    Flag="PlayerDropdown",
+    Callback=function(options) selectedPlayer = options[1] end
+})
+
+local teleportButton = TeleportationTab:CreateButton({
+    Name="Teleport!",
+    Callback=function()
+        local target = Players:FindFirstChild(selectedPlayer)
+        local char = LocalPlayer.Character
+        if target and target.Character and char and char.PrimaryPart then
+            char:SetPrimaryPartCFrame(target.Character:GetPrimaryPartCFrame())
+        end
+    end
+})
+
+local function updatePlayers()
+    local newList = {}
+    for _,p in ipairs(Players:GetPlayers()) do
+        if p ~= LocalPlayer then table.insert(newList,p.Name) end
+    end
+    playerList = newList
+    playerDropdown:Set(playerList)
+end
+
+Players.PlayerAdded:Connect(updatePlayers)
+Players.PlayerRemoving:Connect(updatePlayers)
+updatePlayers()
+
+local PlayerTab = Window:CreateTab("Player", "wand")
+PlayerTab:CreateSection("Speed")
+
+local DisableCameraShakeButton = PlayerTab:CreateButton({
+    Name = "Disable Camera Shake - enable before walkspeed",
+    Callback = function()
+        local char = game:GetService("Players").LocalPlayer.Character
+        if char and char:FindFirstChild("CharacterScripts") then
+            char.CharacterScripts.Enabled = false
+        end
+    end
+})
+
+local WalkSpeedEnabled = false
+local defaultWalkSpeed = 16
+local currentWalkSpeed = 16
+
+local WalkSpeedToggle = PlayerTab:CreateToggle({
+    Name = "Enable Speed",
+    CurrentValue = WalkSpeedEnabled,
+    Callback = function(Value)
+        WalkSpeedEnabled = Value
+        local character = game.Players.LocalPlayer.Character
+        if character and character:FindFirstChild("Humanoid") then
+            if WalkSpeedEnabled then
+                character.Humanoid.WalkSpeed = currentWalkSpeed
+            else
+                character.Humanoid.WalkSpeed = defaultWalkSpeed
+            end
+        end
+    end
+})
+
+
+local WalkSpeedInput = PlayerTab:CreateInput({
+    Name = "Speed (0-150)",
+    PlaceholderText = "Input",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(Value)
+        local numValue = tonumber(Value)
+        if numValue then
+            if numValue > 150 then
+                numValue = 150
+            elseif numValue < 0 then
+                numValue = 0
+            end
+            currentWalkSpeed = numValue
+            if WalkSpeedEnabled then
+                local character = game.Players.LocalPlayer.Character
+                if character and character:FindFirstChild("Humanoid") then
+                    character.Humanoid.WalkSpeed = currentWalkSpeed
                 end
             end
+        end
+    end
+})
 
-            task.wait(0.1)
+PlayerTab:CreateSection("Inf Jump")
+
+local InfiniteJumpEnabled = false
+local jumpPower = 50
+
+local InfiniteJumpToggle = PlayerTab:CreateToggle({
+    Name = "Enable Inf Jump",
+    CurrentValue = InfiniteJumpEnabled,
+    Callback = function(Value)
+        InfiniteJumpEnabled = Value
+    end
+})
+
+local InfiniteJumpPowerInput = PlayerTab:CreateInput({
+    Name = "Jump Power (50-200)",
+    PlaceholderText = "Input",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(Value)
+        local num = tonumber(Value)
+        if num then
+            if num > 200 then
+                num = 200
+            elseif num < 0 then
+                num = 0
+            end
+            jumpPower = num
+        end
+    end
+})
+
+local UIS = game:GetService("UserInputService")
+UIS.JumpRequest:Connect(function()
+    if InfiniteJumpEnabled then
+        local char = game.Players.LocalPlayer.Character
+        if char and char:FindFirstChild("Humanoid") then
+            char.Humanoid.JumpPower = jumpPower
+            char.Humanoid:ChangeState("Jumping")
+        end
+    end
+end)
+
+
+PlayerTab:CreateSection("Jump Power")
+
+local JumpPowerEnabled = false
+local defaultJumpPower = 50
+local currentJumpPower = 50
+
+local JumpPowerToggle = PlayerTab:CreateToggle({
+    Name = "Enable Jump Power",
+    CurrentValue = JumpPowerEnabled,
+    Callback = function(Value)
+        JumpPowerEnabled = Value
+        local character = game.Players.LocalPlayer.Character
+        if character and character:FindFirstChild("Humanoid") then
+            if JumpPowerEnabled then
+                character.Humanoid.JumpPower = currentJumpPower
+            else
+                character.Humanoid.JumpPower = defaultJumpPower
+            end
+        end
+    end
+})
+
+local JumpPowerInput = PlayerTab:CreateInput({
+    Name = "Jump Power (50-300)",
+    PlaceholderText = "Input",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(Value)
+        local numValue = tonumber(Value)
+        if numValue then
+            if numValue > 300 then
+                numValue = 300
+            elseif numValue < 0 then
+                numValue = 0
+            end
+            currentJumpPower = numValue
+            if JumpPowerEnabled then
+                local character = game.Players.LocalPlayer.Character
+                if character and character:FindFirstChild("Humanoid") then
+                    character.Humanoid.JumpPower = currentJumpPower
+                end
+            end
+        end
+    end
+})
+
+PlayerTab:CreateSection("No-Clip")
+
+local player = game:GetService("Players").LocalPlayer
+local noclip = false
+local noclipLoop
+
+local function toggleNoclip(state)
+    noclip = state
+    if noclip then
+        noclipLoop = task.spawn(function()
+            while noclip do
+                if player.Character then
+                    for _, part in pairs(player.Character:GetDescendants()) do
+                        if part:IsA("BasePart") then
+                            part.CanCollide = false
+                        end
+                    end
+                end
+                task.wait()
+            end
+        end)
+    else
+        if noclipLoop then
+            task.cancel(noclipLoop)
+        end
+        if player.Character then
+            for _, part in pairs(player.Character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = true
+                end
+            end
         end
     end
 end
 
+
+PlayerTab:CreateToggle({
+    Name = "No Clip",
+    CurrentValue = false,
+    Flag = "NoclipToggle",
+    Callback = function(Value)
+        toggleNoclip(Value)
+    end
+})
+
+local CombatTab = Window:CreateTab("Combat", "swords")
+CombatTab:CreateSection("Kill All V1")
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local LocalPlayer = Players.LocalPlayer
+local ShootRemote = ReplicatedStorage.Communication.Events:FindFirstChild("shoot")
+
+local TPActive = false
+local Locking = false
+local LockTarget = nil
+
+local function LockOn(Target)
+    if not Target or not Target.Character then return end
+    local head = Target.Character:FindFirstChild("Head")
+    if not head then return end
+    LockTarget = head
+    Locking = true
+end
+
+local function Unlock()
+    Locking = false
+    LockTarget = nil
+end
+
+RunService.RenderStepped:Connect(function()
+    if Locking and LockTarget then
+        workspace.CurrentCamera.CFrame = CFrame.new(
+            workspace.CurrentCamera.CFrame.Position,
+            LockTarget.Position
+        )
+    end
+end)
+
+local function isInSafeZone(player)
+    if not workspace:FindFirstChild("SafeZones") then return false end
+    for _, zone in ipairs(workspace.SafeZones:GetChildren()) do
+        if zone:IsA("BasePart")
+            and player.Character
+            and player.Character:FindFirstChild("HumanoidRootPart") then
+
+            local dist = (player.Character.HumanoidRootPart.Position - zone.Position).Magnitude
+            local maxDist = zone.Size.Magnitude / 2
+
+            if dist <= maxDist then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+CombatTab:CreateToggle({
+    Name = "Instant Kill",
+    CurrentValue = false,
+    Flag = "InstantKillToggle",
+    Callback = function(state)
+        TPActive = state
+
+        if state then
+            task.spawn(function()
+                while TPActive do
+                    for _, plr in ipairs(Players:GetPlayers()) do
+
+                        if not TPActive then break end
+                        if plr == LocalPlayer then continue end
+                        if not plr.Character or not plr.Character:FindFirstChild("HumanoidRootPart") then continue end
+                        if isInSafeZone(plr) then continue end
+
+                        local myRoot = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                        local targetRoot = plr.Character:FindFirstChild("HumanoidRootPart")
+
+                        if myRoot and targetRoot then
+                            myRoot.CFrame = targetRoot.CFrame * CFrame.new(0,0,-3)
+
+                            task.wait(0.15)
+
+                            LockOn(plr)
+
+                            if ShootRemote then
+                                for i = 1, 100 do
+                                    ShootRemote:FireServer(plr)
+                                end
+                            end
+
+                            task.wait(6)
+                            Unlock()
+                        end
+                    end
+                    task.wait(0.4)
+                end
+            end)
+        else
+            Unlock()
+        end
+    end
+})
+
+
+CombatTab:CreateSection("Gun Mods")
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LocalPlayer = Players.LocalPlayer
+local Backpack = LocalPlayer:WaitForChild("Backpack")
+
+local ToolsFolder = ReplicatedStorage.Assets.Tools
+
+local NoSpread = false
+local MaxDamage = false
+local FastFireRate = false
+local NoRecoil = false
+local InfiniteAmmo = false
+
+local InfiniteAmmoToggle = CombatTab:CreateToggle({
+    Name = "Enable Infinite Ammo",
+    CurrentValue = InfiniteAmmo,
+    Callback = function(Value)
+        InfiniteAmmo = Value
+    end
+})
+
 task.spawn(function()
     while true do
-        if enabled then
-            collectAllCash()
-        else
-            task.wait(0.1)
+        if InfiniteAmmo then
+            for _, tool in ipairs(Backpack:GetChildren()) do
+                if tool:IsA("Tool") then
+                    local stuff = tool:FindFirstChild("Stuff")
+                    if stuff then
+                        local values = stuff:FindFirstChild("Values")
+                        if values then
+                            local currentAmmo = values:FindFirstChild("CurrentAmmo")
+                            if currentAmmo then currentAmmo.Value = 10 end
+                            local storedAmmo = values:FindFirstChild("StoredAmmo")
+                            if storedAmmo then storedAmmo.Value = 10 end
+                        end
+                    end
+                end
+            end
         end
         task.wait(0.1)
     end
 end)
 
-local Toggle = MainTab:CreateToggle({
-    Name = "Inf Money (Slow)",
-    CurrentValue = false,
-    Flag = "AutoFarmCash",
+local MaxDamageToggle = CombatTab:CreateToggle({
+    Name = "Enable 1 Tap",
+    CurrentValue = MaxDamage,
     Callback = function(Value)
-        enabled = Value
+        MaxDamage = Value
+        for _, module in ipairs(ToolsFolder:GetChildren()) do
+            if module:IsA("ModuleScript") then
+                local ok, gunSettings = pcall(require, module)
+                if ok and type(gunSettings) == "table" then
+                    local bullet = gunSettings.BulletSettings
+                    if bullet and type(bullet) == "table" then
+                        if setreadonly then setreadonly(bullet, false) end
+                        bullet.Damage = MaxDamage and 100 or bullet.Damage
+                        if setreadonly then setreadonly(bullet, true) end
+                    end
+                end
+            end
+        end
     end
 })
 
-MainTab:CreateSection("Player Modify")
-
-local InfiniteStamina = false
-local player = game:GetService("Players").LocalPlayer
-
-local function LockStamina()
-    local char = player.Character
-    if not char then return end
-    local running = char:FindFirstChild("Running")
-    if not running then return end
-    local stamina = running:FindFirstChild("Stamina")
-    if not stamina then return end
-    stamina.Value = 100
-    stamina.Changed:Connect(function()
-        if InfiniteStamina then
-            stamina.Value = 100
+local FastFireRateToggle = CombatTab:CreateToggle({
+    Name = "Enable Full Auto",
+    CurrentValue = FastFireRate,
+    Callback = function(Value)
+        FastFireRate = Value
+        for _, module in ipairs(ToolsFolder:GetChildren()) do
+            if module:IsA("ModuleScript") then
+                local ok, gunSettings = pcall(require, module)
+                if ok and type(gunSettings) == "table" then
+                    local bullet = gunSettings.BulletSettings
+                    if bullet and type(bullet) == "table" then
+                        if setreadonly then setreadonly(bullet, false) end
+                        bullet.FireRate = FastFireRate and 100 or bullet.FireRate
+                        bullet.Speed = FastFireRate and 100000000 or bullet.Speed
+                        if setreadonly then setreadonly(bullet, true) end
+                    end
+                end
+            end
         end
-    end)
+    end
+})
+
+local NoRecoilToggle = CombatTab:CreateToggle({
+    Name = "Enable No Recoil",
+    CurrentValue = NoRecoil,
+    Callback = function(Value)
+        NoRecoil = Value
+        for _, module in ipairs(ToolsFolder:GetChildren()) do
+            if module:IsA("ModuleScript") then
+                local ok, gunSettings = pcall(require, module)
+                if ok and type(gunSettings) == "table" then
+                    local recoil = gunSettings.RecoilSettings
+                    if recoil and type(recoil) == "table" then
+                        if setreadonly then setreadonly(recoil, false) end
+                        recoil.RecoilSpeed = NoRecoil and 0 or recoil.RecoilSpeed
+                        if setreadonly then setreadonly(recoil, true) end
+                    end
+                end
+            end
+        end
+    end
+})
+
+local NoSpreadToggle = CombatTab:CreateToggle({
+    Name = "Enable No Spread",
+    CurrentValue = NoSpread,
+    Callback = function(Value)
+        NoSpread = Value
+        for _, module in ipairs(ToolsFolder:GetChildren()) do
+            if module:IsA("ModuleScript") then
+                local ok, gunSettings = pcall(require, module)
+                if ok and type(gunSettings) == "table" then
+                    local bullet = gunSettings.BulletSettings
+                    if bullet and type(bullet) == "table" then
+                        if setreadonly then setreadonly(bullet, false) end
+                        bullet.MaxSpread = NoSpread and 0 or bullet.MaxSpread
+                        if setreadonly then setreadonly(bullet, true) end
+                    end
+                end
+            end
+        end
+    end
+})
+
+CombatTab:CreateSection("Silent Aim")
+
+local players = game:GetService("Players")
+local workspace = game:GetService("Workspace")
+local user_input_service = game:GetService("UserInputService")
+local run_service = game:GetService("RunService")
+
+local camera = workspace.CurrentCamera
+local local_player = players.LocalPlayer
+
+local script_data = {
+    functions = {},
+    locals = {
+        silent_aim_target = nil,
+        silent_aim_is_targetting = false,
+        silent_aim_enabled = false
+    }
+}
+
+script_data.functions.new_connection = function(signal, func)
+    return signal:Connect(func)
 end
 
-player.CharacterAdded:Connect(function()
-    task.wait(1)
-    if InfiniteStamina then
-        LockStamina()
+script_data.functions.get_direction = function(origin, destination)
+    return ((destination - origin).Unit * 1000)
+end
+
+script_data.functions.world_to_screen = function(position)
+    local viewport_position, on_screen = camera:WorldToViewportPoint(position)
+    return {
+        position = Vector2.new(viewport_position.X, viewport_position.Y),
+        on_screen = on_screen
+    }
+end
+
+script_data.functions.has_character = function(player)
+    return player
+        and player.Character
+        and player.Character:FindFirstChildWhichIsA("Humanoid", false) ~= nil
+end
+
+script_data.functions.get_closest_player = function()
+    local mouse_position = user_input_service:GetMouseLocation()
+    local radius = math.huge
+    local closest_player
+
+    for _, player in players:GetPlayers() do
+        if player ~= local_player and script_data.functions.has_character(player) then
+            local screen_position = script_data.functions.world_to_screen(player.Character.HumanoidRootPart.Position)
+            if screen_position.on_screen then
+                local distance = (mouse_position - screen_position.position).Magnitude
+                if distance <= radius then
+                    radius = distance
+                    closest_player = player
+                end
+            end
+        end
+    end
+
+    return closest_player
+end
+
+local SilentAimToggle = CombatTab:CreateToggle({
+    Name = "Enable Silent Aim",
+    CurrentValue = false,
+    Flag = "SilentAimToggle",
+    Callback = function(Value)
+        script_data.locals.silent_aim_enabled = Value
+    end
+})
+
+script_data.functions.new_connection(run_service.RenderStepped, function()
+    if script_data.locals.silent_aim_enabled then
+        local new_target = script_data.functions.get_closest_player()
+        script_data.locals.silent_aim_is_targetting = new_target ~= nil
+        script_data.locals.silent_aim_target = new_target
+    else
+        script_data.locals.silent_aim_is_targetting = false
+        script_data.locals.silent_aim_target = nil
     end
 end)
 
-MainTab:CreateToggle({
-    Name = "Inf Stamina",
+local __namecall
+__namecall = hookmetamethod(game, "__namecall", function(self, ...)
+    local args, method = {...}, tostring(getnamecallmethod())
+    if not checkcaller()
+        and script_data.locals.silent_aim_enabled
+        and script_data.locals.silent_aim_is_targetting
+        and script_data.locals.silent_aim_target
+        and self == workspace
+        and method == "Raycast" then
+        local origin = args[1]
+        args[2] = script_data.functions.get_direction(origin, script_data.locals.silent_aim_target.Character.HumanoidRootPart.Position)
+        return __namecall(self, unpack(args))
+    end
+    return __namecall(self, ...)
+end)
+
+CombatTab:CreateSection("Fov Circle")
+
+local localPlayerFov = LocalPlayer
+local mouseFov = localPlayerFov:GetMouse()
+
+local aimCircleRadius = 100
+local aimCircleThickness = 2
+local circleColor = Color3.fromRGB(128, 0, 128)
+local rainbowFOV = false
+
+local aimCircle
+local fovEnabled = false
+
+local function createAimCircle()
+    if not aimCircle then
+        aimCircle = Drawing.new("Circle")
+        aimCircle.Visible = true
+        aimCircle.Filled = false
+        aimCircle.Color = circleColor
+        aimCircle.Thickness = aimCircleThickness
+    end
+    aimCircle.Radius = aimCircleRadius
+end
+
+local hue = 0
+local function getRainbowColor()
+    hue = (hue + 1) % 360
+    return Color3.fromHSV(hue / 360, 1, 1)
+end
+
+RunService.RenderStepped:Connect(function()
+    if fovEnabled then
+        if not aimCircle then
+            createAimCircle()
+        end
+        aimCircle.Position = Vector2.new(mouseFov.X, mouseFov.Y + 40)
+        aimCircle.Visible = true
+        aimCircle.Radius = aimCircleRadius
+        aimCircle.Thickness = aimCircleThickness
+        aimCircle.Color = rainbowFOV and getRainbowColor() or circleColor
+    else
+        if aimCircle then
+            aimCircle.Visible = false
+        end
+    end
+end)
+
+CombatTab:CreateToggle({
+    Name = "Enable FOV Circle",
     CurrentValue = false,
     Callback = function(Value)
-        InfiniteStamina = Value
-        if Value then
-            LockStamina()
+        fovEnabled = Value
+        if fovEnabled and not aimCircle then
+            createAimCircle()
         end
     end,
 })
 
+CombatTab:CreateSlider({
+    Name = "FOV Radius",
+    Range = {100, 300},
+    Increment = 5,
+    Suffix = "units",
+    CurrentValue = aimCircleRadius,
+    Callback = function(Value)
+        aimCircleRadius = Value
+        if aimCircle then
+            aimCircle.Radius = aimCircleRadius
+        end
+    end,
+})
+
+CombatTab:CreateColorPicker({
+    Name = "Fov Colorpicker",
+    Color = circleColor,
+    Callback = function(Value)
+        circleColor = Value
+        if aimCircle and not rainbowFOV then
+            aimCircle.Color = circleColor
+        end
+    end,
+})
+
+CombatTab:CreateSection("Snap Lines")
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local Camera = workspace.CurrentCamera
+
+local LocalPlayer = Players.LocalPlayer
+
+local FOVRadius = 150
+local MaxDistance = 300
+local AimPartName = "HumanoidRootPart"
+local arrowColor = Color3.fromRGB(255, 0, 0)
+local arrowEnabled = false
+
+local arrow = Drawing.new("Line")
+arrow.Visible = false
+arrow.Thickness = 1
+arrow.Color = arrowColor
+
+local function isInFOV(player)
+    local char = player.Character
+    if not char then return false end
+    local part = char:FindFirstChild("Head")
+    local humanoid = char:FindFirstChildOfClass("Humanoid")
+    if not part or not humanoid or humanoid.Health <= 0 then return false end
+    local screenPos, onScreen = Camera:WorldToViewportPoint(part.Position)
+    if not onScreen then return false end
+    local mousePos = UserInputService:GetMouseLocation()
+    local dist = (Vector2.new(screenPos.X, screenPos.Y) - mousePos).Magnitude
+    return dist <= FOVRadius
+end
+
+local function getClosestPlayer()
+    local closest
+    local shortest = MaxDistance
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer and player.Character then
+            local char = player.Character
+            local hrp = char:FindFirstChild(AimPartName)
+            local humanoid = char:FindFirstChildOfClass("Humanoid")
+            if hrp and humanoid and humanoid.Health > 0 and isInFOV(player) then
+                local dist = (LocalPlayer.Character.HumanoidRootPart.Position - hrp.Position).Magnitude
+                if dist < shortest then
+                    shortest = dist
+                    closest = player
+                end
+            end
+        end
+    end
+    return closest
+end
+
+RunService.RenderStepped:Connect(function()
+    if not arrowEnabled then
+        arrow.Visible = false
+        return
+    end
+    local target = getClosestPlayer()
+    if target and target.Character then
+        local part = target.Character:FindFirstChild(AimPartName)
+        if part then
+            local screenPos, onScreen = Camera:WorldToViewportPoint(part.Position)
+            if onScreen then
+                local mousePos = UserInputService:GetMouseLocation()
+                arrow.From = mousePos
+                arrow.To = Vector2.new(screenPos.X, screenPos.Y)
+                arrow.Color = arrowColor
+                arrow.Visible = true
+                return
+            end
+        end
+    end
+    arrow.Visible = false
+end)
+
+CombatTab:CreateToggle({
+    Name = "Enable Snapline",
+    CurrentValue = false,
+    Callback = function(value)
+        arrowEnabled = value
+        if not value then
+            arrow.Visible = false
+        end
+    end
+})
+
+CombatTab:CreateColorPicker({
+    Name = "Snapline Colorpicker",
+    Color = arrowColor,
+    Callback = function(color)
+        arrowColor = color
+    end
+})
+
+local VisualsTab = Window:CreateTab("Visuals", "pencil")
+VisualsTab:CreateSection("Colorpicker")
+
+local ColorPicker = VisualsTab:CreateColorPicker({
+    Name = "Colorpicker",
+    Color = Color3.fromRGB(255,255,255),
+    Flag = "ColorPicker1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+        print(WIP)
+    end
+})
+
+VisualsTab:CreateSection("Player")
+
+local lastplayername = ""
+local lastplayerlvl = ""
+local lastplayeremoji = ""
 
 
-local SpoofTab = Window:CreateTab("Spoof", nil)
-local SpoofSection = SpoofTab:CreateSection("Modify Username")
+local function updateCharacterGui(field, text)
+    local character = game.Players.LocalPlayer.Character
+    if character and character:FindFirstChild("Head") then
+        local nameGui = character.Head:FindFirstChild("NameGui")
+        if nameGui and nameGui:FindFirstChild("Main") then
+            local guiElement = nameGui.Main:FindFirstChild(field)
+            if guiElement then
+                guiElement.Text = text
+            end
+        end
+    end
+end
 
-local Paragraph = SpoofTab:CreateParagraph({Title = "Info:", Content = "Hello everyone, this is a name changer this is not a 'Visual' everyone one can see this!"})
-
-SpoofTab:CreateInput({
-    Name = "Change Username",
-    CurrentValue = "",
+local Input = VisualsTab:CreateInput({
+    Name = "Enter Custom Name",
     PlaceholderText = "Input",
     RemoveTextAfterFocusLost = false,
-    Flag = "Input1",
-    Callback = function(Text)
-        local args = {
-            { Name = Text }
-        }
-        game:GetService("ReplicatedStorage").Cosmetic.Remote.SetCharacter:FireServer(unpack(args))
+    Callback = function(text)
+        lastplayername = text
+        updateCharacterGui("Name", text)
+    end
+})
+
+local Input = VisualsTab:CreateInput({
+    Name = "Enter Custom  Level",
+    PlaceholderText = "Input",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(text)
+        lastplayerlvl = text
+        updateCharacterGui("Level", "LVL " .. text)
+    end
+})
+
+local Input = VisualsTab:CreateInput({
+    Name = "Enter Custom Omojie",
+    PlaceholderText = "Input",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(text)
+        lastplayeremoji = text
+        updateCharacterGui("Extras", "[" .. text .. "]")
+    end
+})
+
+VisualsTab:CreateSection("Streamer Mode")
+
+local Toggle = VisualsTab:CreateToggle({
+    Name = "Enable Streamer Mode",
+    CurrentValue = false,
+    Flag = "Toggle_Combined",
+    Callback = function(Value)
+        local Player = game.Players.LocalPlayer
+        local PlayerGui = Player:WaitForChild("PlayerGui")
+
+
+        for _, v in ipairs(PlayerGui:GetDescendants()) do
+            if v:IsA("TextLabel") and v.Text:find(Player.Name) then
+                v.Text = "**Streamer**"
+                v.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+                v.BorderSizePixel = 2
+                v.BorderColor3 = Color3.fromRGB(255, 255, 255)
+                print("Username label found and changed to discord.gg/dkshub:", v:GetFullName())
+                break
+            end
+        end
+
+
+        for _, player in pairs(game.Players:GetPlayers()) do
+            local character = player.Character
+            if character and character:FindFirstChild("Head") then
+                local nameGui = character.Head:FindFirstChild("NameGui")
+                if nameGui and nameGui:FindFirstChild("Main") then
+                    local nameLabel = nameGui.Main:FindFirstChild("Name")
+                    if nameLabel then
+                        nameLabel.Text = "*Masked*"
+                    end
+                end
+            end
+        end
     end,
 })
 
-local GunModifyTab = Window:CreateTab("Gun Modify", nil)
-GunModifyTab:CreateSection("Gun Mods")
-
-
-local AutoEnabled = false
-local NoRecoilEnabled = false
-local NoSpreadEnabled = false
-local InfAmmoEnabled = false
-local BurstEnabled = false
-
-local player = game:GetService("Players").LocalPlayer
-local backpack = player:WaitForChild("Backpack")
-
-function ApplyGunSettings(tool)
-    local settingFolder = tool:FindFirstChild("Setting")
-    if not settingFolder then return end
-
-    local module1 = settingFolder:FindFirstChild("1")
-    if module1 and module1:IsA("ModuleScript") then
-        local gunSettings = require(module1)
-        setreadonly(gunSettings, false)
-
-        if AutoEnabled then gunSettings.Auto = true end
-        if NoSpreadEnabled then gunSettings.Spread = 0 end
-        if NoRecoilEnabled then gunSettings.Recoil = 0 end
-        if InfAmmoEnabled then
-            gunSettings.TacticalReloadTime = 0
-            gunSettings.AmmoPerMag = math.huge
-            gunSettings.LimitedAmmoEnabled = false
-            gunSettings.Ammo = 99999
-        end
-
-        if BurstEnabled then
-            gunSettings.BurstFireEnabled = true
-            gunSettings.BulletPerBurst = 5
-            gunSettings.MaximumFireRate = 0.1
-        end
-
-        setreadonly(gunSettings, true)
-    end
-end
-
-function ApplyToAllGuns()
-    for _, tool in ipairs(backpack:GetChildren()) do
-        ApplyGunSettings(tool)
-    end
-end
-
-backpack.ChildAdded:Connect(function(child)
-    task.wait(0.1)
-    ApplyGunSettings(child)
-end)
-
-GunModifyTab:CreateToggle({
-    Name = "Enable Inf Ammo",
-    CurrentValue = false,
-    Callback = function(v)
-        InfAmmoEnabled = v
-        ApplyToAllGuns()
-    end
-})
-
-GunModifyTab:CreateToggle({
-    Name = "Enable Full Auto",
-    CurrentValue = false,
-    Callback = function(v)
-        AutoEnabled = v
-        ApplyToAllGuns()
-    end
-})
-
-GunModifyTab:CreateToggle({
-    Name = "Enable No Recoil",
-    CurrentValue = false,
-    Callback = function(v)
-        NoRecoilEnabled = v
-        ApplyToAllGuns()
-    end
-})
-
-GunModifyTab:CreateToggle({
-    Name = "Enable No Spread",
-    CurrentValue = false,
-    Callback = function(v)
-        NoSpreadEnabled = v
-        ApplyToAllGuns()
-    end
-})
-
-GunModifyTab:CreateToggle({
-    Name = "Enable Burst Mode",
-    CurrentValue = false,
-    Callback = function(v)
-        BurstEnabled = v
-        ApplyToAllGuns()
-    end
-})
 
 
 local HttpService = game:GetService("HttpService")
