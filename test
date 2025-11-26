@@ -12,7 +12,7 @@ if equippedTool then
           ReplicatedStorage:WaitForChild("StoreItemSafe"):FireServer(unpack(storeArgs))
              wait(0.1)
     local takeArgs = {equippedTool.Name, safe}
-    for i = 1, 2 do
+    for i = 1, 1 do
         ReplicatedStorage:WaitForChild("TakeItemSafe"):FireServer(unpack(takeArgs))
         wait(0.3)
     end
