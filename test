@@ -77,9 +77,8 @@ local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
 local Backpack = LocalPlayer:WaitForChild("Backpack")
 
-AutoFarmTab:CreateSection("Box Autofarm")
 local boxToggle = false
-AutofarmTab:CreateToggle({
+AutoFarmTab:CreateToggle({
     Name = "Box Autofarm",
     CurrentValue = false,
     Flag = "BoxToggle",
