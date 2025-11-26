@@ -17,13 +17,9 @@ end
 
 local randomTool = tools[math.random(1, #tools)]
 randomTool.Parent = character
-wait(0.1)
 
 local safe = workspace:WaitForChild("Apartments"):WaitForChild("LuxuryApartment"):WaitForChild("Safe")
 ReplicatedStorage:WaitForChild("StoreItemSafe"):FireServer(safe)
 
 local takeArgs = {randomTool.Name, safe}
-for i = 1, 1 do
-    ReplicatedStorage:WaitForChild("TakeItemSafe"):FireServer(unpack(takeArgs))
-    wait(0.1)
-end
+ReplicatedStorage:WaitForChild("TakeItemSafe"):FireServer(unpack(takeArgs))
