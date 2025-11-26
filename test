@@ -6,13 +6,11 @@ local equippedTool = character:FindFirstChildOfClass("Tool")
 if equippedTool then
     local safe = workspace:WaitForChild("Apartments"):WaitForChild("LuxuryApartment"):WaitForChild("Safe")
 
+    local storeArgs = {safe}
+    ReplicatedStorage:WaitForChild("StoreItemSafe"):FireServer(unpack(storeArgs))
 
-    for i = 1, 5 do
-          local storeArgs = {safe}
-          ReplicatedStorage:WaitForChild("StoreItemSafe"):FireServer(unpack(storeArgs))
-             wait(0.1)
     local takeArgs = {equippedTool.Name, safe}
-    for i = 1, 1 do
+    for i = 1, 2 do
         ReplicatedStorage:WaitForChild("TakeItemSafe"):FireServer(unpack(takeArgs))
         wait(0.3)
     end
