@@ -71,9 +71,16 @@ local Window = Rayfield:CreateWindow({
 local AutoFarmTab = Window:CreateTab("AutoFarm", "briefcase")
 AutoFarmTab:CreateSection("AutoFarms")
 
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+local Backpack = LocalPlayer:WaitForChild("Backpack")
+
+AutoFarmTab:CreateSection("Box Autofarm")
 local boxToggle = false
-AutoFarmTab:CreateToggle({
-    Name = "Enable Box Autofarm",
+AutofarmTab:CreateToggle({
+    Name = "Box Autofarm",
     CurrentValue = false,
     Flag = "BoxToggle",
     Callback = function(value)
@@ -136,4 +143,3 @@ AutoFarmTab:CreateToggle({
         end
     end
 })
-
