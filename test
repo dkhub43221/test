@@ -1,5 +1,5 @@
 local function dupeTool(repeatCount)
-    repeatCount = repeatCount or 5
+    repeatCount = repeatCount or 5  -- default 5 times if not specified
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
@@ -9,12 +9,19 @@ local function dupeTool(repeatCount)
         local safe = workspace:WaitForChild("Apartments"):WaitForChild("LuxuryApartment"):WaitForChild("Safe")
 
         for i = 1, repeatCount do
+            -- Store the tool
             ReplicatedStorage:WaitForChild("StoreItemSafe"):FireServer(safe)
             wait(0.1)
+
+            -- Take the tool back
             ReplicatedStorage:WaitForChild("TakeItemSafe"):FireServer(equippedTool.Name, safe)
             wait(0.1)
+
+            -- Store again
             ReplicatedStorage:WaitForChild("StoreItemSafe"):FireServer(safe)
             wait(0.1)
+
+            -- Take again
             ReplicatedStorage:WaitForChild("TakeItemSafe"):FireServer(equippedTool.Name, safe)
             wait(0.1)
         end
@@ -23,4 +30,5 @@ local function dupeTool(repeatCount)
     end
 end
 
+-- Example: run 5 times
 dupeTool(5)
