@@ -1,24 +1,29 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
-local equippedTool = character:FindFirstChildOfClass("Tool")
+local backpack = player:WaitForChild("Backpack")
 
-if equippedTool then
-    local safe = workspace:WaitForChild("Apartments"):WaitForChild("LuxuryApartment"):WaitForChild("Safe")
-
-
-    for i = 1, 5 do
-        ReplicatedStorage:WaitForChild("StoreItemSafe"):FireServer(safe)
-        wait(0.1)
+local tools = {}
+for _, tool in ipairs(backpack:GetChildren()) do
+    if tool:IsA("Tool") and tool.Name ~= "Phone" then
+        table.insert(tools, tool)
     end
+end
 
+if #tools == 0 then
+    warn("No tools available to equip!")
+    return
+end
 
-    local takeArgs = {equippedTool.Name, safe}
-    for i = 1, 10 do
-        ReplicatedStorage:WaitForChild("TakeItemSafe"):FireServer(unpack(takeArgs))
-        wait(0.3)
-    end
+local randomTool = tools[math.random(1, #tools)]
+randomTool.Parent = character
+wait(0.1)
 
-else
-    warn("No tool equipped!")
+local safe = workspace:WaitForChild("Apartments"):WaitForChild("LuxuryApartment"):WaitForChild("Safe")
+ReplicatedStorage:WaitForChild("StoreItemSafe"):FireServer(safe)
+
+local takeArgs = {randomTool.Name, safe}
+for i = 1, 1 do
+    ReplicatedStorage:WaitForChild("TakeItemSafe"):FireServer(unpack(takeArgs))
+    wait(0.1)
 end
