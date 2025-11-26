@@ -86,7 +86,7 @@ DupeTab:CreateButton({
             ReplicatedStorage:WaitForChild("StoreItemSafe"):FireServer(unpack(storeArgs))
 
             local takeArgs = {equippedTool.Name, safe}
-            for i = 1, 5 do
+            for i = 1, 10 do
                 ReplicatedStorage:WaitForChild("TakeItemSafe"):FireServer(unpack(takeArgs))
                 wait(0.3)
             end
