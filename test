@@ -1,3 +1,17 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local avatarUrl = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. player.UserId .. "&width=150&height=150&format=png"
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Script Loading";
+    Text = "Welcome, " .. player.Name .. "! Script is loading, please wait...";
+    Icon = avatarUrl;
+    Duration = 5;
+})
+
+wait(6)
+
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/Pixeluted/adoniscries/main/Source.lua'))()
 local executor = identifyexecutor and identifyexecutor() or "Unknown Executor"
