@@ -1,400 +1,568 @@
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
+local Old; Old = hookfunction(getrenv().tick, function(...)
+    local Response = Old(...)
+    if not checkcaller() and tostring(getcallingscript()):find("?") then
+        Response = Old
+        return coroutine.yield()
+    end
+    return Response
+end)
 
-local avatarUrl = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. player.UserId .. "&width=150&height=150&format=png"
+task.wait(1)
 
-game.StarterGui:SetCore("SendNotification", {
-    Title = "Script Loading";
-    Text = "Welcome, " .. player.Name .. "! Script is loading, please wait...";
-    Icon = avatarUrl;
-    Duration = 5;
-})
+local Old; Old = hookfunction(gcinfo, function(...)
+    local Response = Old(...)
+    if tostring(getcallingscript()):find("?") then
+        return Response + math.random(0, 1e4)
+    end
+    return Response
+end)
 
-wait(6)
+for Index, Value in getconnections(cloneref(game:GetService("ScriptContext")).Error) do
+    Value:Disable()
+end
+
+task.spawn(function()
+    local Players = cloneref(game:GetService("Players"))
+    local Data = {}
+    local Sizes = {}
+
+    if not Players.LocalPlayer.Character then
+        Players.LocalPlayer.CharacterAdded:Wait()
+        task.wait(1)
+    end
+
+    for Index, Value in Players.LocalPlayer.Character:GetDescendants() do
+        pcall(function()
+            Data[tostring(Value)] = Value.CanCollide
+        end)
+    end
+
+    local Old; Old = hookmetamethod(game, "__index", function(...)
+        local Self, Index = ...
+
+        if checkcaller() then
+            return Old(...)
+        end
+
+        if tostring(Self) == "Humanoid" and Index == "WalkSpeed" then
+            return 10
+        end
+
+        if Data[tostring(Self)] ~= nil and Index == "CanCollide" then
+            return Data[tostring(Self)]
+        end
+
+        return Old(...)
+    end)
+end)
+
+getgenv().AntiCheatBypass = true
+
+repeat task.wait() until getgenv().AntiCheatBypass
 
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-local executor = identifyexecutor and identifyexecutor() or "Unknown Executor"
 
 local customTheme = {
-   TextColor = Color3.fromRGB(255, 255, 255),
-   Background = Color3.fromRGB(0, 0, 0),
-   Topbar = Color3.fromRGB(0, 0, 0),
-   TopbarLine = Color3.fromRGB(255, 255, 255),
-   Shadow = Color3.fromRGB(0, 0, 0),
-   Accent = Color3.fromRGB(255, 255, 255),
-   NotificationBackground = Color3.fromRGB(0, 0, 0),
-   NotificationActionsBackground = Color3.fromRGB(0, 0, 0),
-   TabBackground = Color3.fromRGB(0, 0, 0),
-   TabStroke = Color3.fromRGB(0, 0, 0),
-   TabBackgroundSelected = Color3.fromRGB(0, 0, 0),
-   TabTextColor = Color3.fromRGB(149, 149, 149),
-   SelectedTabTextColor = Color3.fromRGB(255, 255, 255),
-   ElementBackground = Color3.fromRGB(0, 0, 0),
-   ElementBackgroundHover = Color3.fromRGB(20, 20, 20),
-   SecondaryElementBackground = Color3.fromRGB(0, 0, 0),
-   ElementStroke = Color3.fromRGB(255, 255, 255),
-   SecondaryElementStroke = Color3.fromRGB(255, 255, 255),
-   SliderBackground = Color3.fromRGB(0, 0, 0),
-   SliderProgress = Color3.fromRGB(255, 255, 255),
-   SliderStroke = Color3.fromRGB(255, 255, 255),
-   ToggleBackground = Color3.fromRGB(0, 0, 0),
-   ToggleEnabled = Color3.fromRGB(255, 255, 255),
-   ToggleDisabled = Color3.fromRGB(100, 100, 100),
-   ToggleEnabledStroke = Color3.fromRGB(255, 255, 255),
-   ToggleDisabledStroke = Color3.fromRGB(100, 100, 100),
-   ToggleEnabledOuterStroke = Color3.fromRGB(255, 255, 255),
-   ToggleDisabledOuterStroke = Color3.fromRGB(100, 100, 100),
-   DropdownSelected = Color3.fromRGB(0, 0, 0),
-   DropdownUnselected = Color3.fromRGB(0, 0, 0),
-   InputBackground = Color3.fromRGB(0, 0, 0),
-   InputStroke = Color3.fromRGB(255, 255, 255),
-   PlaceholderColor = Color3.fromRGB(150, 150, 150),
-   KeyInputBackground = Color3.fromRGB(0, 0, 0),
-   KeyInputTextColor = Color3.fromRGB(255, 255, 255)
+    TextColor = Color3.fromRGB(255, 255, 255),
+    Background = Color3.fromRGB(15, 15, 15),
+    Topbar = Color3.fromRGB(15, 15, 15),
+    Shadow = Color3.fromRGB(255, 255, 255),
+    NotificationBackground = Color3.fromRGB(0, 0, 0),
+    NotificationActionsBackground = Color3.fromRGB(35, 0, 70),
+    TabBackground = Color3.fromRGB(15, 15, 15),
+    TabStroke = Color3.fromRGB(15, 15, 15),
+    TabBackgroundSelected = Color3.fromRGB(15, 15, 15),
+    TabTextColor = Color3.fromRGB(149, 149, 149),
+    SelectedTabTextColor = Color3.fromRGB(255, 255, 255),
+    ElementBackground = Color3.fromRGB(15, 15, 15),
+    ElementBackgroundHover = Color3.fromRGB(15, 15, 15),
+    SecondaryElementBackground = Color3.fromRGB(15, 15, 15),
+    ElementStroke = Color3.fromRGB(77, 251, 16),
+    SecondaryElementStroke = Color3.fromRGB(77, 251, 16),
+    SliderBackground = Color3.fromRGB(255, 255, 255),
+    SliderProgress = Color3.fromRGB(77, 251, 16),
+    SliderStroke = Color3.fromRGB(77, 251, 16),
+    ToggleBackground = Color3.fromRGB(15, 15, 15),
+    ToggleEnabled = Color3.fromRGB(77, 251, 16),
+    ToggleDisabled = Color3.fromRGB(255, 255, 255),
+    ToggleEnabledStroke = Color3.fromRGB(77, 251, 16),
+    ToggleDisabledStroke = Color3.fromRGB(15, 15, 15),
+    ToggleEnabledOuterStroke = Color3.fromRGB(255, 255, 255),
+    ToggleDisabledOuterStroke = Color3.fromRGB(255, 255, 255),
+    DropdownSelected = Color3.fromRGB(15, 15, 15),
+    DropdownUnselected = Color3.fromRGB(15, 15, 15),
+    InputBackground = Color3.fromRGB(15, 15, 15),
+    InputStroke = Color3.fromRGB(77, 251, 16),
 }
 
 local Window = Rayfield:CreateWindow({
-   Name = "DK's Hub | Streetz War 2 | V0.0 [BETA] | " .. executor,
-   Icon = nil,
-   LoadingTitle = "",
-   LoadingSubtitle = "",
-   Theme = customTheme,
-   DisableRayfieldPrompts = false,
-   DisableBuildWarnings = false,
-   ConfigurationSaving = {Enabled = false, FolderName = "BlackThemeHub", FileName = "BigHub"},
-   Discord = {Enabled = true, Invite = "Fy7PanRV", RememberJoins = true},
-   KeySystem = false,
-   KeySettings = {Title = "X-DK | V1", Subtitle = "Enter Key Below", Note = "Buy A Key At Discord.gg/dkshub", FileName = "Key", SaveKey = true, GrabKeyFromSite = false, Key = {""}, Theme = customTheme}
+    Name = "DK's Hub V1 | South bronx | Premium",
+    Icon = 112029241653427,
+    LoadingTitle = "",
+    LoadingSubtitle = "",
+    Theme = customTheme,
+    DisableRayfieldPrompts = false,
+    DisableBuildWarnings = false,
+    ConfigurationSaving = {
+        Enabled = false,
+        FolderName = "GreenBlackThemeHub",
+        FileName = "BigHub"
+    },
+    Discord = {
+        Enabled = false,
+        Invite = "",
+        RememberJoins = true
+    },
+    KeySystem = false,
+    KeySettings = {
+        Title = "",
+        Subtitle = "Authentication Required",
+        Note = "Get your key at: discord.gg/dkshub",
+        FileName = "jc_hub_key",
+        SaveKey = true,
+        GrabKeyFromSite = false,
+        Key = { "" },
+        Theme = customTheme
+    }
 })
 
-local AutoFarmTab = Window:CreateTab("AutoFarm", "briefcase")
-AutoFarmTab:CreateSection("AutoFarms")
+local GeneralTab = Window:CreateTab("General", "box")
+GeneralTab:CreateSection("Farming - Chips Settings")
 
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local RunService = game:GetService("RunService")
-local LocalPlayer = Players.LocalPlayer
-local Backpack = LocalPlayer:WaitForChild("Backpack")
+local amountToBuy = 1
 
-local boxToggle = false
-AutoFarmTab:CreateToggle({
-    Name = "Box Autofarm",
-    CurrentValue = false,
-    Flag = "BoxToggle",
-    Callback = function(value)
-        boxToggle = value
-        if boxToggle then
-            spawn(function()
-                while boxToggle do
-                    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-                    local rootPart = character:WaitForChild("HumanoidRootPart")
-                    rootPart.CFrame = CFrame.new(-121, 4, 301)
-                    task.wait(0.2)
-                    local box = workspace:WaitForChild("Job"):WaitForChild("Box"):WaitForChild("BOX1")
-                    fireclickdetector(box:WaitForChild("ClickDetector"))
-                    task.wait(0.2)
-                    local boxTool = Backpack:FindFirstChild("Box")
-                    if boxTool then LocalPlayer.Character.Humanoid:EquipTool(boxTool) end
-                    rootPart.CFrame = CFrame.new(-111, 4, 146)
-                    task.wait(0.5)
-                end
-            end)
-        end
-    end
-})
-
-local giveMop = ReplicatedStorage:FindFirstChild("GiveMop")
-local cleaningEnabled = false
-local function equipMop()
-    local mop = Backpack:FindFirstChild("Mop")
-    if mop then mop.Parent = LocalPlayer.Character end
-end
-
-AutoFarmTab:CreateToggle({
-    Name = "Mop Autofarm",
-    CurrentValue = false,
-    Flag = "CleanToggle",
-    Callback = function(value)
-        cleaningEnabled = value
-        if cleaningEnabled then
-            spawn(function()
-                while cleaningEnabled do
-                    for _, part in pairs(workspace.CleanPart:GetChildren()) do
-                        if not cleaningEnabled then break end
-                        if giveMop then
-                            if giveMop:IsA("RemoteEvent") then giveMop:FireServer()
-                            elseif giveMop:IsA("RemoteFunction") then giveMop:InvokeServer() end
-                            task.wait(1)
-                            equipMop()
-                        end
-                        local targetPos
-                        if part:IsA("BasePart") then targetPos = part.Position
-                        elseif part:IsA("Model") and part.PrimaryPart then targetPos = part.PrimaryPart.Position end
-                        if targetPos then LocalPlayer.Character:MoveTo(targetPos) task.wait(3) end
-                        for _, prompt in pairs(part:GetDescendants()) do
-                            if prompt:IsA("ProximityPrompt") then fireproximityprompt(prompt) task.wait(0.5) end
-                        end
-                    end
-                    task.wait(1)
-                end
-            end)
-        end
-    end
-})
-
-AutoFarmTab:CreateSection("AutoFarm Card")
-local autoEquipLaptop = false
-
-local function equipLaptop()
-    local character = LocalPlayer.Character
-    if not character then return end
-    local laptopTool = Backpack:FindFirstChild("Laptop")
-    if laptopTool then laptopTool.Parent = character end
-end
-
-RunService.RenderStepped:Connect(function()
-    if autoEquipLaptop then
-        local character = LocalPlayer.Character
-        if character and not character:FindFirstChild("Laptop") and Backpack:FindFirstChild("Laptop") then
-            Backpack.Laptop.Parent = character
-        end
-    end
-end)
-
-Backpack.ChildAdded:Connect(function(tool)
-    if autoEquipLaptop and tool:IsA("Tool") and tool.Name == "Laptop" then
-        tool.Parent = LocalPlayer.Character
-    end
-end)
-
-LocalPlayer.CharacterAdded:Connect(function()
-    if autoEquipLaptop then
-        repeat task.wait() until Backpack:FindFirstChild("Laptop") or LocalPlayer.Character
-        equipLaptop()
-    end
-end)
-
-AutoFarmTab:CreateToggle({
-    Name = "Auto Equip Laptop",
-    CurrentValue = false,
-    Callback = function(state)
-        autoEquipLaptop = state
-        if state then equipLaptop() end
-    end
-})
-
-AutoFarmTab:CreateParagraph({
-    Title = "Warning!",
-    Content = "Do Not Use-Game has to update as they broke cards"
-})
-
-_G.autofarm = false
-local farmDelay = 0.01
-AutoFarmTab:CreateToggle({
-    Name = "Start Card Autofarm",
-    CurrentValue = false,
-    Flag = "AutoFarmToggle",
-    Callback = function(Value)
-        _G.autofarm = Value
-        if Value then
-            local hrp = LocalPlayer.Character:WaitForChild("HumanoidRootPart")
-            hrp.CFrame = CFrame.new(226, 4, -540)
-            local giverPunch = ReplicatedStorage:WaitForChild("Assets"):WaitForChild("Other"):WaitForChild("GiverPunchmade")
-            local args1 = {[1]=true,[2]="NEW123"}
-            local args2 = {[1]=false,[2]="NEW123"}
-            spawn(function()
-                while _G.autofarm do
-                    giverPunch:InvokeServer(unpack(args1))
-                    task.wait(farmDelay)
-                    giverPunch:InvokeServer(unpack(args2))
-                    task.wait(farmDelay)
-                end
-            end)
-        end
-    end
-})
-
-local DupeTab = Window:CreateTab("Dupe", "cloud-sun")
-DupeTab:CreateSection("Gun Dupe")
-
-DupeTab:CreateButton({
-    Name = "Dupe Tools",
-    Callback = function()
-        local ReplicatedStorage = game:GetService("ReplicatedStorage")
-        local StarterGui = game:GetService("StarterGui")
-        local player = game.Players.LocalPlayer
-        local character = player.Character or player.CharacterAdded:Wait()
-        local equippedTool = character:FindFirstChildOfClass("Tool")
-
-        if not equippedTool then
-            warn("No tool equipped!")
-            return
-        end
-
-        local apartmentsFolder = workspace:WaitForChild("Apartments")
-
-        for _, apartment in ipairs(apartmentsFolder:GetChildren()) do
-            local safe = apartment:FindFirstChild("Safe")
-            if safe then
-                ReplicatedStorage:WaitForChild("StoreItemSafe"):FireServer(safe)
-
-                for i = 1, 2 do
-                    ReplicatedStorage:WaitForChild("TakeItemSafe"):FireServer(equippedTool.Name, safe)
-                    task.wait(0.3)
-                end
-
-                StarterGui:SetCore("SendNotification", {
-                    Title = "Dupe Success!";
-                    Text = "Succesfully Duped: " .. equippedTool.Name;
-                    Duration = 3;
-                })
-            end
-        end
-    end
-})
-
-
-
-Paragraph = DupeTab:CreateParagraph({
-    Title = "Usage:",
-    Content = "To do the dupe click 'purchase apartment' then go in front of the safe hold then gun u want to dupe then click 'Dupe Tools' then it will dupe if doesnt dupe try again but this is the only apartment it will work in."
-})
-
-DupeTab:CreateButton({
-    Name = "Buy Apartment - 120£",
-    Callback = function()
-        local player = game.Players.LocalPlayer
-        local char = player.Character or player.CharacterAdded:Wait()
-        local hrp = char:WaitForChild("HumanoidRootPart")
-        hrp.CFrame = CFrame.new(2565, -307, -138)
-        fireproximityprompt(workspace.Apartments.LuxuryApartment.Door.door.ProximityPrompt)
-    end
-})
-
-DupeTab:CreateSection("Card Duping")
-
-DupeTab:CreateParagraph({
-    Title = "Warning!",
-    Content = "Do Not Use-Game has to update as they broke cards"
-})
-
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local VirtualInputManager = game:GetService("VirtualInputManager")
-local StarterGui = game:GetService("StarterGui")
-local player = Players.LocalPlayer
-
-local dupeAmount = 10
-
-local function notifyFarmed(finalAmount)
-    Rayfield:Notify({
-        Title = "Success",
-        Content = "You have duped " .. tostring(finalAmount) .. " cards & laptops.",
-        Duration = 6
-    })
-end
-
-DupeTab:CreateInput({
-    Name = "Dupe Amount",
+GeneralTab:CreateInput({
+    Name = "Chips Amount",
     PlaceholderText = "Input",
     RemoveTextAfterFocusLost = false,
-    Callback = function(value)
-        value = tonumber(value)
-        if not value or value <= 0 then
-            dupeAmount = 10
-        else
-            dupeAmount = value
-        end
-    end
-})
+    Callback = function(Value)
+        amountToBuy = tonumber(Value) or 1
+        local player = game.Players.LocalPlayer
+        local char = player.Character or player.CharacterAdded:Wait()
+        local humanoid = char:WaitForChild("Humanoid")
+        local hrp = char:WaitForChild("HumanoidRootPart")
+        local targetPos = Vector3.new(-771, 4, -198)
+        local storeRemote = game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("StorePurchase")
 
-local function duplicateCardsAndLaptops()
-    if dupeAmount <= 0 then return end
-
-    StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, false)
-    StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, false)
-
-    fireclickdetector(game.Workspace["Streetz War"].Anonymous.ClickDetector)
-    task.wait(0.7)
-
-    local gui = player.PlayerGui:WaitForChild("DealerGui")
-    gui.Frame.Visible = false
-    local shop = gui:WaitForChild("ShopFrame")
-    shop.Visible = true
-
-    player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(-55, 4.5, 170)
-    task.wait(0.5)
-
-    local cardBtn = shop["Blank Card"]
-    local laptopBtn = shop["laptop"]
-
-    for i = 1, dupeAmount do
-        task.wait(0.1)
-
-        if cardBtn.Visible then
-            local pos = cardBtn.AbsolutePosition
-            VirtualInputManager:SendMouseButtonEvent(pos.X + 140, pos.Y + 55, 0, true, game, 0)
-            task.wait()
-            VirtualInputManager:SendMouseButtonEvent(pos.X + 140, pos.Y + 55, 0, false, game, 0)
+        while (hrp.Position - targetPos).Magnitude > 2 do
+            humanoid:MoveTo(targetPos)
+            task.wait(0.1)
         end
 
-        if laptopBtn.Visible then
-            local pos = laptopBtn.AbsolutePosition
-            VirtualInputManager:SendMouseButtonEvent(pos.X + 140, pos.Y + 55, 0, true, game, 0)
-            task.wait()
-            VirtualInputManager:SendMouseButtonEvent(pos.X + 140, pos.Y + 55, 0, false, game, 0)
-        end
-    end
-
-    local exitBtn = shop.exit
-    local pos = exitBtn.AbsolutePosition
-    VirtualInputManager:SendMouseButtonEvent(pos.X + 120, pos.Y + 60, 0, true, game, 0)
-    task.wait()
-    VirtualInputManager:SendMouseButtonEvent(pos.X + 120, pos.Y + 60, 0, false, game, 0)
-
-    player.Character.HumanoidRootPart.CFrame = CFrame.new(949, 4, -102)
-    task.wait(2)
-
-    local laptopCount = 0
-    local cardCount = 0
-
-    for _, item in ipairs(player.Backpack:GetChildren()) do
-        if item.Name == "Laptop" then
-            laptopCount = laptopCount + 1
-        elseif item.Name == "Loaded Card" then
-            cardCount = cardCount + 1
-        end
-    end
-
-    if laptopCount > 1 then
-        for i = 1, laptopCount - 1 do
-            ReplicatedStorage.Assets.Other.GiverPunchmade:InvokeServer(true, "NEW123")
+        for i = 1, amountToBuy do
+            storeRemote:FireServer("Flour")
+            storeRemote:FireServer("Potato")
             task.wait(0.1)
         end
     end
+})
 
-    local lp = player.Backpack:FindFirstChild("Laptop")
-    if lp then
-        lp.Parent = player.Character
-    end
-    task.wait(1)
+GeneralTab:CreateSection("Farming - Negros")
 
-    if cardCount > 0 then
-        for i = 1, cardCount do
-            ReplicatedStorage.Assets.Other.GiverPunchmade:InvokeServer(false, "NEW123")
-            task.wait(0.08)
-        end
-    end
+local ChipsAutofarmToggle = GeneralTab:CreateToggle({
+    Name = "Enable Chips Autofarm",
+    CurrentValue = false,
+    Flag = "ChipsAutofarm",
+    Callback = function(Value)
+        local running = Value
+        task.spawn(function()
+            local positions = {
+                {pos = Vector3.new(-461.62, 3.86, -467.55), tool = "Potato", holdE = true, holdTime = 0, waitTime = 2},
+                {pos = Vector3.new(-461.6, 3.86, -473.63), holdE = true, holdTime = 0, waitTime = 2},
+                {pos = Vector3.new(-466.43, 3.96, -500.60)},
+                {pos = Vector3.new(-462.67, 3.86, -522.34), tool = "Flour", holdE = true, holdTime = 0, waitTime = 2},
+                {pos = Vector3.new(-468.11, 3.86, -494.76)},
+                {pos = Vector3.new(-515.34, 3.86, -482.29), holdE = true, holdTime = 0, waitTime = 65, reholdE = true, reholdTime = 0},
+                {pos = Vector3.new(-492, 4, -473)}, 
+                {pos = Vector3.new(-480, 4, -434), holdE = true, holdTime = 0}
+            }
 
-    player.Character.Humanoid:UnequipTools()
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+            local humanoid = character:WaitForChild("Humanoid")
+            humanoid.WalkSpeed = 19
 
-    StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
-    StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, true)
+            local function moveTo(targetPos)
+                while (humanoidRootPart.Position - targetPos).Magnitude > 2 do
+                    if not running then return end
+                    humanoid:MoveTo(targetPos)
+                    task.wait(0.1)
+                end
+            end
 
-    notifyFarmed(dupeAmount)
+            local function performAction(action)
+                if not running then return end
+                if action.tool then
+                    local tool = player.Backpack:FindFirstChild(action.tool)
+                    if tool then
+                        tool.Parent = character
+                    end
+                end
+                if action.holdE then
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.E, false, game)
+                    wait(action.holdTime)
+                    game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.E, false, game)
+                end
+                if action.waitTime then
+                    wait(action.waitTime)
+                end
+            end
+
+            for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+                if v:IsA("ProximityPrompt") then
+                    v.HoldDuration = 0
+                end
+            end
+
+            game:GetService("ProximityPromptService").PromptButtonHoldBegan:Connect(function(v)
+                v.HoldDuration = 0
+            end)
+
+            while running do
+                for _, action in ipairs(positions) do
+                    if not running then break end
+                    moveTo(action.pos)
+                    performAction(action)
+                    if action.reholdE then
+                        performAction({holdE = true, holdTime = action.reholdTime})
+                    end
+                end
+            end
+        end)
+    end,
+})
+
+
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local hrp = character:WaitForChild("HumanoidRootPart")
+local camera = Workspace.CurrentCamera
+
+local Map = Workspace:FindFirstChild("Map")
+local RoadsFolder = Map and Map:FindFirstChild("Roads/Sidewalks")
+local opp, noclipEnabled = {}, false
+local running = false
+
+local function setHiddenProperty(i, p, v)
+    pcall(function()
+        sethiddenproperty(i, p, v)
+    end)
 end
 
-DupeTab:CreateButton({
-    Name = "Dupe Cards",
-    Callback = duplicateCardsAndLaptops
+local function shouldExclude(part)
+    local partName = part.Name:lower()
+    local isUnderPlayer = (part.Position.Y < hrp.Position.Y - 2)
+
+    return
+        (RoadsFolder and part:IsDescendantOf(RoadsFolder))
+        or part:IsDescendantOf(character)
+        or part:IsA("VehicleSeat") or part:IsA("Vehicle")
+        or partName:find("floor") or partName:find("ground") or partName:find("sidewalk")
+        or isUnderPlayer
+        or (part.Parent and part.Parent:IsA("Model") and Players:GetPlayerFromCharacter(part.Parent) ~= nil)
+end
+
+local function applyNoclip()
+    local pos = camera.CFrame.Position
+    local region = Region3.new(pos - Vector3.new(15, 15, 15), pos + Vector3.new(15, 15, 15))
+    for _, part in ipairs(Workspace:FindPartsInRegion3(region, nil, math.huge)) do
+        if part:IsA("BasePart") and not shouldExclude(part) and not opp[part] then
+            opp[part] = { CanCollide = part.CanCollide }
+            setHiddenProperty(part, "CanCollide", false)
+        end
+    end
+end
+
+local function resetNoclip()
+    for part, original in pairs(opp) do
+        if part:IsA("BasePart") then
+            setHiddenProperty(part, "CanCollide", original.CanCollide)
+        end
+    end
+    opp = {}
+end
+
+local function walkToNoClip(pos, stopDist)
+    stopDist = stopDist or 3
+    noclipEnabled = true
+
+    task.spawn(function()
+        while noclipEnabled do
+            applyNoclip()
+            task.wait(0.1)
+        end
+    end)
+
+    humanoid:MoveTo(pos)
+    while (hrp.Position - pos).Magnitude > stopDist and running do
+        task.wait()
+        humanoid:MoveTo(pos)
+    end
+
+    noclipEnabled = false
+    resetNoclip()
+end
+
+local function equipTool(toolName)
+    local tool = player.Backpack:FindFirstChild(toolName)
+    if tool then
+        tool.Parent = character
+    else
+        warn("â "..toolName.." not found in backpack.")
+    end
+end
+
+GeneralTab:CreateToggle({
+    Name = "Enable ATM Autofarm",
+    CurrentValue = false,
+    Flag = "AutoWalkToggle",
+    Callback = function(state)
+        running = state
+        if state then
+            task.spawn(function()
+                walkToNoClip(Vector3.new(217, 4, -332))
+                if not running then return end
+
+                local idPrompt = Workspace.Folders.NPCs.FakeIDSeller.UpperTorso.Attachment:FindFirstChildWhichIsA("ProximityPrompt")
+                if idPrompt then
+                    fireproximityprompt(idPrompt, 1)
+                    task.wait(0.5)
+                else
+                    warn("â Fake ID Seller prompt not found.")
+                    running = false
+                    return
+                end
+
+                equipTool("Fake ID")
+                if not running then return end
+
+                walkToNoClip(Vector3.new(-49, 4, -321))
+                if not running then return end
+
+                local tellerModel = Workspace.Folders.NPCs:FindFirstChild("Bank Teller")
+                if tellerModel then
+                    local tellerPrompt = tellerModel.UpperTorso.Attachment:FindFirstChildWhichIsA("ProximityPrompt")
+                    if tellerPrompt then
+                        fireproximityprompt(tellerPrompt, 1)
+                        task.wait(0.5)
+                    else
+                        warn("â Bank Teller prompt not found.")
+                        running = false
+                        return
+                    end
+                else
+                    warn("â Bank Teller NPC not found.")
+                    running = false
+                    return
+                end
+
+                walkToNoClip(Vector3.new(-43, 3, -328))
+                if not running then return end
+
+                task.wait(45)
+                if not running then return end
+
+                local cardPickupPrompt = Workspace.CardPickup.Attachment:FindFirstChildWhichIsA("ProximityPrompt")
+                if cardPickupPrompt then
+                    fireproximityprompt(cardPickupPrompt, 1)
+                    task.wait(0.5)
+                    equipTool("Card")
+                else
+                    warn("â CardPickup prompt not found.")
+                    running = false
+                    return
+                end
+                if not running then return end
+
+                walkToNoClip(Vector3.new(-651, 4, 155))
+                if not running then return end
+
+                local atmPrompt = Workspace.Map.ATMS.ATM11.Attachment:FindFirstChildWhichIsA("ProximityPrompt")
+                if atmPrompt then
+                    fireproximityprompt(atmPrompt, 1)
+                else
+                    warn("â ATM11 prompt not found.")
+                end
+
+                running = false
+            end)
+        else
+            running = false
+            resetNoclip()
+            humanoid:MoveTo(hrp.Position)
+        end
+    end,
+})
+
+
+local autofarmRunning = false
+local autofarmThread = nil
+
+local Toggle = GeneralTab:CreateToggle({
+    Name = "Enable Box Autofarm",
+    CurrentValue = false,
+    Flag = "BoxAutofarm",
+    Callback = function(state)
+        autofarmRunning = state
+        if state then
+            startAutofarm()
+        end
+    end
+})
+
+function startAutofarm()
+    if autofarmThread then return end
+    autofarmThread = coroutine.create(function()
+        local player = game.Players.LocalPlayer
+
+        while autofarmRunning do
+            local character = player.Character or player.CharacterAdded:Wait()
+            local humanoid = character:FindFirstChild("Humanoid") or character:WaitForChild("Humanoid")
+            local hrp = character:FindFirstChild("HumanoidRootPart") or character:WaitForChild("HumanoidRootPart")
+            local backpack = player:WaitForChild("Backpack")
+
+            local konum1 = Vector3.new(-551.46, 3.54, -86.13)
+            local konum2 = Vector3.new(-540.16, 3.54, -83.06)
+            local konum3 = Vector3.new(-401.42, 3.36, -70.90)
+
+            local function firePrompt(prompt)
+                if prompt and prompt:IsA("ProximityPrompt") then
+                    fireproximityprompt(prompt)
+                end
+            end
+
+            local function moveToPosition(position)
+                humanoid.WalkSpeed = 15
+                local arrived = false
+                local connection = humanoid.MoveToFinished:Connect(function(reached)
+                    arrived = reached
+                end)
+
+                while autofarmRunning and not arrived and (hrp.Position - position).Magnitude > 3 do
+                    humanoid:MoveTo(position)
+                    task.wait(0.25)
+                end
+
+                if connection then connection:Disconnect() end
+                humanoid.WalkSpeed = 80
+            end
+
+            local function getCrateFromBackpack()
+                for _, item in ipairs(backpack:GetChildren()) do
+                    if item.Name == "Crate" then
+                        return item
+                    end
+                end
+                return nil
+            end
+
+            local function equipCrate(crate)
+                if crate then
+                    crate.Parent = character
+                    local hand = character:FindFirstChild("RightHand") or character:WaitForChild("RightHand")
+                    if crate:FindFirstChild("Handle") and hand then
+                        crate.Handle.CFrame = hand.CFrame
+                    end
+                end
+            end
+
+            local function performAction()
+                if not autofarmRunning then return end
+
+                moveToPosition(konum1)
+                if not autofarmRunning then return end
+
+                local pickupPrompt = workspace.PlaceHere
+                    and workspace.PlaceHere:FindFirstChild("Attachment")
+                    and workspace.PlaceHere.Attachment:FindFirstChildOfClass("ProximityPrompt")
+
+                firePrompt(pickupPrompt)
+                task.wait(0.5)
+
+                local crate
+                repeat
+                    crate = getCrateFromBackpack()
+                    task.wait(0.1)
+                until not autofarmRunning or crate
+
+                if not autofarmRunning or not crate then return end
+                equipCrate(crate)
+                task.wait(0.3)
+
+                moveToPosition(konum2)
+                if not autofarmRunning then return end
+
+                moveToPosition(konum3)
+                if not autofarmRunning then return end
+
+                local dropoffPrompt = workspace.cratetruck2
+                    and workspace.cratetruck2:FindFirstChild("Model")
+                    and workspace.cratetruck2.Model:FindFirstChild("ClickBox")
+                    and workspace.cratetruck2.Model.ClickBox:FindFirstChild("Attachment")
+                    and workspace.cratetruck2.Model.ClickBox.Attachment:FindFirstChildOfClass("ProximityPrompt")
+
+                firePrompt(dropoffPrompt)
+                task.wait(0.5)
+
+                moveToPosition(konum2)
+                moveToPosition(konum1)
+            end
+
+            while autofarmRunning and player.Character and player.Character:FindFirstChild("Humanoid") do
+                performAction()
+                task.wait(1)
+            end
+
+            if autofarmRunning then
+                player.CharacterAdded:Wait()
+            end
+        end
+
+        autofarmThread = nil
+    end)
+
+    coroutine.resume(autofarmThread)
+end
+
+GeneralTab:CreateSection("Farming - Settings")
+
+local NoclipConnection = nil
+local Clip = true
+
+local function noclip()
+    Clip = false
+    local function Nocl()
+        if not Clip and game.Players.LocalPlayer.Character then
+            for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                if v:IsA("BasePart") and v.CanCollide then
+                    v.CanCollide = false
+                end
+            end
+        end
+        task.wait(0.21)
+    end
+    NoclipConnection = game:GetService("RunService").Stepped:Connect(Nocl)
+end
+
+local function clip()
+    if NoclipConnection then
+        NoclipConnection:Disconnect()
+    end
+    Clip = true
+end
+
+GeneralTab:CreateToggle({
+    Name = "Enable No-Clip",
+    CurrentValue = false,
+    Callback = function(Value)
+        if Value then
+            noclip()
+        else
+            clip()
+        end
+    end
 })
