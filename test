@@ -92,22 +92,29 @@ GeneralTab:CreateDropdown({
     end,
 })
 
-local ToggleLoop = false
+local isRunning = false
 
 GeneralTab:CreateToggle({
-    Name = "Dupelacting",
+    Name = "Auto Withdraw/Deposit",
     CurrentValue = false,
-    Callback = function(Value)
-        ToggleLoop = Value
-        if Value then
-            task.spawn(function()
-                while ToggleLoop do
-
-                    game:GetService("ReplicatedStorage").ATMRF:InvokeServer("withdraw", 0.5)
-                    task.wait()
-
-                    game:GetService("ReplicatedStorage").ATMRF:InvokeServer("deposit", 0.5)
-                    task.wait()
+    Flag = "AutoATM",
+    Callback = function(value)
+        isRunning = value
+        if isRunning then
+            spawn(function()
+                while isRunning do
+                    for i = 1, 2000 do
+                        spawn(function()
+                            pcall(function()
+                                game:GetService("ReplicatedStorage"):WaitForChild("ATMRF"):InvokeServer("withdraw", 0.5)
+                            end)
+                        end)
+                        spawn(function()
+                            pcall(function()
+                                game:GetService("ReplicatedStorage"):WaitForChild("ATMRF"):InvokeServer("deposit", 0.5)
+                            end)
+                        end)
+                    end
                 end
             end)
         end
