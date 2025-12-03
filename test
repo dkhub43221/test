@@ -107,7 +107,7 @@ GeneralTab:CreateToggle({
                     if not enabled then break end
                     game:GetService("ReplicatedStorage"):WaitForChild("ATMRF"):InvokeServer("withdraw", 0.5)
                     game:GetService("ReplicatedStorage"):WaitForChild("ATMRF"):InvokeServer("deposit", 0.5)
-                    task.wait(0.05)
+                    task.wait(0)
                 end
             end)
         end
