@@ -77,8 +77,8 @@ GeneralTab:CreateSlider({
     Suffix = "",
     CurrentValue = 100,
     Flag = "bypass.lmao",
-    Callback = function(value)
-        loops = value
+    Callback = function()
+        print(selcted nil)
     end,
 })
 
@@ -92,24 +92,24 @@ GeneralTab:CreateDropdown({
     end,
 })
 
-local enabled = false
-local loops = 32
+local ToggleLoop = false
 
 GeneralTab:CreateToggle({
-    Name = "Duplicating",
+    Name = "Dupelacting",
     CurrentValue = false,
-    Flag = "ATM_Toggle",
-    Callback = function(state)
-        enabled = state
-        if enabled then
+    Callback = function(Value)
+        ToggleLoop = Value
+        if Value then
             task.spawn(function()
-                for i = 1, loops do
-                    if not enabled then break end
-                    game:GetService("ReplicatedStorage"):WaitForChild("ATMRF"):InvokeServer("withdraw", 0.5)
-                    game:GetService("ReplicatedStorage"):WaitForChild("ATMRF"):InvokeServer("deposit", 0.5)
-                    task.wait(0)
+                while ToggleLoop do
+
+                    game:GetService("ReplicatedStorage").ATMRF:InvokeServer("withdraw", 0.5)
+                    task.wait()
+
+                    game:GetService("ReplicatedStorage").ATMRF:InvokeServer("deposit", 0.5)
+                    task.wait()
                 end
             end)
         end
-    end,
+    end
 })
