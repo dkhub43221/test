@@ -78,7 +78,7 @@ GeneralTab:CreateSlider({
     CurrentValue = 100,
     Flag = "bypass.lmao",
     Callback = function()
-        print(selcted nil)
+        print(client bypass.lmao)
     end,
 })
 
