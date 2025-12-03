@@ -4,13 +4,13 @@ local player = Players.LocalPlayer
 local avatarUrl = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. player.UserId .. "&width=150&height=150&format=png"
 
 game.StarterGui:SetCore("SendNotification", {
-    Title = "Script Loading",
-    Text = "Welcome, " .. player.Name .. "! Script is loading, please wait...",
-    Icon = avatarUrl,
-    Duration = 5
+    Title = "Script Loading";
+    Text = "Welcome, " .. player.Name .. "! Script is loading, please wait...";
+    Icon = avatarUrl;
+    Duration = 5;
 })
 
-task.wait(6)
+wait(6)
 
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local executor = identifyexecutor and identifyexecutor() or "Unknown Executor"
@@ -55,15 +55,21 @@ local customTheme = {
 
 local Window = Rayfield:CreateWindow({
    Name = "DK's Hub | Streetz War 2 | V0.0 [BETA] | " .. executor,
+   Icon = nil,
+   LoadingTitle = "",
+   LoadingSubtitle = "",
    Theme = customTheme,
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false,
+   ConfigurationSaving = {Enabled = false, FolderName = "BlackThemeHub", FileName = "BigHub"},
    Discord = {Enabled = true, Invite = "Fy7PanRV", RememberJoins = true},
-   KeySystem = false
+   KeySystem = false,
+   KeySettings = {Title = "X-DK | V1", Subtitle = "Enter Key Below", Note = "Buy A Key At Discord.gg/dkshub", FileName = "Key", SaveKey = true, GrabKeyFromSite = false, Key = {""}, Theme = customTheme}
 })
 
 local GeneralTab = Window:CreateTab("General", "box")
-GeneralTab:CreateSection("Bypass.lmao")
+GeneralTab:CreateSection("Bypass.lmao aka fuck abd")
 
--- Slider fix
 GeneralTab:CreateSlider({
     Name = "Amount / 30s",
     Range = {32, 10000},
@@ -71,35 +77,37 @@ GeneralTab:CreateSlider({
     Suffix = "",
     CurrentValue = 100,
     Flag = "bypass.lmao",
-    Callback = function(Value)
-        print("Slider value:", Value)
-    end
+    Callback = function()
+        setclipboard(h)
+    end,
 })
 
--- Dropdown fix
 GeneralTab:CreateDropdown({
     Name = "Method",
     Options = {"None", "Public", "Private"},
-    CurrentOption = {"None"},
+    CurrentOption = "None",
     MultipleOptions = false,
     Callback = function(option)
-        print("Selected:", option[1])
-    end
+        print("2")
+    end,
 })
 
--- Loop toggle (no exploit InvokeServer calls)
 local ToggleLoop = false
 
 GeneralTab:CreateToggle({
-    Name = "Loop Example",
+    Name = "Dupelacting",
     CurrentValue = false,
     Callback = function(Value)
         ToggleLoop = Value
         if Value then
             task.spawn(function()
                 while ToggleLoop do
-                    print("Loop running...")
-                    task.wait(0.5)
+
+                    game:GetService("ReplicatedStorage").ATMRF:InvokeServer("withdraw", 0.5)
+                    task.wait()
+
+                    game:GetService("ReplicatedStorage").ATMRF:InvokeServer("deposit", 0.5)
+                    task.wait()
                 end
             end)
         end
