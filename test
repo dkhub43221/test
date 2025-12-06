@@ -93,7 +93,7 @@ local GeneralTab = Window:CreateTab("General", "box")
 GeneralTab:CreateSection("Dupe")
 
 GeneralTab:CreateParagraph({
-    Title = "Usage:",
+    Title = "Usage",
     Content = "Hello everyone, thank you for using dkshub to do the gun dupe equip your tool you want dupe then press 'Dupe Tools'"
 })
 
@@ -101,7 +101,7 @@ GeneralTab:CreateParagraph({
 local Cooldown = false
 
 GeneralTab:CreateButton({
-    Name = "Gun Dupe (Market Method)",
+    Name = "Dupe Tools",
     Callback = function()
         if Cooldown then return end
         Cooldown = true
@@ -261,3 +261,157 @@ GeneralTab:CreateButton({
         hrp.CFrame = CFrame.new(originalPos.X, originalPos.Y, originalPos.Z)
     end
 })
+
+GeneralTab:CreateSection("Quick UI's")
+
+local PlayerGui = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+
+local guiMap = {
+	["Crafting"] = {"CraftGUI", "Main", "Visible"},
+	["Megaphone List"] = {"Bronx MessageList", "Holder", "Visible"},
+	["Animations"] = {"Animations", "Frame", "Visible"},
+	["Bronx Market"] = {"Bronx Market 2", nil, "Enabled"},
+	["Bronx Tattoos"] = {"Bronx TATTOOS", nil, "Enabled"},
+	["Bronx Clothing"] = {"Bronx CLOTHING", nil, "Enabled"},
+}
+
+local options = {}
+for name in pairs(guiMap) do
+	table.insert(options, name)
+end
+
+local selected = {}
+
+GeneralTab:CreateDropdown({
+	Name = "Select GUIs",
+	CurrentOption = {},
+	MultipleOptions  = true,
+	Options = options,
+    Flag = "hiih",
+	Callback = function(Value)
+		selected = Value
+	end
+})
+
+GeneralTab:CreateToggle({
+	Name = "Open Selected GUIs",
+	CurrentValue = false,
+    Flag = "DKhi",
+	Callback = function(state)
+		for _, name in ipairs(selected) do
+			local path = guiMap[name]
+			local gui = PlayerGui:FindFirstChild(path[1])
+			if gui then
+				local target = path[2] and gui:FindFirstChild(path[2]) or gui
+				if target then
+					target[path[3]] = state
+				end
+			end
+		end
+	end
+})
+
+GeneralTab:CreateSection("Auto Purchase Item")
+
+local Player = game.Players.LocalPlayer
+local Character = Player.Character or Player.CharacterAdded:Wait()
+local HRP = Character:WaitForChild("HumanoidRootPart")
+
+local function TeleportTo(pos)
+    Player.Character.Humanoid:ChangeState(0)
+    repeat task.wait() until not Player:GetAttribute("LastACPos")
+    Player.Character.HumanoidRootPart.CFrame = CFrame.new(pos)
+end
+
+local function GetAllGuns()
+    local guns = {}
+    local folder = workspace:FindFirstChild("GunStore") or workspace:FindFirstChild("Guns") or workspace:FindFirstChild("Items")
+    if folder then
+        for _, item in ipairs(folder:GetChildren()) do
+            if item:IsA("Model") or item:IsA("Part") then
+                table.insert(guns, item.Name)
+            end
+        end
+    end
+    table.sort(guns)
+    return guns
+end
+
+local GunList = GetAllGuns()
+local SelectedGun
+
+local Dropdown = GeneralTab:CreateDropdown({
+    Name = "Select Gun",
+    Options = GunList,
+    CurrentOption = "",
+    Flag = "GunSelect",
+    Callback = function(option)
+        SelectedGun = option
+    end
+})
+
+GeneralTab:CreateButton({
+    Name = "Buy Gun",
+    Callback = function()
+        if not SelectedGun then return end
+
+        local gunPos
+        local folder = workspace:FindFirstChild("GunStore") or workspace:FindFirstChild("Guns") or workspace:FindFirstChild("Items")
+
+        if folder and folder:FindFirstChild(SelectedGun) then
+            gunPos = folder[SelectedGun]:GetPivot().Position
+        end
+
+        if not gunPos then return end
+
+        TeleportTo(gunPos)
+
+        local remote = game.ReplicatedStorage:FindFirstChild("GunPurchase") or game.ReplicatedStorage:FindFirstChild("BuyGun")
+
+        if remote then
+            remote:FireServer(SelectedGun)
+        end
+    end
+})
+
+GeneralTab:CreateSection("Extra")
+
+local Players = game:GetService("Players")
+local TextChatService = game:GetService("TextChatService")
+local Channel = TextChatService.TextChannels.RBXGeneral
+
+local selectedPlayer = ""
+
+local function GetPlayerList()
+    local list = {}
+    for _, p in ipairs(Players:GetPlayers()) do
+        table.insert(list, p.Name)
+    end
+    return list
+end
+
+local PlayerDropdown = GeneralTab:CreateDropdown({
+    Name = "Select Player",
+    Options = GetPlayerList(),
+    CurrentOption = {},
+    Flag = "PasstoDropdown",
+    Callback = function(option)
+        selectedPlayer = option[1]
+    end,
+})
+
+Players.PlayerAdded:Connect(function()
+    PlayerDropdown.Options = GetPlayerList()
+end)
+
+Players.PlayerRemoving:Connect(function()
+    PlayerDropdown.Options = GetPlayerList()
+end)
+
+GeneralTab:CreateButton({
+    Name = "Automatic /Passto",
+    Callback = function()
+        Channel:SendAsync("/passto " .. selectedPlayer)
+    end,
+})
+
