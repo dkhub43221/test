@@ -1,5 +1,22 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local avatarUrl = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. player.UserId .. "&width=150&height=150&format=png"
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Script Loading";
+    Text = "Welcome, " .. player.Name .. "! Script is loading, please wait...";
+    Icon = avatarUrl;
+    Duration = 5;
+})
+
+wait(6)
+
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local executor = identifyexecutor and identifyexecutor() or "Unknown Executor"
+
+
+
 
 local customTheme = {
    TextColor = Color3.fromRGB(255, 255, 255),
@@ -54,57 +71,53 @@ local Window = Rayfield:CreateWindow({
 })
 
 local MainTab = Window:CreateTab("Main", "box")
-MainTab:CreateSection("Bypass.lmao aka fuck abd")
-
-local isRunning = false
+MainTab:CreateSection("Inf Money")
 
 MainTab:CreateToggle({
-    Name = "Generate Max Money",
+    Name = "Money Vulnerability",
     CurrentValue = false,
-    Flag = "AutoATM",
-    Callback = function(value)
-        isRunning = value
-        if isRunning then
-            spawn(function()
-                while isRunning do
-                    for i = 1, 2000 do
-                        spawn(function()
-                            pcall(function()
-                                game:GetService("ReplicatedStorage"):WaitForChild("ATMRF"):InvokeServer("withdraw", 0.5)
-                            end)
+    Flag = "Toggle1",
+    Callback = function(Value)
+        getgenv().LOLIDC = Value
+        if Value then
+            task.spawn(function()
+                while getgenv().LOLIDC do
+                    task.wait()
+                    for i = 1, 10 do
+                        task.spawn(function()
+                            local args = { "withdraw", 0.5 }
+                            game:GetService("ReplicatedStorage"):WaitForChild("ATMRF"):InvokeServer(unpack(args))
                         end)
-                        spawn(function()
-                            pcall(function()
-                                game:GetService("ReplicatedStorage"):WaitForChild("ATMRF"):InvokeServer("deposit", 0.5)
-                            end)
+                        task.spawn(function()
+                            local args = { "deposit", 0.5 }
+                            game:GetService("ReplicatedStorage"):WaitForChild("ATMRF"):InvokeServer(unpack(args))
                         end)
                     end
                 end
             end)
         end
-    end
+    end,
 })
+
 
 MainTab:CreateSection("Dupe Tools")
 
 local amount = 1
 
-local Slider = MainTab:CreateSlider({
-    Name = "Dupe Amount",
-    Range = {1, 25},
-    Increment = 1,
-    Suffix = "",
-    CurrentValue = 1,
-    Flag = "DupeAmount",
-    Callback = function(Value)
-        amount = Value
-    end,
+MainTab:CreateInput({
+   Name = "Dupe Amount",
+   CurrentValue = "",
+   PlaceholderText = "Input",
+   RemoveTextAfterFocusLost = false,
+   Flag = "Dupe",
+   Callback = function(Value)
+       amount = Value
+   end,
 })
-
+    
 MainTab:CreateButton({
-    Name = "Dupe Tool",
+    Name = "Duplicate Current Item",
     Callback = function()
-
         local RS = game:GetService("ReplicatedStorage")
         local Players = game:GetService("Players")
         local p = Players.LocalPlayer
@@ -112,11 +125,7 @@ MainTab:CreateButton({
 
         local tool = c:FindFirstChildOfClass("Tool")
         if not tool then
-            Rayfield:Notify({
-                Title = "Error",
-                Content = "No tool equipped!",
-                Duration = 4,
-            })
+            print("No Tool Equip!")
             return
         end
 
@@ -140,10 +149,6 @@ MainTab:CreateButton({
             end
         end
 
-        Rayfield:Notify({
-            Title = "Dupe!",
-            Content = "Duping..",
-            Duration = 4,
-        })
+        print("Duping...")
     end,
 })
