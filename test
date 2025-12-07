@@ -101,10 +101,17 @@ MainTab:CreateToggle({
 
 MainTab:CreateSection("Dupe Tools")
 
+MainTab:CreateParagraph({
+    Title = "Usage!",
+    Content = [[Step 1: Purchase an 'Apartment'
+Step 2: Go to your 'Safe' then equip your item u want to dupe u need 1 in safe and 1 in inventory of the same item
+Step 3: Then click 'Duplicate Current Item']]
+})
+
 local amount = 1
 
 MainTab:CreateInput({
-   Name = "Dupe Amount",
+   Name = "Enter Dupe Amount",
    CurrentValue = "",
    PlaceholderText = "Input",
    RemoveTextAfterFocusLost = false,
