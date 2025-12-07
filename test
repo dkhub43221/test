@@ -1,78 +1,224 @@
---// AUTO LOOT ALL BODIES – DKHub Version
---// Fires LootPlayerRF on every eligible dead body
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local avatarUrl = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. player.UserId .. "&width=150&height=150&format=png"
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Script Loading";
+    Text = "Welcome, " .. player.Name .. "! Script is loading, please wait...";
+    Icon = avatarUrl;
+    Duration = 5.5;
+})
+
+wait(6)
+
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local executor = identifyexecutor and identifyexecutor() or "Unknown Executor"
+
+
+local customTheme = {
+   TextColor = Color3.fromRGB(255, 255, 255),
+   Background = Color3.fromRGB(0, 0, 0),
+   Topbar = Color3.fromRGB(0, 0, 0),
+   TopbarLine = Color3.fromRGB(255, 255, 255),
+   Shadow = Color3.fromRGB(0, 0, 0),
+   Accent = Color3.fromRGB(255, 255, 255),
+   NotificationBackground = Color3.fromRGB(0, 0, 0),
+   NotificationActionsBackground = Color3.fromRGB(0, 0, 0),
+   TabBackground = Color3.fromRGB(0, 0, 0),
+   TabStroke = Color3.fromRGB(0, 0, 0),
+   TabBackgroundSelected = Color3.fromRGB(0, 0, 0),
+   TabTextColor = Color3.fromRGB(149, 149, 149),
+   SelectedTabTextColor = Color3.fromRGB(255, 255, 255),
+   ElementBackground = Color3.fromRGB(0, 0, 0),
+   ElementBackgroundHover = Color3.fromRGB(20, 20, 20),
+   SecondaryElementBackground = Color3.fromRGB(0, 0, 0),
+   ElementStroke = Color3.fromRGB(255, 255, 255),
+   SecondaryElementStroke = Color3.fromRGB(255, 255, 255),
+   SliderBackground = Color3.fromRGB(0, 0, 0),
+   SliderProgress = Color3.fromRGB(255, 255, 255),
+   SliderStroke = Color3.fromRGB(255, 255, 255),
+   ToggleBackground = Color3.fromRGB(0, 0, 0),
+   ToggleEnabled = Color3.fromRGB(255, 255, 255),
+   ToggleDisabled = Color3.fromRGB(100, 100, 100),
+   ToggleEnabledStroke = Color3.fromRGB(255, 255, 255),
+   ToggleDisabledStroke = Color3.fromRGB(100, 100, 100),
+   ToggleEnabledOuterStroke = Color3.fromRGB(255, 255, 255),
+   ToggleDisabledOuterStroke = Color3.fromRGB(100, 100, 100),
+   DropdownSelected = Color3.fromRGB(0, 0, 0),
+   DropdownUnselected = Color3.fromRGB(0, 0, 0),
+   InputBackground = Color3.fromRGB(0, 0, 0),
+   InputStroke = Color3.fromRGB(255, 255, 255),
+   PlaceholderColor = Color3.fromRGB(150, 150, 150),
+   KeyInputBackground = Color3.fromRGB(0, 0, 0),
+   KeyInputTextColor = Color3.fromRGB(255, 255, 255)
+}
+
+local Window = Rayfield:CreateWindow({
+   Name = "DK's Hub | Streetz War 2 | V1 | " .. executor,
+   Icon = 0,
+   LoadingTitle = "Script Loading...",
+   LoadingSubtitle = "",
+   Theme = customTheme,
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false,
+   ConfigurationSaving = {Enabled = false, FolderName = "BlackThemeHub", FileName = "BigHub"},
+   Discord = {Enabled = true, Invite = "Fy7PanRV", RememberJoins = true},
+   KeySystem = false,
+   KeySettings = {Title = "X-DK | V1", Subtitle = "Enter Key Below", Note = "Buy A Key At Discord.gg/dkshub", FileName = "Key", SaveKey = true, GrabKeyFromSite = false, Key = {""}, Theme = customTheme}
+})
+
+local MainTab = Window:CreateTab("Main", "box")
+MainTab:CreateSection("Inf Money")
+
+MainTab:CreateParagraph({Title = "Warning!", Content = "When Doing 'Money Vulnerability' Please remember other people can see u doing this."})
+
+MainTab:CreateToggle({
+    Name = "Money Vulnerability",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        getgenv().LOLIDC = Value
+        if Value then
+            task.spawn(function()
+                while getgenv().LOLIDC do
+                    task.wait()
+                    for i = 1, 10 do
+                        task.spawn(function()
+                            local args = { "withdraw", 0.5 }
+                            game:GetService("ReplicatedStorage"):WaitForChild("ATMRF"):InvokeServer(unpack(args))
+                        end)
+                        task.spawn(function()
+                            local args = { "deposit", 0.5 }
+                            game:GetService("ReplicatedStorage"):WaitForChild("ATMRF"):InvokeServer(unpack(args))
+                        end)
+                    end
+                end
+            end)
+        end
+    end,
+})
+
+MainTab:CreateSection("Dupe Tools")
+
+MainTab:CreateParagraph({
+    Title = "Usage",
+    Content = [[Step 1: Purchase an 'Apartment'
+Step 2: Go to your 'Safe' then equip your item u want to dupe u need 1 in safe and 1 in inventory of the same item
+Step 3: Then click 'Duplicate Current Item']]
+})
+
+local amount = 1
+
+MainTab:CreateInput({
+   Name = "Enter Dupe Amount",
+   CurrentValue = "",
+   PlaceholderText = "Input",
+   RemoveTextAfterFocusLost = false,
+   Flag = "Dupe",
+   Callback = function(Value)
+       amount = Value
+   end,
+})
+    
+MainTab:CreateButton({
+    Name = "Duplicate Current Item",
+    Callback = function()
+        local RS = game:GetService("ReplicatedStorage")
+        local Players = game:GetService("Players")
+        local p = Players.LocalPlayer
+        local c = p.Character or p.CharacterAdded:Wait()
+
+        local tool = c:FindFirstChildOfClass("Tool")
+        if not tool then
+            warn("No Tool Found in Hand!")
+            return
+        end
+
+        local r = RS:WaitForChild("TakeItemSafe")
+        local name = tool.Name
+
+        local safes = {}
+        for _, v in ipairs(workspace:GetDescendants()) do
+            if v.Name:lower():find("safe") then
+                safes[#safes+1] = v
+            end
+        end
+
+        for _, safe in ipairs(safes) do
+            for i = 1, amount do
+                task.spawn(function()
+                    for _ = 1, 5 do
+                        pcall(r.FireServer, r, name, safe)
+                    end
+                end)
+            end
+        end
+
+        print("Duping...")
+    end,
+})
+
+MainTab:CreateSection("Teleports")
 
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
-local Teams = game:GetService("Teams")
 
-local LootRF = game:GetService("ReplicatedStorage"):WaitForChild("LootPlayerRF")
-local Notify = require(LocalPlayer.PlayerGui.NotificationUI.NotificationModule)
+local allLocations = {
+    {Name="💼 Mop Job", Position=CFrame.new(-101,4,18)},
+    {Name="💼 Box Job", Position=CFrame.new(-118,4,300)},
+    {Name="💼 Pizza Job", Position=CFrame.new(166,5,49)},
+    {Name="💼 Thrift Job", Position=CFrame.new(-8,4,17)},
 
--- SETTINGS
-local AutoLootEnabled = true
-local LootRange = 25 -- how close you must be to loot
+    {Name="🛒 Ice Box", Position=CFrame.new(-11354,4,291)},
+    {Name="🛒 Pharmacy", Position=CFrame.new(41,5,-264)},
+    {Name="🛒 Father & Son", Position=CFrame.new(41,5,-331)},
+    {Name="🛒 Sneaker Zone", Position=CFrame.new(38,5,-346)},
+    {Name="🛒 Dealership", Position=CFrame.new(845,5,-7)},
+    {Name="🛒 Gun Store", Position=CFrame.new(-51811,4,-15)},
+    {Name="🛒 London Drip", Position=CFrame.new(-158,4,6)},
+    {Name="🛒 JD", Position=CFrame.new(-125,4,41)},
 
--- Convert loot table to readable text
-local function LootToText(tbl)
-    if not tbl or #tbl == 0 then
-        return "You looted nothing!"
-    end
+    {Name="🏠 Apartment 1", Position=CFrame.new(108104,-443,222)},
+    {Name="🏠 Apartment 2", Position=CFrame.new(-134830,-196,3306)},
 
-    local msg = "You Looted: "
-    for i, v in ipairs(tbl) do
-        msg = msg .. v.Name
-        if i < #tbl then msg = msg .. ", " end
-    end
-    return msg
+    {Name="💊 Illegal Dealer", Position=CFrame.new(108104,-443,222)},
+    {Name="💻 Card & Laptop Dealer", Position=CFrame.new(226,4,-541)},
+    {Name="💼 Illegal Manger", Position=CFrame.new(-15,5,-338)},
+    {Name="💍 Jewelry Manger", Position=CFrame.new(504,29,-857)},
+
+    {Name="🌱 Seed Farm", Position=CFrame.new(542,29,-761)},
+    {Name="🎡 Wheel Spin", Position=CFrame.new(145,5,92)},
+    {Name="🚉 MET Station", Position=CFrame.new(18284,-78,-128)},
+    {Name="🛍️ Mall Haul", Position=CFrame.new(458,29,-907)},
+    {Name="🍔 Abd's Smash", Position=CFrame.new(169,5,-24)},
+    {Name="🛡️ Safe Spot", Position=CFrame.new(960,4,-84)}
+}
+
+local locationNames = {}
+for _, loc in ipairs(allLocations) do
+    table.insert(locationNames, loc.Name)
 end
 
--- MAIN LOOP
-task.spawn(function()
-    while task.wait(0.25) do
-        if not AutoLootEnabled then continue end
-
-        local myChar = LocalPlayer.Character
-        local hrp = myChar and myChar:FindFirstChild("HumanoidRootPart")
-        if not hrp then continue end
-
-        for _, plr in ipairs(Players:GetPlayers()) do
-            if plr == LocalPlayer then continue end
-
-            -- Ignore cops
-            if plr.Team == Teams["Police Met"] then
-                continue
-            end
-
-            local char = plr.Character
-            if not char then continue end
-
-            local hum = char:FindFirstChild("Humanoid")
-            local torso = char:FindFirstChild("UpperTorso")
-
-            if hum and hum.Health <= 0 and torso then
-
-                -- Already looted?
-                if char:GetAttribute("Looted") == true then
-                    continue
-                end
-
-                -- Safezone?
-                if char:GetAttribute("InSafeZone") == true then
-                    continue
-                end
-
-                -- Distance check
-                local dist = (torso.Position - hrp.Position).Magnitude
-                if dist > LootRange then
-                    continue
-                end
-
-                -- Fire loot remote
-                local loot = LootRF:InvokeServer(plr)
-
-                -- Notify
-                Notify.addNotification(LootToText(loot))
+MainTab:CreateDropdown({
+    Name = "Locations",
+    Options = locationNames,
+    CurrentOption = locationNames[1],
+    MultipleOptions = false,
+    Flag = "MainTeleportDropdown",
+    Callback = function(selectedName)
+        local selectedLocation
+        for _, loc in ipairs(allLocations) do
+            if loc.Name == selectedName then
+                selectedLocation = loc
+                break
             end
         end
+
+        if selectedLocation then
+            local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+            local hrp = char:WaitForChild("HumanoidRootPart")
+            hrp.CFrame = selectedLocation.Position
+        end
     end
-end)
+})
