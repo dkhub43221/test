@@ -702,7 +702,7 @@ local function ApplyEffect()
                 rootPart.Size = Vector3.new(hitboxSize, hitboxSize, hitboxSize)
                 rootPart.Transparency = 0.5
                 rootPart.Color = rainbowEnabled and GetRainbowColor() or selectedColor
-                rootPart.CanCollide = false
+                rootPart.CanCollide = true
             end
         end
     end
@@ -912,4 +912,266 @@ local NoSpreadToggle = CombatTab:CreateToggle({
             end
         end
     end
+})
+
+local AutoBuyTab = Window:CreateTab("Auto Buy", "shopping-cart")
+AutoBuyTab:CreateSection("Ammo")
+
+
+local ammoLocations = {
+    {Name = "Drum (100£)", Position = CFrame.new(-51796, 7, 8)},
+    {Name = "Bullets (15£)", Position = CFrame.new(-51796, 7, 8)},
+    {Name = "Extended (40£)", Position = CFrame.new(-51803, 7, 8)},
+    {Name = "Mag (60£)", Position = CFrame.new(-363, 340, -559)},
+}
+local ammoNames = {}
+for _, location in ipairs(ammoLocations) do
+    table.insert(ammoNames, location.Name)
+end
+local selectedAmmo = ammoLocations[1]
+AutoBuyTab:CreateDropdown({
+    Name = "Ammo",
+    Options = ammoNames,
+    CurrentOption = {ammoNames[1]},
+    MultipleOptions = false,
+    Flag = "AmmoDropdown",
+    Callback = function(Options)
+        for _, location in ipairs(ammoLocations) do
+            if location.Name == Options[1] then
+                selectedAmmo = location
+                break
+            end
+        end
+    end
+})
+AutoBuyTab:CreateButton({
+    Name = "Buy Selected Ammo",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            player.Character.HumanoidRootPart.CFrame = selectedAmmo.Position
+        end
+    end
+})
+
+AutoBuyTab:CreateSection("Knives")
+local knifeLocations = {
+    {Name = "Zombie Knife (130£)", Position = CFrame.new(-51795, 7, -26)},
+    {Name = "Knife (90£)", Position = CFrame.new(-51800, 7, -27)},
+    {Name = "Survival Knife (100£)", Position = CFrame.new(-51804, 7, -27)},
+}
+local knifeNames = {}
+for _, location in ipairs(knifeLocations) do
+    table.insert(knifeNames, location.Name)
+end
+local selectedKnife = knifeLocations[1]
+AutoBuyTab:CreateDropdown({
+    Name = "Knives",
+    Options = knifeNames,
+    CurrentOption = {knifeNames[1]},
+    MultipleOptions = false,
+    Flag = "KnifeDropdown",
+    Callback = function(Options)
+        for _, location in ipairs(knifeLocations) do
+            if location.Name == Options[1] then
+                selectedKnife = location
+                break
+            end
+        end
+    end
+})
+AutoBuyTab:CreateButton({
+    Name = "Buy Selected Knife",
+    Callback = function()
+        local player = game.Players.LocalLocalPlayer
+        if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            player.Character.HumanoidRootPart.CFrame = selectedKnife.Position
+        end
+    end
+})
+
+AutoBuyTab:CreateSection("Guns")
+local gunLocations = {
+    {Name = "Mac (4,250£)", Position = CFrame.new(-51812, 7, -27)},
+    {Name = "Revolver (2,200£)", Position = CFrame.new(-51816, 7, -27)},
+    {Name = "Tec9 (4,520£)", Position = CFrame.new(-51821, 7, -27)},
+    {Name = "Walther PPK (800£)", Position = CFrame.new(-51824, 7, -27)},
+    {Name = "Glock 17 Ext (3,000£)", Position = CFrame.new(-51831, 7, -28)},
+    {Name = "Glock 17 Switch (3,600£)", Position = CFrame.new(-51823, 7, -25)},
+    {Name = "Glock Drum (4,530£)", Position = CFrame.new(-51832, 7, -21)},
+    {Name = "Skorpion (5,600£)", Position = CFrame.new(-51831, 7, -18)},
+    {Name = "MiiDraco (7,850£)", Position = CFrame.new(-51832, 7, -11)},
+    {Name = "Thompson (6,625£)", Position = CFrame.new(-51832, 7, -8)},
+    {Name = "Vector (8,000£)", Position = CFrame.new(-51832, 7, -5)},
+    {Name = "AR15 (7,600£)", Position = CFrame.new(-51832, 7, 1)},
+    {Name = "Shotgun (5,670£)", Position = CFrame.new(-51832, 7, 4)},
+    {Name = "Sawnoff (6,250)", Position = CFrame.new(-51832, 7, 6)},
+}
+local gunNames = {}
+for _, location in ipairs(gunLocations) do
+    table.insert(gunNames, location.Name)
+end
+local selectedGun = gunLocations[1]
+AutoBuyTab:CreateDropdown({
+    Name = "Guns",
+    Options = gunNames,
+    CurrentOption = {gunNames[1]},
+    MultipleOptions = false,
+    Flag = "GunDropdown",
+    Callback = function(Options)
+        for _, location in ipairs(gunLocations) do
+            if location.Name == Options[1] then
+                selectedGun = location
+                break
+            end
+        end
+    end
+})
+AutoBuyTab:CreateButton({
+    Name = "Buy Selected Gun",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            player.Character.HumanoidRootPart.CFrame = selectedGun.Position
+        else
+            warn("No valid character or HumanoidRootPart found!")
+        end
+    end
+})
+
+Window:CreateTab("Vehicle", "car")
+VehicleTab:CreateSection("Spawn Car")
+
+local selectedCar = ""
+
+local function UpdateOwnedCars()
+	local player = game:GetService("Players").LocalPlayer
+	local ownedCarsFolder = player:FindFirstChild("OwnedCars")
+
+	if not ownedCarsFolder then
+		return {}
+	end
+
+	local carNames = {}
+	local carPaths = {
+		"AudiRS6", "Bmw530", "Brabus", "Bugatti", "Chiron 300", "Dirtbike", "Dodge Charger", 
+		"Dodge Durango", "Dodge Hellcat", "Electric Scooter", "Honda CBR", "Jeep Grand Cherokee", 
+		"Koenigsegg", "Lexus LC500", "Mercedes AMG", "Porsche 911", "Purosangue", "Quad", 
+		"RR Boat Tail", "Range Rover", "RollRoyceGhost", "Rusty VW", "Scooter", "Sport Lexus", 
+		"Toyota Landcruiser", "Toyota Supra", "Urus", "Van"
+	}
+
+	for _, carName in ipairs(carPaths) do
+		local car = ownedCarsFolder:FindFirstChild(carName)
+		if car and car:IsA("BoolValue") and car.Value == true then
+			table.insert(carNames, carName)
+		end
+	end
+
+	return carNames
+end
+
+VehicleTab:CreateDropdown({
+	Name = "Owned Cars",
+	Options = UpdateOwnedCars(),
+	CurrentOption = {},
+	Flag = "OwnedCarDropdown",
+	Callback = function(Option)
+		selectedCar = Option[1]
+	end
+})
+
+VehicleTab:CreateButton({
+	Name = "Spawn Selected Car",
+	Callback = function()
+		if selectedCar == "" then return end
+
+		local args = {
+			[1] = "spawn",
+			[2] = selectedCar
+		}
+
+		game:GetService("ReplicatedStorage"):WaitForChild("CarRE"):InvokeServer(unpack(args))
+		task.wait(2)
+
+		local player = game:GetService("Players").LocalPlayer
+		local carFolder = workspace:FindFirstChild("SpawnedVehicles")
+		if carFolder then
+			local carModel = carFolder:FindFirstChild(player.Name .. "'s Car")
+			if carModel and carModel.PrimaryPart then
+				player.Character:MoveTo(carModel.PrimaryPart.Position)
+			end
+		end
+	end
+})
+
+local VehicleSection = VehicleTab:CreateSection("Buy Car")
+
+local function UpdateBuyableCars()
+	local player = game:GetService("Players").LocalPlayer
+	local ownedCarsFolder = player:FindFirstChild("OwnedCars")
+
+	if not ownedCarsFolder then
+		return {}
+	end
+
+	local carNames = {}
+	for _, car in ipairs(ownedCarsFolder:GetChildren()) do
+		table.insert(carNames, car.Name)
+	end
+
+	return carNames
+end
+
+VehicleTab:CreateDropdown({
+	Name = "Buyable Cars",
+	Options = UpdateBuyableCars(),
+	CurrentOption = {},
+	Flag = "BuyCarDropdown",
+	Callback = function(Option)
+		selectedCar = Option[1]
+	end
+})
+
+VehicleTab:CreateButton({
+	Name = "Buy Selected Car",
+	Callback = function()
+		if selectedCar == "" then return end
+
+		local args = {
+			[1] = "buy",
+			[2] = selectedCar
+		}
+
+		game:GetService("ReplicatedStorage"):WaitForChild("CarRE"):InvokeServer(unpack(args))
+
+		Rayfield:Notify({
+			Title = "Car Bought!",
+			Content = "You have successfully bought " .. selectedCar,
+			Duration = 5,
+			Image = 4483345998
+		})
+	end
+})
+
+VehicleTab:CreateSection("Lock/Unlock")
+
+VehicleTab:CreateButton({
+	Name = "Lock Car",
+	Callback = function()
+		local args = {
+			[1] = "lock"
+		}
+		game:GetService("ReplicatedStorage"):WaitForChild("CarRE"):InvokeServer(unpack(args))
+	end
+})
+
+VehicleTab:CreateButton({
+	Name = "Unlock Car",
+	Callback = function()
+		local args = {
+			[1] = "unlock"
+		}
+		game:GetService("ReplicatedStorage"):WaitForChild("CarRE"):InvokeServer(unpack(args))
+	end
 })
