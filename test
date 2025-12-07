@@ -16,8 +16,6 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local executor = identifyexecutor and identifyexecutor() or "Unknown Executor"
 
 
-
-
 local customTheme = {
    TextColor = Color3.fromRGB(255, 255, 255),
    Background = Color3.fromRGB(0, 0, 0),
@@ -58,8 +56,8 @@ local customTheme = {
 
 local Window = Rayfield:CreateWindow({
    Name = "DK's Hub | Streetz War 2 | V1 | " .. executor,
-   Icon = nil,
-   LoadingTitle = "",
+   Icon = 0,
+   LoadingTitle = "Script Loading...",
    LoadingSubtitle = "",
    Theme = customTheme,
    DisableRayfieldPrompts = false,
@@ -72,6 +70,8 @@ local Window = Rayfield:CreateWindow({
 
 local MainTab = Window:CreateTab("Main", "box")
 MainTab:CreateSection("Inf Money")
+
+MainTab:CreateParagraph({Title = "Warning!", Content = "When Doing 'Money Vulnerability' Please remember other people can see u doing this."})
 
 MainTab:CreateToggle({
     Name = "Money Vulnerability",
@@ -99,7 +99,6 @@ MainTab:CreateToggle({
     end,
 })
 
-
 MainTab:CreateSection("Dupe Tools")
 
 local amount = 1
@@ -125,7 +124,7 @@ MainTab:CreateButton({
 
         local tool = c:FindFirstChildOfClass("Tool")
         if not tool then
-            print("No Tool Equip!")
+            warn("No Tool Found in Hand!")
             return
         end
 
