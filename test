@@ -34,3 +34,294 @@ local customTheme = {
    ElementBackgroundHover = Color3.fromRGB(20, 20, 20),
    SecondaryElementBackground = Color3.fromRGB(0, 0, 0),
    ElementStroke = Color3.fromRGB(255, 255, 255),
+   SecondaryElementStroke = Color3.fromRGB(255, 255, 255),
+   SliderBackground = Color3.fromRGB(0, 0, 0),
+   SliderProgress = Color3.fromRGB(255, 255, 255),
+   SliderStroke = Color3.fromRGB(255, 255, 255),
+   ToggleBackground = Color3.fromRGB(0, 0, 0),
+   ToggleEnabled = Color3.fromRGB(255, 255, 255),
+   ToggleDisabled = Color3.fromRGB(100, 100, 100),
+   ToggleEnabledStroke = Color3.fromRGB(255, 255, 255),
+   ToggleDisabledStroke = Color3.fromRGB(100, 100, 100),
+   ToggleEnabledOuterStroke = Color3.fromRGB(255, 255, 255),
+   ToggleDisabledOuterStroke = Color3.fromRGB(100, 100, 100),
+   DropdownSelected = Color3.fromRGB(0, 0, 0),
+   DropdownUnselected = Color3.fromRGB(0, 0, 0),
+   InputBackground = Color3.fromRGB(0, 0, 0),
+   InputStroke = Color3.fromRGB(255, 255, 255),
+   PlaceholderColor = Color3.fromRGB(150, 150, 150),
+   KeyInputBackground = Color3.fromRGB(0, 0, 0),
+   KeyInputTextColor = Color3.fromRGB(255, 255, 255)
+}
+
+local Window = Rayfield:CreateWindow({
+   Name = "DK's Hub | Streetz War 2 | V1 | " .. executor,
+   Icon = 0,
+   LoadingTitle = "Script Loading...",
+   LoadingSubtitle = "",
+   Theme = customTheme,
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false,
+   ConfigurationSaving = {Enabled = false, FolderName = "BlackThemeHub", FileName = "BigHub"},
+   Discord = {Enabled = true, Invite = "Fy7PanRV", RememberJoins = true},
+   KeySystem = false,
+   KeySettings = {Title = "X-DK | V1", Subtitle = "Enter Key Below", Note = "Buy A Key At Discord.gg/dkshub", FileName = "Key", SaveKey = true, GrabKeyFromSite = false, Key = {""}, Theme = customTheme}
+})
+
+local MainTab = Window:CreateTab("Main", "box")
+MainTab:CreateSection("Inf Money")
+
+MainTab:CreateParagraph({Title = "Warning!", Content = "When Doing 'Money Vulnerability' Please remember other people can see u doing this."})
+
+MainTab:CreateToggle({
+    Name = "Money Vulnerability",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        getgenv().LOLIDC = Value
+        if Value then
+            task.spawn(function()
+                while getgenv().LOLIDC do
+                    task.wait()
+                    for i = 1, 10 do
+                        task.spawn(function()
+                            local args = { "withdraw", 0.5 }
+                            game:GetService("ReplicatedStorage"):WaitForChild("ATMRF"):InvokeServer(unpack(args))
+                        end)
+                        task.spawn(function()
+                            local args = { "deposit", 0.5 }
+                            game:GetService("ReplicatedStorage"):WaitForChild("ATMRF"):InvokeServer(unpack(args))
+                        end)
+                    end
+                end
+            end)
+        end
+    end,
+})
+
+MainTab:CreateSection("Dupe Tools")
+
+MainTab:CreateParagraph({
+    Title = "Usage",
+    Content = [[Step 1: Purchase an 'Apartment'
+Step 2: Go to your 'Safe' then equip your item u want to dupe u need 1 in safe and 1 in inventory of the same item
+Step 3: Then click 'Duplicate Current Item']]
+})
+
+local amount = 1
+
+MainTab:CreateInput({
+   Name = "Enter Dupe Amount",
+   CurrentValue = "",
+   PlaceholderText = "Input",
+   RemoveTextAfterFocusLost = false,
+   Flag = "Dupe",
+   Callback = function(Value)
+       amount = Value
+   end,
+})
+    
+MainTab:CreateButton({
+    Name = "Duplicate Current Item",
+    Callback = function()
+        local RS = game:GetService("ReplicatedStorage")
+        local Players = game:GetService("Players")
+        local p = Players.LocalPlayer
+        local c = p.Character or p.CharacterAdded:Wait()
+
+        local tool = c:FindFirstChildOfClass("Tool")
+        if not tool then
+            warn("No Tool Found in Hand!")
+            return
+        end
+
+        local r = RS:WaitForChild("TakeItemSafe")
+        local name = tool.Name
+
+        local safes = {}
+        for _, v in ipairs(workspace:GetDescendants()) do
+            if v.Name:lower():find("safe") then
+                safes[#safes+1] = v
+            end
+        end
+
+        for _, safe in ipairs(safes) do
+            for i = 1, amount do
+                task.spawn(function()
+                    for _ = 1, 5 do
+                        pcall(r.FireServer, r, name, safe)
+                    end
+                end)
+            end
+        end
+
+        print("Duping...")
+    end,
+})
+
+MainTab:CreateSection("Kill Aura - Hold Gun")
+
+local Players = game:GetService("Players")
+local RS = game:GetService("ReplicatedStorage")
+local LP = game:GetService("Players").LocalPlayer
+local Event = RS:WaitForChild("Communication"):WaitForChild("Events"):WaitForChild("hit")
+local RunService = game:GetService("RunService")
+
+local autoHit = false
+local auraRange = 1000
+local hitRate = 10
+local teamCheck = false
+
+local function getEquippedTool()
+    local char = LP.Character
+    if not char then return nil end
+    for _, v in ipairs(char:GetChildren()) do
+        if v:IsA("Tool") and v:FindFirstChild("Handle") then
+            return v
+        end
+    end
+    return nil
+end
+
+local function getTargetsInRange()
+    local targets = {}
+    local char = LP.Character
+    if not char then return targets end
+    local myHRP = char:FindFirstChild("HumanoidRootPart")
+    if not myHRP then return targets end
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if plr ~= LP and plr.Character then
+            -- Skip teammates if teamCheck is enabled
+            if teamCheck and plr.Team == LP.Team then
+                -- If teamCheck is true, don't target teammates, continue to next player
+                return targets
+            end
+            local root = plr.Character:FindFirstChild("HumanoidRootPart")
+            local hum = plr.Character:FindFirstChild("Humanoid")
+            if root and hum and hum.Health > 0 then
+                local dist = (root.Position - myHRP.Position).Magnitude
+                if dist <= auraRange then
+                    table.insert(targets, plr)
+                end
+            end
+        end
+    end
+    return targets
+end
+
+local function hitTarget(plr)
+    if not plr or not plr.Character then return end
+    local root = plr.Character:FindFirstChild("HumanoidRootPart")
+    local hum = plr.Character:FindFirstChild("Humanoid")
+    if not root or not hum or hum.Health <= 0 then return end
+    local weapon = getEquippedTool()
+    if not weapon then return end
+    local origin = weapon.Handle.Position
+    local direction = (root.Position - origin).Unit
+    local args = {weapon, root, root.Position, Vector3.new(0, -1, 0), direction}
+    pcall(function() 
+        if Event then
+            Event:FireServer(unpack(args)) 
+        end
+    end)
+end
+
+-- Task to repeatedly hit targets if autoHit is enabled
+local hitLoop
+task.spawn(function()
+    while true do
+        if autoHit then
+            local targets = getTargetsInRange()
+            for _, t in ipairs(targets) do
+                hitTarget(t)
+            end
+        end
+        task.wait(1 / hitRate)
+    end
+end)
+
+
+MainTab:CreateToggle({
+    Name = "Enable Kill Aura",
+    CurrentValue = false,
+    Callback = function(state)
+        autoHit = state
+
+        if not autoHit and hitLoop then
+            hitLoop:Disconnect()
+        end
+    end
+})
+
+
+
+MainTab:CreateSlider({
+   Name = "Kill Aura Range",
+   Range = {50, 5000},
+   Increment = 100,
+   Suffix = "Range",
+   CurrentValue = auraRange,
+   Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+       auraRange = Value
+   end
+})
+
+MainTab:CreateSection("Other's")
+
+local Players = game:GetService("Players")
+local RS = game:GetService("ReplicatedStorage")
+local LP = game:GetService("Players").LocalPlayer
+local Event = RS:WaitForChild("Communication"):WaitForChild("Events"):WaitForChild("hit")
+
+local function getEquippedTool()
+    local char = LP.Character
+    if not char then return nil end
+    for _, v in ipairs(char:GetChildren()) do
+        if v:IsA("Tool") and v:FindFirstChild("Handle") then
+            return v
+        end
+    end
+    return nil
+end
+
+local function hitTarget(plr)
+    if not plr or not plr.Character then return end
+    local root = plr.Character:FindFirstChild("HumanoidRootPart")
+    local hum = plr.Character:FindFirstChild("Humanoid")
+    if not root or not hum or hum.Health <= 0 then return end
+    local weapon = getEquippedTool()
+    if not weapon then return end
+    local origin = weapon.Handle.Position
+    local direction = (root.Position - origin).Unit
+    local args = {weapon, root, root.Position, Vector3.new(0, -1, 0), direction}
+    pcall(function() Event:FireServer(unpack(args)) end)
+end
+
+local function killAll()
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if plr ~= LP and plr.Character then
+            hitTarget(plr)
+        end
+    end
+end
+
+MainTab:CreateButton({
+    Name = "Kill All - Hold Gun",
+    Callback = function()
+        killAll()
+    end
+})
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LootPlayerRF = ReplicatedStorage:WaitForChild("LootPlayerRF")
+
+MainTab:CreateButton({
+    Name = "Loot All Players - GamePass Required",
+    Callback = function()
+        for _, player in pairs(Players:GetPlayers()) do
+            LootPlayerRF:InvokeServer(player)
+        end
+    end,
+})
