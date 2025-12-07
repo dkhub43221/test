@@ -102,7 +102,7 @@ MainTab:CreateToggle({
 MainTab:CreateSection("Dupe Tools")
 
 MainTab:CreateParagraph({
-    Title = "Usage!",
+    Title = "Usage",
     Content = [[Step 1: Purchase an 'Apartment'
 Step 2: Go to your 'Safe' then equip your item u want to dupe u need 1 in safe and 1 in inventory of the same item
 Step 3: Then click 'Duplicate Current Item']]
@@ -157,4 +157,64 @@ MainTab:CreateButton({
 
         print("Duping...")
     end,
+})
+
+MainTab:CreateSection("Teleports")
+
+local allLocations = {
+    {Name="💼 Mop Job", Position=CFrame.new(-101,4,18)},
+    {Name="💼 Box Job", Position=CFrame.new(-118,4,300)},
+    {Name="💼 Pizza Job", Position=CFrame.new(166,5,49)},
+    {Name="💼 Thrift Job", Position=CFrame.new(-8,4,17)},
+
+    {Name="🛒 Ice Box", Position=CFrame.new(-11354,4,291)},
+    {Name="🛒 Pharmacy", Position=CFrame.new(41,5,-264)},
+    {Name="🛒 Father & Son", Position=CFrame.new(41,5,-331)},
+    {Name="🛒 Sneaker Zone", Position=CFrame.new(38,5,-346)},
+    {Name="🛒 Dealership", Position=CFrame.new(845,5,-7)},
+    {Name="🛒 Gun Store", Position=CFrame.new(-51811,4,-15)},
+    {Name="🛒 London Drip", Position=CFrame.new(-158,4,6)},
+    {Name="🛒 JD", Position=CFrame.new(-125,4,41)},
+
+    {Name="🏠 Apartment 1", Position=CFrame.new(108104,-443,222)},
+    {Name="🏠 Apartment 2", Position=CFrame.new(-134830,-196,3306)},
+
+    {Name="💊 Illegal Dealer", Position=CFrame.new(108104,-443,222)},
+    {Name="💻 Card & Laptop Dealer", Position=CFrame.new(226,4,-541)},
+    {Name="💼 Illegal Manger", Position=CFrame.new(-15,5,-338)},
+    {Name="💍 Jewelry Manger", Position=CFrame.new(504,29,-857)},
+
+    {Name="🌱 Seed Farm", Position=CFrame.new(542,29,-761)},
+    {Name="🎡 Wheel Spin", Position=CFrame.new(145,5,92)},
+    {Name="🚉 MET Station", Position=CFrame.new(18284,-78,-128)},
+    {Name="🛍️ Mall Haul", Position=CFrame.new(458,29,-907)},
+    {Name="🍔 Abd's Smash", Position=CFrame.new(169,5,-24)},
+    {Name="🛡️ Safe Spot", Position=CFrame.new(960,4,-84)}
+}
+
+local locationNames = {}
+for _, loc in ipairs(allLocations) do
+    table.insert(locationNames, loc.Name)
+end
+
+MainTab:CreateDropdown({
+    Name = "Locations",
+    Options = locationNames,
+    CurrentOption = {locationNames[1]},
+    MultipleOptions = false,
+    Flag = "MainTeleportDropdown",
+    Callback = function(options)
+        local selectedLocation
+        for _, loc in ipairs(allLocations) do
+            if loc.Name == options[1] then
+                selectedLocation = loc
+                break
+            end
+        end
+
+        local char = LocalPlayer.Character
+        if char and char:FindFirstChild("HumanoidRootPart") and selectedLocation then
+            char.HumanoidRootPart.CFrame = selectedLocation.Position
+        end
+    end
 })
