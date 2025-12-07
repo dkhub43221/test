@@ -159,7 +159,7 @@ MainTab:CreateButton({
 
         Rayfield:Notify({
             Title = "Dupe!",
-            Content = "Duping.."
+            Content = "Duping..",
             Duration = 4,
         })
     end,
