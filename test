@@ -1039,67 +1039,69 @@ AutoBuyTab:CreateButton({
     end
 })
 
-Window:CreateTab("Vehicle", "car")
+local VehicleTab = Window:CreateTab("Vehicle", "car")
 VehicleTab:CreateSection("Spawn Car")
 
-local selectedCar = ""
+local selectedCarSpawn = ""
+local selectedCarBuy = ""
+
+local carPaths = {
+	"AudiRS6", "Bmw530", "Brabus", "Bugatti", "Chiron300", "Dirtbike", 
+	"DodgeCharger", "DodgeDurango", "DodgeHellcat", "ElectricScooter",
+	"HondaCBR", "JeepGrandCherokee", "Koenigsegg", "LexusLC500",
+	"MercedesAMG", "Porsche911", "Purosangue", "Quad",
+	"RRBoatTail", "RangeRover", "RollRoyceGhost", "RustyVW",
+	"Scooter", "SportLexus", "ToyotaLandcruiser", "ToyotaSupra",
+	"Urus", "Van"
+}
 
 local function UpdateOwnedCars()
 	local player = game:GetService("Players").LocalPlayer
-	local ownedCarsFolder = player:FindFirstChild("OwnedCars")
+	local owned = player:FindFirstChild("OwnedCars")
+	if not owned then return {} end
 
-	if not ownedCarsFolder then
-		return {}
-	end
-
-	local carNames = {}
-	local carPaths = {
-		"AudiRS6", "Bmw530", "Brabus", "Bugatti", "Chiron 300", "Dirtbike", "Dodge Charger", 
-		"Dodge Durango", "Dodge Hellcat", "Electric Scooter", "Honda CBR", "Jeep Grand Cherokee", 
-		"Koenigsegg", "Lexus LC500", "Mercedes AMG", "Porsche 911", "Purosangue", "Quad", 
-		"RR Boat Tail", "Range Rover", "RollRoyceGhost", "Rusty VW", "Scooter", "Sport Lexus", 
-		"Toyota Landcruiser", "Toyota Supra", "Urus", "Van"
-	}
-
+	local list = {}
 	for _, carName in ipairs(carPaths) do
-		local car = ownedCarsFolder:FindFirstChild(carName)
-		if car and car:IsA("BoolValue") and car.Value == true then
-			table.insert(carNames, carName)
+		local value = owned:FindFirstChild(carName)
+		if value and value:IsA("BoolValue") and value.Value == true then
+			table.insert(list, carName)
 		end
 	end
-
-	return carNames
+	return list
 end
 
-VehicleTab:CreateDropdown({
+local OwnedCarsDropdown = VehicleTab:CreateDropdown({
 	Name = "Owned Cars",
 	Options = UpdateOwnedCars(),
 	CurrentOption = {},
 	Flag = "OwnedCarDropdown",
-	Callback = function(Option)
-		selectedCar = Option[1]
+	Callback = function(option)
+		selectedCarSpawn = option[1]
+	end
+})
+
+VehicleTab:CreateButton({
+	Name = "Refresh Owned Cars",
+	Callback = function()
+		OwnedCarsDropdown:Refresh(UpdateOwnedCars())
 	end
 })
 
 VehicleTab:CreateButton({
 	Name = "Spawn Selected Car",
 	Callback = function()
-		if selectedCar == "" then return end
+		if selectedCarSpawn == "" then return end
 
-		local args = {
-			[1] = "spawn",
-			[2] = selectedCar
-		}
-
-		game:GetService("ReplicatedStorage"):WaitForChild("CarRE"):InvokeServer(unpack(args))
+		game:GetService("ReplicatedStorage").CarRE:InvokeServer("spawn", selectedCarSpawn)
 		task.wait(2)
 
 		local player = game:GetService("Players").LocalPlayer
-		local carFolder = workspace:FindFirstChild("SpawnedVehicles")
-		if carFolder then
-			local carModel = carFolder:FindFirstChild(player.Name .. "'s Car")
-			if carModel and carModel.PrimaryPart then
-				player.Character:MoveTo(carModel.PrimaryPart.Position)
+		local folder = workspace:FindFirstChild("SpawnedVehicles")
+
+		if folder then
+			local car = folder:FindFirstChild(player.Name .. "'s Car")
+			if car and car.PrimaryPart then
+				player.Character:MoveTo(car.PrimaryPart.Position)
 			end
 		end
 	end
@@ -1109,69 +1111,64 @@ local VehicleSection = VehicleTab:CreateSection("Buy Car")
 
 local function UpdateBuyableCars()
 	local player = game:GetService("Players").LocalPlayer
-	local ownedCarsFolder = player:FindFirstChild("OwnedCars")
+	local owned = player:FindFirstChild("OwnedCars")
+	if not owned then return {} end
 
-	if not ownedCarsFolder then
-		return {}
+	local list = {}
+	for _, carName in ipairs(carPaths) do
+		local value = owned:FindFirstChild(carName)
+		if value and value:IsA("BoolValue") and value.Value == false then
+			table.insert(list, carName)
+		end
 	end
-
-	local carNames = {}
-	for _, car in ipairs(ownedCarsFolder:GetChildren()) do
-		table.insert(carNames, car.Name)
-	end
-
-	return carNames
+	return list
 end
 
-VehicleTab:CreateDropdown({
+local BuyCarsDropdown = VehicleTab:CreateDropdown({
 	Name = "Buyable Cars",
 	Options = UpdateBuyableCars(),
 	CurrentOption = {},
 	Flag = "BuyCarDropdown",
-	Callback = function(Option)
-		selectedCar = Option[1]
+	Callback = function(option)
+		selectedCarBuy = option[1]
+	end
+})
+
+VehicleTab:CreateButton({
+	Name = "Refresh Buyable Cars",
+	Callback = function()
+		BuyCarsDropdown:Refresh(UpdateBuyableCars())
 	end
 })
 
 VehicleTab:CreateButton({
 	Name = "Buy Selected Car",
 	Callback = function()
-		if selectedCar == "" then return end
+		if selectedCarBuy == "" then return end
 
-		local args = {
-			[1] = "buy",
-			[2] = selectedCar
-		}
-
-		game:GetService("ReplicatedStorage"):WaitForChild("CarRE"):InvokeServer(unpack(args))
+		game:GetService("ReplicatedStorage").CarRE:InvokeServer("buy", selectedCarBuy)
 
 		Rayfield:Notify({
 			Title = "Car Bought!",
-			Content = "You have successfully bought " .. selectedCar,
+			Content = "You bought " .. selectedCarBuy,
 			Duration = 5,
 			Image = 4483345998
 		})
 	end
 })
 
-VehicleTab:CreateSection("Lock/Unlock")
+VehicleTab:CreateSection("Lock / Unlock")
 
 VehicleTab:CreateButton({
 	Name = "Lock Car",
 	Callback = function()
-		local args = {
-			[1] = "lock"
-		}
-		game:GetService("ReplicatedStorage"):WaitForChild("CarRE"):InvokeServer(unpack(args))
+		game:GetService("ReplicatedStorage").CarRE:InvokeServer("lock")
 	end
 })
 
 VehicleTab:CreateButton({
 	Name = "Unlock Car",
 	Callback = function()
-		local args = {
-			[1] = "unlock"
-		}
-		game:GetService("ReplicatedStorage"):WaitForChild("CarRE"):InvokeServer(unpack(args))
+		game:GetService("ReplicatedStorage").CarRE:InvokeServer("unlock")
 	end
 })
