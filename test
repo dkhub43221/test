@@ -7,7 +7,7 @@ game.StarterGui:SetCore("SendNotification", {
     Title = "Script Loading";
     Text = "Welcome, " .. player.Name .. "! Script is loading, please wait...";
     Icon = avatarUrl;
-    Duration = 5;
+    Duration = 5.5;
 })
 
 wait(6)
