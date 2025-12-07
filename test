@@ -161,6 +161,9 @@ MainTab:CreateButton({
 
 MainTab:CreateSection("Teleports")
 
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
 local allLocations = {
     {Name="💼 Mop Job", Position=CFrame.new(-101,4,18)},
     {Name="💼 Box Job", Position=CFrame.new(-118,4,300)},
@@ -200,21 +203,22 @@ end
 MainTab:CreateDropdown({
     Name = "Locations",
     Options = locationNames,
-    CurrentOption = {locationNames[1]},
+    CurrentOption = locationNames[1],
     MultipleOptions = false,
     Flag = "MainTeleportDropdown",
-    Callback = function(options)
+    Callback = function(selectedName)
         local selectedLocation
         for _, loc in ipairs(allLocations) do
-            if loc.Name == options[1] then
+            if loc.Name == selectedName then
                 selectedLocation = loc
                 break
             end
         end
 
-        local char = LocalPlayer.Character
-        if char and char:FindFirstChild("HumanoidRootPart") and selectedLocation then
-            char.HumanoidRootPart.CFrame = selectedLocation.Position
+        if selectedLocation then
+            local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+            local hrp = char:WaitForChild("HumanoidRootPart")
+            hrp.CFrame = selectedLocation.Position
         end
     end
 })
