@@ -38,8 +38,10 @@ local function teleportAndFire(gunName)
     local prompt = gunObj:FindFirstChildOfClass("ProximityPrompt")
     if not prompt then return end
 
-    local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-    if not hrp then return end
+    local character = player.Character or player.CharacterAdded:Wait()
+    local hrp = character:FindFirstChild("HumanoidRootPart")
+    local humanoid = character:FindFirstChild("Humanoid")
+    if not hrp or not humanoid then return end
 
     -- Save current position
     local oldCFrame = hrp.CFrame
@@ -65,11 +67,8 @@ local function teleportAndFire(gunName)
 
     if not targetCFrame then return end
 
-    -- Teleport using requested method
-    local humanoid = player.Character and player.Character:FindFirstChild("Humanoid")
-    if humanoid then
-        humanoid:ChangeState(0)
-    end
+    -- Teleport using safe method
+    humanoid:ChangeState(0)
     repeat task.wait() until not player:GetAttribute("LastACPos")
     hrp.CFrame = targetCFrame
     task.wait(0.1)
