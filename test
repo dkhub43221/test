@@ -33,6 +33,16 @@ local function purchaseGunTeleport(gunName)
     local gunObj = workspace:FindFirstChild("GUNS") and workspace.GUNS:FindFirstChild(gunName)
     if not gunObj then return end
 
+    -- Find a CFrame to teleport to
+    local gunCFrame
+    if gunObj.PrimaryPart then
+        gunCFrame = gunObj.PrimaryPart.CFrame + Vector3.new(0, 3, 0) -- Slightly above
+    elseif gunObj:FindFirstChild("Handle") then
+        gunCFrame = gunObj.Handle.CFrame + Vector3.new(0, 3, 0)
+    else
+        gunCFrame = gunObj:GetModelCFrame() + Vector3.new(0, 3, 0)
+    end
+
     local prompt = gunObj:FindFirstChildOfClass("ProximityPrompt")
     if not prompt then return end
 
@@ -40,22 +50,27 @@ local function purchaseGunTeleport(gunName)
     local oldCFrame = hrp.CFrame
 
     -- Teleport to gun
-    hrp.CFrame = gunObj.PrimaryPart and gunObj.PrimaryPart.CFrame or gunObj.CFrame
+    hrp.CFrame = gunCFrame
     task.wait(0.1)
 
     -- Fire ProximityPrompt
-    prompt:InputHoldBegin()
-    task.wait(0.1)
-    prompt:InputHoldEnd()
+    local success, err = pcall(function()
+        prompt:InputHoldBegin()
+        task.wait(0.1)
+        prompt:InputHoldEnd()
+    end)
 
     -- Return to old position
     task.wait(0.1)
     hrp.CFrame = oldCFrame
+
+    return success
 end
 
 local function autoPurchaseGun()
-    if not selectedGun then return end
-    purchaseGunTeleport(selectedGun)
+    if selectedGun then
+        purchaseGunTeleport(selectedGun)
+    end
 end
 
 -- ===== UI =====
@@ -65,10 +80,12 @@ local QuickBuyTab = Window:CreateTab("Quick Buy", 4483362458)
 local GunDropdown = QuickBuyTab:CreateDropdown({
     Name = "Select Gun",
     Options = getGunList(),
-    CurrentOption = "",
+    CurrentOption = nil,
     Flag = "GunDropdown",
     Callback = function(option)
-        selectedGun = option
+        if option and option ~= "" then
+            selectedGun = option
+        end
     end
 })
 
