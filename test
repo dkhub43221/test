@@ -1,4 +1,4 @@
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
 
 local Window = Rayfield:CreateWindow({
     Name = "Streetz War Quick Buy",
@@ -77,9 +77,6 @@ end
 -- ===== UI =====
 local QuickBuyTab = Window:CreateTab("Quick Buy", 4483362458)
 
--- Selected gun label
-local SelectedLabel = QuickBuyTab:CreateLabel("Selected: None")
-
 -- Dropdown for selecting gun
 local GunDropdown = QuickBuyTab:CreateDropdown({
     Name = "Select Gun",
@@ -94,24 +91,8 @@ local GunDropdown = QuickBuyTab:CreateDropdown({
 
 -- Purchase button (fires ProximityPrompt)
 QuickBuyTab:CreateButton({
-    Name = "🚀 Purchase Selected Gun",
+    Name = "Purchase Selected Gun",
     Callback = function()
         autoPurchaseGun()
-    end
-})
-
--- Refresh dropdown button
-QuickBuyTab:CreateButton({
-    Name = "🔄 Refresh Gun List",
-    Callback = function()
-        local guns = getGunList()
-        GunDropdown:UpdateOptions(guns)
-        if #guns > 0 then
-            F9Notification("✅ Found " .. #guns .. " guns. Select one.")
-        else
-            F9Notification("❌ No guns found in GUNS folder.")
-        end
-        selectedGun = nil
-        SelectedLabel:Set("Selected: None")
     end
 })
