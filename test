@@ -1,5 +1,7 @@
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+-- Load Rayfield
+local Rayfield = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Rayfield/main/source"))()
 
+-- Create window
 local Window = Rayfield:CreateWindow({
     Name = "Streetz War Quick Buy",
     LoadingTitle = "Quick Buy",
@@ -15,8 +17,6 @@ local Window = Rayfield:CreateWindow({
 -- ===== Variables =====
 local selectedGun = nil
 local player = game:GetService("Players").LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local hrp = character:WaitForChild("HumanoidRootPart")
 
 -- ===== Functions =====
 local function getGunList()
@@ -29,63 +29,59 @@ local function getGunList()
     return guns
 end
 
-local function purchaseGunTeleport(gunName)
+local function teleportAndFire(gunName)
     local gunFolder = workspace:FindFirstChild("GUNS")
     if not gunFolder then return end
-
     local gunObj = gunFolder:FindFirstChild(gunName)
     if not gunObj then return end
 
     local prompt = gunObj:FindFirstChildOfClass("ProximityPrompt")
     if not prompt then return end
 
-    -- Determine CFrame to teleport to
-    local gunCFrame
+    local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+
+    -- Save current position
+    local oldCFrame = hrp.CFrame
+
+    -- Determine target CFrame
+    local targetCFrame
     if gunObj:IsA("Model") then
         if gunObj.PrimaryPart then
-            gunCFrame = gunObj.PrimaryPart.CFrame + Vector3.new(0, 3, 0)
+            targetCFrame = gunObj.PrimaryPart.CFrame + Vector3.new(0, 3, 0)
         elseif gunObj:FindFirstChild("Handle") then
-            gunCFrame = gunObj.Handle.CFrame + Vector3.new(0, 3, 0)
+            targetCFrame = gunObj.Handle.CFrame + Vector3.new(0, 3, 0)
         else
-            -- Fallback: use first BasePart in model
             for _, part in pairs(gunObj:GetChildren()) do
                 if part:IsA("BasePart") then
-                    gunCFrame = part.CFrame + Vector3.new(0, 3, 0)
+                    targetCFrame = part.CFrame + Vector3.new(0, 3, 0)
                     break
                 end
             end
         end
     elseif gunObj:IsA("BasePart") then
-        gunCFrame = gunObj.CFrame + Vector3.new(0, 3, 0)
+        targetCFrame = gunObj.CFrame + Vector3.new(0, 3, 0)
     end
 
-    if not gunCFrame then return end -- Couldn’t find a position
+    if not targetCFrame then return end
 
-    -- Save current position
-    local oldCFrame = hrp.CFrame
-
-    -- Teleport to gun
-    hrp.CFrame = gunCFrame
+    -- Teleport using requested method
+    local humanoid = player.Character and player.Character:FindFirstChild("Humanoid")
+    if humanoid then
+        humanoid:ChangeState(0)
+    end
+    repeat task.wait() until not player:GetAttribute("LastACPos")
+    hrp.CFrame = targetCFrame
     task.wait(0.1)
 
-    -- Fire ProximityPrompt safely
-    local success, _ = pcall(function()
-        prompt:InputHoldBegin()
-        task.wait(0.1)
-        prompt:InputHoldEnd()
-    end)
+    -- Fire ProximityPrompt
+    prompt:InputHoldBegin()
+    task.wait(0.1)
+    prompt:InputHoldEnd()
 
     -- Return to old position
     task.wait(0.1)
     hrp.CFrame = oldCFrame
-
-    return success
-end
-
-local function autoPurchaseGun()
-    if selectedGun then
-        purchaseGunTeleport(selectedGun)
-    end
 end
 
 -- ===== UI =====
@@ -95,12 +91,10 @@ local QuickBuyTab = Window:CreateTab("Quick Buy", 4483362458)
 local GunDropdown = QuickBuyTab:CreateDropdown({
     Name = "Select Gun",
     Options = getGunList(),
-    CurrentOption = nil,
+    CurrentOption = "",
     Flag = "GunDropdown",
     Callback = function(option)
-        if option and option ~= "" then
-            selectedGun = option
-        end
+        selectedGun = option
     end
 })
 
@@ -108,6 +102,8 @@ local GunDropdown = QuickBuyTab:CreateDropdown({
 QuickBuyTab:CreateButton({
     Name = "🚀 Purchase Selected Gun",
     Callback = function()
-        autoPurchaseGun()
+        if selectedGun then
+            teleportAndFire(selectedGun)
+        end
     end
 })
