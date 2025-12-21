@@ -26,7 +26,6 @@ local function CannotAffordNotification(text)
     })
 end
 
--- Get gun list with prices
 local function getGunList()
     local gunFolder = workspace:FindFirstChild("GUNS")
     if not gunFolder then return {} end
@@ -38,12 +37,10 @@ local function getGunList()
     return guns
 end
 
--- Extract the actual gun name from dropdown option
 local function extractGunName(option)
     return option:match("^(.-) %(%$.-%)$") or option
 end
 
--- Purchase using ProximityPrompt with money check
 local function purchaseGunPrompt(gunName)
     local gunObj = workspace:FindFirstChild("GUNS") and workspace.GUNS:FindFirstChild(gunName)
     if not gunObj then return false end
@@ -59,26 +56,33 @@ local function purchaseGunPrompt(gunName)
     local prompt = gunObj:FindFirstChildOfClass("ProximityPrompt")
     if not prompt then return false end
 
+    local player = game:GetService("Players").LocalPlayer
+    local character = player.Character
+    if not character or not character:FindFirstChild("HumanoidRootPart") then return false end
+
+    local oldCFrame = character.HumanoidRootPart.CFrame
+    character.HumanoidRootPart.CFrame = gunObj.PrimaryPart and gunObj.PrimaryPart.CFrame or gunObj.CFrame
+
     local success, _ = pcall(function()
         prompt:InputHoldBegin()
         task.wait(0.1)
         prompt:InputHoldEnd()
     end)
 
-    return success
+    character.HumanoidRootPart.CFrame = oldCFrame
+    return success or false
 end
 
--- Auto purchase function
 local function autoPurchaseGun()
-    if not selectedGun then return end
+    if not selectedGun then
+        CannotAffordNotification("❌ Please select a gun first")
+        return
+    end
     purchaseGunPrompt(extractGunName(selectedGun))
 end
 
 -- ===== UI =====
 local QuickBuyTab = Window:CreateTab("Quick Buy", 4483362458)
-
--- Selected gun label
-local SelectedLabel = QuickBuyTab:CreateLabel("Selected: None")
 
 -- Dropdown for selecting gun
 local GunDropdown = QuickBuyTab:CreateDropdown({
@@ -87,8 +91,8 @@ local GunDropdown = QuickBuyTab:CreateDropdown({
     CurrentOption = "",
     Flag = "GunDropdown",
     Callback = function(option)
+        if not option then return end
         selectedGun = option
-        SelectedLabel:Set("Selected: " .. option)
     end
 })
 
@@ -97,16 +101,5 @@ QuickBuyTab:CreateButton({
     Name = "🚀 Purchase Selected Gun",
     Callback = function()
         autoPurchaseGun()
-    end
-})
-
--- Refresh dropdown button
-QuickBuyTab:CreateButton({
-    Name = "🔄 Refresh Gun List",
-    Callback = function()
-        local guns = getGunList()
-        GunDropdown:UpdateOptions(guns)
-        selectedGun = nil
-        SelectedLabel:Set("Selected: None")
     end
 })
