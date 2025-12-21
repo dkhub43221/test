@@ -1,4 +1,5 @@
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+-- Load Rayfield
+local Rayfield = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Rayfield/main/source"))()
 
 local Window = Rayfield:CreateWindow({
     Name = "Streetz War Quick Buy",
@@ -26,7 +27,7 @@ local function getGunList()
     return guns
 end
 
-local function F9Notification(text)
+local function CannotAffordNotification(text)
     Rayfield:Notify({
         Title = "Quick Buy",
         Content = text,
@@ -36,39 +37,50 @@ local function F9Notification(text)
     })
 end
 
--- Purchase using ProximityPrompt (if exists)
+-- Purchase using ProximityPrompt (if exists) and check money
 local function purchaseGunPrompt(gunName)
     local gunObj = workspace:FindFirstChild("GUNS") and workspace.GUNS:FindFirstChild(gunName)
     if not gunObj then
-        F9Notification("❌ Gun not found in GUNS folder")
+        CannotAffordNotification("❌ Gun not found in GUNS folder")
+        return false
+    end
+
+    local price = gunObj:FindFirstChild("Price") and gunObj.Price.Value or 0
+    local playerMoney = game:GetService("Players").LocalPlayer.stored.Money.Value
+
+    if playerMoney < price then
+        CannotAffordNotification("❌ You cannot afford this weapon ($" .. price .. ")")
         return false
     end
 
     local prompt = gunObj:FindFirstChildOfClass("ProximityPrompt")
     if not prompt then
-        F9Notification("❌ No ProximityPrompt found for this gun")
+        CannotAffordNotification("❌ No ProximityPrompt found for this gun")
         return false
     end
 
-    local success, err = pcall(function()
+    local player = game:GetService("Players").LocalPlayer
+    local character = player.Character
+    if not character or not character:FindFirstChild("HumanoidRootPart") then return false end
+
+    -- TP to gun, trigger prompt, then TP back
+    local oldCFrame = character.HumanoidRootPart.CFrame
+    character.HumanoidRootPart.CFrame = gunObj.PrimaryPart and gunObj.PrimaryPart.CFrame or gunObj.CFrame
+
+    local success, _ = pcall(function()
         prompt:InputHoldBegin()
-        task.wait(0.1) -- small wait for prompt
+        task.wait(0.1)
         prompt:InputHoldEnd()
     end)
 
-    if success then
-        F9Notification("✅ Purchased: " .. gunName)
-    else
-        F9Notification("❌ Purchase Failed: " .. tostring(err))
-    end
-
-    return success
+    character.HumanoidRootPart.CFrame = oldCFrame
+    return success or false
 end
 
 -- Auto purchase function
 local function autoPurchaseGun()
     if not selectedGun then
-        F9Notification("❌ Please select a gun first")
+        CannotAffordNotification("❌ Please select a gun first")
         return
     end
     purchaseGunPrompt(selectedGun)
@@ -76,9 +88,6 @@ end
 
 -- ===== UI =====
 local QuickBuyTab = Window:CreateTab("Quick Buy", 4483362458)
-
--- Selected gun label
-local SelectedLabel = QuickBuyTab:CreateLabel("Selected: None")
 
 -- Dropdown for selecting gun
 local GunDropdown = QuickBuyTab:CreateDropdown({
@@ -88,7 +97,6 @@ local GunDropdown = QuickBuyTab:CreateDropdown({
     Flag = "GunDropdown",
     Callback = function(option)
         selectedGun = option
-        SelectedLabel:Set("Selected: " .. option)
     end
 })
 
@@ -97,21 +105,5 @@ QuickBuyTab:CreateButton({
     Name = "🚀 Purchase Selected Gun",
     Callback = function()
         autoPurchaseGun()
-    end
-})
-
--- Refresh dropdown button
-QuickBuyTab:CreateButton({
-    Name = "🔄 Refresh Gun List",
-    Callback = function()
-        local guns = getGunList()
-        GunDropdown:UpdateOptions(guns)
-        if #guns > 0 then
-            F9Notification("✅ Found " .. #guns .. " guns. Select one.")
-        else
-            F9Notification("❌ No guns found in GUNS folder.")
-        end
-        selectedGun = nil
-        SelectedLabel:Set("Selected: None")
     end
 })
