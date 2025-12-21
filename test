@@ -1,107 +1,2042 @@
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-
--- Create window
-local Window = Rayfield:CreateWindow({
-    Name = "Streetz War Quick Buy",
-    LoadingTitle = "Quick Buy",
-    LoadingSubtitle = "By You",
-    ConfigurationSaving = {
-        Enabled = true,
-        FolderName = "QuickBuyConfig",
-        FileName = "Config"
+local genv = getgenv()
+local fenv = getfenv()
+local _5 = loadstring(game:HttpGet("https://raw.githubusercontent.com/deividcomsono/Obsidian/main/Library.lua"))()
+local _9 = loadstring(game:HttpGet("https://raw.githubusercontent.com/deividcomsono/Obsidian/main/addons/ThemeManager.lua"))()
+local _13 = loadstring(game:HttpGet("https://raw.githubusercontent.com/deividcomsono/Obsidian/main/addons/SaveManager.lua"))()
+local _Options14 = _5.Options
+local _ = _5.Toggles
+_5.ForceCheckbox = false
+_5.ShowToggleFrameInKeybinds = true
+local _ = fenv.skull
+local _call22 = _5:CreateWindow({
+    ShowCustomCursor = false,
+    Title = "Valley.gg Free",
+    Footer = "",
+    NotifySide = "Right",
+    MinimumSize = UDim2.new(0, 400, 0, 300),
+    Resizable = true,
+    Size = UDim2.new(0, 600, 0, 450),
+})
+local _call24 = _call22:AddTab("Main", "star")
+local _call26 = _call22:AddTab("Combat", "skull")
+local _call28 = _call22:AddTab("Misc", "puzzle-piece")
+local _call30 = _call22:AddTab("AutoFarm", "tractor")
+local _call32 = _call22:AddTab("Players", "users")
+local _call34 = _call22:AddTab("Visuals", "cloud")
+local _call36 = _call22:AddTab("UI Settings", "settings")
+game:GetService("RunService")
+local _LocalPlayer41 = game:GetService("Players").LocalPlayer
+game:GetService("ReplicatedStorage")
+genv.SwimMethod = false
+task.spawn(function()
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    task.wait()
+    local _ = genv.SwimMethod
+    error("internal 542: <25ms: infinitelooperror>")
+end)
+local _call539 = _call24:AddLeftGroupbox("Money")
+_call539:AddButton("InfMoneyButton", {
+    Visible = true,
+    Disabled = false,
+    DisabledTooltip = "Cannot generate money",
+    Text = "\xF0\x9F\x92\xB0 Inf Money (Auto)",
+    Func = function(_542)
+        game:GetService("TweenService")
+        local _call546 = Instance.new("ScreenGui")
+        _call546.ResetOnSpawn = false
+        _call546.IgnoreGuiInset = true
+        _call546.Name = "ProfileSnowUI"
+        _call546.Parent = _LocalPlayer41:WaitForChild("PlayerGui")
+        error("internal 542: <25ms: infinitelooperror>")
+    end,
+    Tooltip = "Automatically generate and clean money",
+})
+_call539:AddButton("BuyAllItemsButton", {
+    Visible = true,
+    Disabled = false,
+    Text = "\xF0\x9F\x9B\x92 Buy All Items",
+    Func = function(_552, _552_2, _552_3)
+    end,
+    Tooltip = "Buy Ice-Fruit Bag, Cupz, FijiWater, and FreshWater",
+})
+_call539:AddButton("CookButton", {
+    Visible = true,
+    Disabled = false,
+    Text = "\xF0\x9F\x8D\xB3 Cook Ice-Fruit",
+    Func = function(_555)
+    end,
+    Tooltip = "Cook Ice-Fruit items into sellable cups",
+})
+_call539:AddButton("SellCupButton", {
+    Visible = true,
+    Disabled = false,
+    Text = "\xF0\x9F\x92\xB5 Sell Cup",
+    Func = function(_558, _558_2, _558_3, _558_4)
+    end,
+    Tooltip = "Sell Ice-Fruit Cupz for dirty money",
+})
+local _ = game.ReplicatedStorage
+local _ = game.Players.LocalPlayer
+_call539:AddButton("BuyIceFruitzButton", {
+    Visible = true,
+    Disabled = false,
+    DisabledTooltip = "Cannot auto-buy items",
+    Text = "Buy Ice-Fruitz-Itemz",
+    Func = function(_564, _564_2)
+    end,
+    Tooltip = "Automatically buy Ice-Fruitz items",
+})
+local _call566 = _call24:AddLeftGroupbox("Dupe")
+_call566:AddLabel({
+    Visible = true,
+    Text = "Equip Tool And Predd Dupe",
+    Tooltip = "Instructions for using Market Dupe",
+})
+_call566:AddButton("DuplicateGunButton", {
+    Visible = true,
+    Disabled = false,
+    DisabledTooltip = "Cannot duplicate gun",
+    Text = "Duplicate Tool",
+    Func = function()
+    end,
+    Tooltip = "Duplicate the gun you are holding",
+})
+local _call573 = _call24:AddLeftGroupbox("TelePort")
+local _ = game.Players.LocalPlayer
+Vector3.new(- 226.22584533691, 283.8095703125, - 1217.7509765625)
+Vector3.new(- 977.1771, 253.6838, - 692.5855)
+Vector3.new(68514.8984, 52941.5, - 796.09)
+Vector3.new(- 1049.6431, 253.5367, - 814.2697)
+Vector3.new(- 217.568359375, 373.79849243164, - 1216.2094726562)
+Vector3.new(- 1008.0662, 262.1141, 55.1336)
+Vector3.new(92969.8984, 122097.9688, 17023.8867)
+Vector3.new(- 1002.4224, 253.6382, - 803.9125)
+Vector3.new(66195.4453125, 123615.7109375, 5750.2827148438)
+Vector3.new(- 224.3818359375, 283.8034362793, - 794.71740722656)
+Vector3.new(60820.3086, 87609.1484, - 351.4746)
+Vector3.new(- 178.27471923828, 397.13830566406, - 573.0322265625)
+Vector3.new(- 618.03460693359, 356.54513549805, - 681.40155029297)
+Vector3.new(- 791.51800537109, 256.79446411133, 1414.4248046875)
+Vector3.new(- 692.41424560547, 253.78091430664, - 681.06726074219)
+Vector3.new(- 216.31436157227, 284.03149414062, - 1169.0324707031)
+Vector3.new(67462.6953, 10489.0352, 549.5895)
+Vector3.new(- 957.9142, 253.5367, - 815.9442)
+Vector3.new(- 755.81140136719, 254.69274902344, - 687.1181640625)
+Vector3.new(- 401.99371337891, 253.41410827637, - 1248.8380126953)
+Vector3.new(67462, 10489.21484375, 546.19415283203)
+Vector3.new(- 187.85504150391, 284.62521362305, - 291.34191894531)
+Vector3.new(- 403.09906005859, 254.20343017578, - 580.04376220703)
+Vector3.new(- 1292.2200927734, 253.30044555664, - 3003.0483398438)
+Vector3.new(- 1523.5654296875, 273.97299194336, - 990.65753173828)
+Vector3.new(- 1446.2166748047, 256.05981445312, 2189.8762207031)
+Vector3.new(- 397.43087768555, 334.31423950195, - 555.70233154297)
+Vector3.new(- 1731.8307, 370.8123, - 1176.8387)
+Vector3.new(- 1135.0464, 254.716, - 3330.9954)
+Vector3.new(- 1012.13, 253.71, - 1148.07)
+Vector3.new(- 215.1407, 283.5154, - 1258.691)
+Vector3.new(- 1589.5041503906, 254.27223205566, 17.655523300171)
+Vector3.new(- 381.20751953125, 254.4538269043, - 385.66546630859)
+Vector3.new(- 1441.7904052734, 255.03651428223, - 3132.5974121094)
+Vector3.new(- 714.24401855469, 287.12142944336, - 779.23297119141)
+Vector3.new(- 606.26690673828, 253.88676452637, - 679.88446044922)
+Vector3.new(93427.515625, 14484.905273438, 566.67010498047)
+Vector3.new(- 1522.7690429688, 253.16094970703, 2344.9594726562)
+Vector3.new(- 1022.6196289062, 325.84005737305, - 908.91571044922)
+_call573:AddDropdown("TeleportDropdown", {
+    Visible = true,
+    Values = {
+        [1] = " \xF0\x9F\x8F\x9B\xEF\xB8\x8F Bank",
+        [2] = " \xF0\x9F\x92\xB8 Money Wash",
+        [3] = " \xF0\x9F\x93\xA6 Safe Items",
+        [4] = " \xF0\x9F\x92\xB0 Pawn Shop",
+        [5] = " \xF0\x9F\x94\x92 Bank Vault",
+        [6] = " \xF0\x9F\xA4\x91 Money Man",
+        [7] = " \xF0\x9F\x94\xAB GunShop 1",
+        [8] = " \xF0\x9F\x9B\xA1\xEF\xB8\x8F GunShop 1 Lobby",
+        [9] = " \xF0\x9F\x94\xAB GunShop 2",
+        [10] = " \xF0\x9F\x9B\xA1\xEF\xB8\x8F GunShop 2 Lobby",
+        [11] = " \xF0\x9F\x94\xAB GunShop 3",
+        [12] = " \xF0\x9F\x8F\xA2 Pent House",
+        [13] = " \xF0\x9F\x8D\xB5 Pent House2",
+        [14] = " \xF0\x9F\x8F\xA0 Mini Mansion",
+        [15] = " \xF0\x9F\x8E\x92 Backpack Shop",
+        [16] = " \xF0\x9F\x92\x8E Frozen Shop",
+        [17] = " \xF0\x9F\x92\xA7 Drip Shop",
+        [18] = " \xF0\x9F\x8D\x97 Chicken Wings",
+        [19] = " \xF0\x9F\xA5\xAA Deli",
+        [20] = " \xF0\x9F\x9A\x97 Car Dealer",
+        [21] = " \xF0\x9F\x91\x95 Drip Store",
+        [22] = " \xF0\x9F\xA5\xA4 Soda Warehouse",
+        [23] = " \xF0\x9F\x8D\xBE Soda Supplies",
+        [24] = " \xF0\x9F\x8D\xB9 Soda Seller",
+        [25] = " \xF0\x9F\x90\x8D Exotic Dealer",
+        [26] = " \xF0\x9F\x94\x80 Switch Seller",
+        [27] = " \xF0\x9F\x9B\xA0\xEF\xB8\x8F Bank Tools",
+        [28] = " \xF0\x9F\x9A\xA7 Construction Site",
+        [29] = " \xF0\x9F\x9A\x94 Prison",
+        [30] = " \xF0\x9F\x8D\x9F McDonalds",
+        [31] = " \xE2\x9D\x84\xEF\xB8\x8F Ice Box",
+        [32] = " \xF0\x9F\x8F\xA5 Hospital",
+        [33] = " \xF0\x9F\x9B\x8D\xEF\xB8\x8F MarGreens",
+        [34] = " \xF0\x9F\x9A\xA8 Feds Room",
+        [35] = " \xF0\x9F\x9A\xAA House Rob Door 1",
+        [36] = " \xF0\x9F\x9A\xAA House Rob Door 2",
+        [37] = " \xF0\x9F\x8E\xAC Studio Robbery",
+        [38] = " \xF0\x9F\x8F\x95\xEF\xB8\x8F TrailerPark",
+        [39] = " \xF0\x9F\x8F\xA8 Woody's Hotel",
     },
-    Discord = { Enabled = false }
+    Multi = false,
+    Callback = function(_656, _656_2, _656_3, _656_4)
+    end,
+    Searchable = true,
+    DisabledTooltip = "Dropdown disabled",
+    Disabled = false,
+    Tooltip = "Pick a location to teleport",
+    Text = "Select Location",
 })
+_call573:AddButton("TeleportButton", {
+    Visible = true,
+    Disabled = false,
+    DisabledTooltip = "Cannot teleport",
+    Text = "Teleport to Location",
+    Func = function(_659)
+    end,
+    Tooltip = "Teleport to the selected location",
+})
+local _call661 = _call24:AddLeftGroupbox("ShopGuis")
+game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+_call661:AddDropdown("GUISelectorDropdown", {
+    Visible = true,
+    Values = {
+        [1] = "Bronx Pawning",
+        [2] = "Bronx Clothing",
+        [3] = "Trunk Storage",
+        [4] = "Crafting",
+        [5] = "Animations",
+        [6] = "Bronx Market",
+        [7] = "Bronx Tattoos",
+        [8] = "Megaphone List",
+    },
+    Multi = false,
+    Callback = function(_669, _669_2, _669_3, _669_4, _669_5)
+    end,
+    Searchable = true,
+    DisabledTooltip = "Dropdown disabled",
+    Disabled = false,
+    Tooltip = "Select a GUI to open/close",
+    Text = "Select GUI",
+})
+_call661:AddButton("ToggleSelectedGUIButton", {
+    Visible = true,
+    Disabled = false,
+    DisabledTooltip = "Cannot toggle GUI",
+    Text = "Open/Close Selected GUI",
+    Func = function(_672)
+    end,
+    Tooltip = "Toggle the selected GUI",
+})
+local _call674 = _call24:AddRightGroupbox("PoliceSounds")
+local _call676 = _call674:AddDropdown("MegaphoneDropdown", {
+    Visible = true,
+    Values = {
+        [1] = "Hands UP!",
+        [2] = "Driver Pull Over!",
+        [3] = "Move it FOLKS!",
+        [4] = "PULL OVER NOW!",
+    },
+    Multi = false,
+    Callback = function(_677, _677_2, _677_3, _677_4, _677_5, _677_6)
+    end,
+    Default = {},
+    DisabledTooltip = "Dropdown disabled",
+    Disabled = false,
+    Tooltip = "Choose a message to play on the megaphone",
+    Text = "Select Megaphone Message",
+})
+_call676:SetValue({})
+_call674:AddButton("PoliceSoundsButton", {
+    Visible = true,
+    Disabled = false,
+    DisabledTooltip = "Cannot play message",
+    Text = "Police Sounds",
+    Func = function()
+    end,
+    Tooltip = "Play the selected megaphone message",
+})
+local _call684 = _call24:AddLeftGroupbox("QuickBuy")
+local _call686 = _call684:AddDropdown("MyMultiDropdown", {
+    Visible = true,
+    Disabled = false,
+    Values = {
+        [1] = "RawChicken",
+        [2] = "PinkCamoGloves",
+        [3] = "RedGloves",
+        [4] = "BluCamoGloves",
+        [5] = "BluShiestyCam",
+        [6] = "PurpleCamoGloves",
+        [7] = "YelloCamoGloves",
+        [8] = "Shiesty",
+        [9] = "Water",
+        [10] = "BluGloves",
+        [11] = "WhiteGloves",
+        [12] = "BlackGloves",
+        [13] = "RawSteak",
+        [14] = "YelloShiesty",
+        [15] = "PinkCamoGloves",
+        [16] = "WhiteShiesty",
+        [17] = "RedCamoGloves",
+    },
+    Text = "Select Items",
+    Tooltip = "Select one or more items to buy",
+    Multi = true,
+    Callback = function(_687, _687_2)
+    end,
+    Default = {},
+})
+_call686:SetValue({})
+_call684:AddButton("QuickBuyButton", {
+    Visible = true,
+    Disabled = false,
+    DisabledTooltip = "Cannot buy items",
+    Text = "QuickBuy",
+    Func = function()
+    end,
+    Tooltip = "Buy all currently selected items",
+})
+local _call694 = _call24:AddLeftGroupbox("Cars")
+local _ = game.Players.LocalPlayer
+_call694:AddButton({
+    Visible = true,
+    Risky = false,
+    DoubleClick = false,
+    Disabled = false,
+    DisabledTooltip = "Cannot unlock cars",
+    Text = "Unlock All Cars",
+    Func = function(_699, _699_2)
+    end,
+    Tooltip = "Unlock all civilian cars",
+})
+_call694:AddButton({
+    Visible = true,
+    Risky = false,
+    DoubleClick = false,
+    Disabled = false,
+    DisabledTooltip = "Cannot bring car",
+    Text = "Bring My Car",
+    Func = function(_702, _702_2, _702_3)
+    end,
+    Tooltip = "Teleport your car to you (if you own one)",
+})
+_call694:AddButton({
+    Visible = true,
+    Risky = false,
+    DoubleClick = false,
+    Disabled = false,
+    DisabledTooltip = "No cars available",
+    Text = "Steal Nearest Car",
+    Func = function(_705)
+    end,
+    Tooltip = "Steal the nearest unoccupied car",
+})
+local _call707 = _call26:AddLeftGroupbox("FistMods")
+_call707:AddToggle("AntiCooldownSwing", {
+    Callback = function(_710, _710_2, _710_3)
+    end,
+    Text = "Anti Cooldown Swing",
+    Default = false,
+    Tooltip = "Removes swing cooldown",
+})
+_call707:AddToggle("AntiCooldownStomp", {
+    Callback = function(_713, _713_2)
+    end,
+    Text = "Anti Cooldown Stomp",
+    Default = false,
+    Tooltip = "Removes stomp cooldown",
+})
+_call707:AddToggle("AntiCooldownAttack", {
+    Callback = function(_716, _716_2, _716_3, _716_4, _716_5, _716_6)
+    end,
+    Text = "Anti Cooldown Attack",
+    Default = false,
+    Tooltip = "Removes attack cooldown",
+})
+local _call718 = _call26:AddLeftGroupbox("GunMods")
+_call718:AddToggle("OneTap", {
+    Callback = function(_721, _721_2, _721_3, _721_4)
+    end,
+    Text = "1 Tap",
+    Default = false,
+    Tooltip = "Massively boosts damage",
+})
+_call718:AddToggle("InfiniteAmmo", {
+    Callback = function(_724, _724_2, _724_3, _724_4, _724_5, _724_6)
+    end,
+    Text = "Infinite Ammo",
+    Default = false,
+    Tooltip = "Removes limited ammo and sets large ammo values",
+})
+_call718:AddToggle("InfiniteMag", {
+    Callback = function(_727, _727_2, _727_3, _727_4, _727_5, _727_6)
+    end,
+    Text = "Infinite Mag",
+    Default = false,
+    Tooltip = "Gives massive magazine size",
+})
+_call718:AddToggle("InfiniteRange", {
+    Callback = function(_730, _730_2, _730_3, _730_4, _730_5, _730_6)
+    end,
+    Text = "Infinite Range",
+    Default = false,
+    Tooltip = "Sets weapon range to extremely high value",
+})
+_call718:AddToggle("FullyAutomatic", {
+    Callback = function(_733, _733_2, _733_3, _733_4)
+    end,
+    Text = "Fully Automatic",
+    Default = false,
+    Tooltip = "Makes weapon fully auto",
+})
+_call718:AddToggle("DisableJamming", {
+    Callback = function(_736, _736_2, _736_3, _736_4, _736_5, _736_6)
+    end,
+    Text = "Disable Jamming",
+    Default = false,
+    Tooltip = "Prevents weapon jams",
+})
+_call718:AddToggle("DisableRecoil", {
+    Callback = function(_739, _739_2, _739_3, _739_4, _739_5, _739_6)
+    end,
+    Text = "Disable Recoil",
+    Default = false,
+    Tooltip = "Completely removes recoil",
+})
+_call718:AddToggle("SniperMode", {
+    Callback = function(_742, _742_2)
+    end,
+    Text = "Enable Sniper Mode",
+    Default = false,
+    Tooltip = "Activates sniper-specific settings",
+})
+_call718:AddToggle("AutoReload", {
+    Callback = function(_745, _745_2, _745_3, _745_4, _745_5)
+    end,
+    Text = "Enable Auto Reload",
+    Default = false,
+    Tooltip = "Automatically reloads weapon",
+})
+local _call747 = _call26:AddRightGroupbox("AimBot")
+local _ = game.Players.LocalPlayer
+local _ = workspace.CurrentCamera
+game:GetService("RunService").RenderStepped:Connect(function(_756, _756_2, _756_3, _756_4)
 
--- ===== Variables =====
-local selectedGun = nil
-local player = game:GetService("Players").LocalPlayer
+end)
+_call747:AddToggle("TargetLockToggle", {
+    Text = "Enable Target Lock",
+    Default = false,
+    Callback = function(_759, _759_2)
+    end,
+})
+_call747:AddDropdown("AimPartDropdown", {
+    Values = {
+        [1] = "HumanoidRootPart",
+        [2] = "Head",
+    },
+    Text = "Aim Part",
+    Multi = false,
+    Callback = function(_762, _762_2, _762_3, _762_4, _762_5, _762_6)
+    end,
+    Default = "HumanoidRootPart",
+})
+local _call764 = _call26:AddLeftGroupbox("HitBox")
+local _ = game:GetService("Players").LocalPlayer
+local _call771 = Color3.fromRGB(0, 0, 255)
+_call764:AddToggle("HitboxToggle", {
+    Text = "Enable Hitbox",
+    Default = false,
+    Callback = function(_774, _774_2, _774_3, _774_4, _774_5)
+    end,
+})
+_call764:AddSlider("HitboxSizeSlider", {
+    Min = 5,
+    Default = 50,
+    Suffix = "size",
+    Max = 100,
+    Text = "Hitbox Size",
+    Callback = function(_777, _777_2, _777_3)
+    end,
+    Increment = 1,
+})
+_call764:AddLabel("Hitbox Color"):AddColorPicker("HitboxColorPicker", {
+    Callback = function(_782, _782_2, _782_3, _782_4, _782_5)
+    end,
+    Transparency = 0,
+    Default = _call771,
+    Title = "Hitbox Color",
+})
+_Options14.HitboxColorPicker:OnChanged(function()
 
--- ===== Functions =====
-local function getGunList()
-    local gunFolder = workspace:FindFirstChild("GUNS")
-    if not gunFolder then return {} end
-    local guns = {}
-    for _, gun in pairs(gunFolder:GetChildren()) do
-        table.insert(guns, gun.Name)
-    end
-    return guns
+end)
+_Options14.HitboxColorPicker:SetValueRGB(_call771)
+_call764:AddToggle("HitboxRainbowToggle", {
+    Text = "Rainbow Hitbox",
+    Default = false,
+    Callback = function(_792, _792_2, _792_3, _792_4, _792_5)
+    end,
+})
+game:GetService("RunService").RenderStepped:Connect(function()
+
+end)
+local _call798 = _call26:AddLeftGroupbox("Fov")
+local _ = game:GetService("Players").LocalPlayer
+local _call805 = Drawing.new("Circle")
+_call805.Color = Color3.fromRGB(255, 255, 255)
+_call805.Thickness = 2
+_call805.NumSides = 300
+_call805.Transparency = 1
+_call805.Visible = false
+_call805.Filled = false
+_call805.Radius = 100
+_call798:AddToggle("FOVToggle", {
+    Callback = function(_810, _810_2, _810_3)
+    end,
+    Text = "Enable FOV Circle",
+    Default = false,
+    Tooltip = "Draws a circle or polygon FOV",
+})
+_call798:AddSlider("FOVSides", {
+    Min = 0,
+    Default = 0,
+    Suffix = "sides",
+    Max = 40,
+    Text = "Sides",
+    Callback = function(_813, _813_2, _813_3, _813_4, _813_5)
+    end,
+    Increment = 1,
+})
+_call798:AddSlider("FOVRadius", {
+    Min = 10,
+    Default = 100,
+    Suffix = "px",
+    Max = 300,
+    Text = "Radius",
+    Callback = function(_816, _816_2, _816_3, _816_4)
+    end,
+    Increment = 1,
+})
+game:GetService("RunService").RenderStepped:Connect(function(_820, _820_2, _820_3, _820_4, _820_5)
+
+end)
+local _call822 = _call26:AddRightGroupbox("SnapLines")
+game:GetService("UserInputService")
+local _ = workspace.CurrentCamera
+local _ = game:GetService("Players").LocalPlayer
+local _call832 = Color3.fromRGB(255, 0, 0)
+local _call834 = Drawing.new("Line")
+_call834.Visible = false
+_call834.Thickness = 2
+_call834.Color = _call832
+game:GetService("RunService").RenderStepped:Connect(function(_838, _838_2, _838_3, _838_4)
+
+end)
+_call822:AddToggle("SnaplineToggle", {
+    Callback = function(_841, _841_2, _841_3)
+    end,
+    Text = "Enable Snapline",
+    Default = false,
+    Tooltip = "Draw a line to the closest enemy",
+})
+_call822:AddLabel("Snapline Color"):AddColorPicker("SnaplineColorPicker", {
+    Callback = function(_846, _846_2)
+    end,
+    Transparency = 0,
+    Default = _call832,
+    Title = "Snapline Color",
+})
+_Options14.SnaplineColorPicker:OnChanged(function(_850)
+
+end)
+_Options14.SnaplineColorPicker:SetValueRGB(Color3.fromRGB(255, 0, 0))
+local _call857 = _call26:AddRightGroupbox("TriggerBot")
+game:GetService("Players").LocalPlayer:GetMouse()
+game:GetService("RunService")
+_call857:AddToggle("TriggerBotToggle", {
+    Callback = function(_867, _867_2, _867_3, _867_4, _867_5)
+    end,
+    Text = "TriggerBot",
+    Default = false,
+    Tooltip = "Automatically clicks enemies under your cursor",
+})
+_call857:AddSlider("ClickDelaySlider", {
+    Min = 0.05,
+    Tooltip = "Delay between auto-clicks",
+    Default = 0.1,
+    Suffix = "s",
+    Max = 1,
+    Text = "Clicking Delay",
+    Callback = function(_870, _870_2, _870_3)
+    end,
+    Increment = 0.05,
+})
+task.spawn(function(_873, _873_2, _873_3, _873_4)
+
+end)
+local _call875 = _call28:AddRightGroupbox("InGameMods")
+local _ = game:GetService("Players").LocalPlayer
+_call875:AddButton({
+    Text = "Teleport To Closest Safe",
+    Func = function(_881, _881_2)
+    end,
+    Tooltip = "Automatically teleports you to the closest safe",
+})
+local _ = game.Players.LocalPlayer
+_call875:AddToggle("InfStaminaToggle", {
+    Callback = function(_886, _886_2, _886_3, _886_4)
+    end,
+    Text = "Inf Stamina",
+    Default = false,
+    Tooltip = "Prevents stamina from decreasing",
+})
+_call875:AddToggle("InfHungerToggle", {
+    Callback = function(_889, _889_2)
+    end,
+    Text = "Inf Hunger",
+    Default = false,
+    Tooltip = "Prevents hunger from decreasing",
+})
+_call875:AddToggle("InfSleepToggle", {
+    Callback = function(_892, _892_2, _892_3, _892_4, _892_5)
+    end,
+    Text = "Inf Sleep",
+    Default = false,
+    Tooltip = "Prevents sleep from decreasing",
+})
+_call875:AddToggle("NoFallDamageToggle", {
+    Callback = function(_895)
+    end,
+    Text = "No Fall Damage",
+    Default = false,
+    Tooltip = "Prevents fall damage",
+})
+_call875:AddToggle("NoJumpCooldownToggle", {
+    Callback = function(_898, _898_2, _898_3, _898_4)
+    end,
+    Text = "No Jump Cooldown",
+    Default = false,
+    Tooltip = "Removes jump cooldown",
+})
+_call875:AddToggle("NoRentPayToggle", {
+    Callback = function(_901, _901_2, _901_3, _901_4)
+    end,
+    Text = "No Rent Pay",
+    Default = false,
+    Tooltip = "Disables rent payment scripts",
+})
+local _call903 = _call28:AddLeftGroupbox("CharacterMods")
+identifyexecutor()
+_call903:AddToggle("MaxPickUpRangeToggle", {
+    Callback = function(_907, _907_2, _907_3)
+    end,
+    Text = "No Max Pick Up Range",
+    Default = false,
+    Tooltip = "Increases pickup range to maximum",
+})
+_call903:AddToggle("NoKnockBackToggle", {
+    Callback = function(_910, _910_2, _910_3, _910_4, _910_5)
+    end,
+    Text = "No KnockBack",
+    Default = false,
+    Tooltip = "Prevents knockback from hits",
+})
+_call903:AddToggle("NoCarryCooldownToggle", {
+    Callback = function(_913, _913_2, _913_3, _913_4)
+    end,
+    Text = "No Carry Cooldown",
+    Default = false,
+    Tooltip = "Removes carry cooldown",
+})
+local _call915 = _call28:AddLeftGroupbox("Misc")
+game:GetService("RunService")
+game:GetService("Workspace")
+game:GetService("ProximityPromptService")
+local _ = game.Players.LocalPlayer
+_call915:AddToggle("InstantInteractToggle", {
+    Callback = function(_926, _926_2, _926_3, _926_4, _926_5)
+    end,
+    Text = "Instant Interact",
+    Default = false,
+    Tooltip = "Makes all Proximity Prompts instant",
+})
+_call915:AddToggle("NoCameraBobbingToggle", {
+    Callback = function(_929, _929_2, _929_3)
+    end,
+    Text = "No Camera Bobbing",
+    Default = false,
+    Tooltip = "Removes camera bobbing",
+})
+task.spawn(function(_932)
+
+end)
+_call915:AddToggle("NoDeathScreenToggle", {
+    Callback = function(_935, _935_2, _935_3, _935_4)
+    end,
+    Text = "No Death Screen",
+    Default = false,
+    Tooltip = "Disables the death screen",
+})
+_call915:AddToggle("NoCrawlToggle", {
+    Callback = function(_938, _938_2, _938_3, _938_4, _938_5, _938_6)
+    end,
+    Text = "No Crawl When Damaged",
+    Default = false,
+    Tooltip = "Disables crawling animation when damaged",
+})
+local _call940 = _call30:AddLeftGroupbox("AutoFarm")
+local _ = game:GetService("Players").LocalPlayer
+local _ = workspace.CurrentCamera
+_call940:AddToggle("AutoPickupToggle", {
+    Callback = function(_947, _947_2)
+    end,
+    Text = "Auto Collect Dropped Cash",
+    Default = false,
+    Tooltip = "Automatically collects dropped cash near you",
+})
+local _ = game:GetService("Players").LocalPlayer
+_call940:AddToggle("ConstructionAutofarm", {
+    Callback = function(_953)
+    end,
+    Text = "Enable Construction Autofarm",
+    Default = false,
+    Tooltip = "Automatically farm and build walls",
+})
+_call940:AddButton({
+    DoubleClick = false,
+    Text = "Start Construction Job",
+    Func = function(_956)
+    end,
+    Tooltip = "Starts your construction job",
+})
+local _ = game.Players.LocalPlayer
+_call940:AddToggle("LootTrashToggle", {
+    Callback = function(_961, _961_2, _961_3, _961_4, _961_5, _961_6)
+    end,
+    Text = "Search Trashbags",
+    Default = false,
+    Tooltip = "Automatically loot all trashbags",
+})
+_call940:AddButton({
+    Text = "Auto Sell Pawned Items",
+    Func = function(_964, _964_2, _964_3, _964_4, _964_5)
+    end,
+    Tooltip = "Automatically sell all pawned items",
+})
+local _ = game.Players.LocalPlayer
+local _ = workspace.CurrentCamera
+_call940:AddToggle("RobStudioToggle", {
+    Callback = function(_970)
+    end,
+    Text = "Enable Studio Autofarm",
+    Default = false,
+    Tooltip = "Automatically collect all money in studio",
+})
+_call940:AddButton({
+    Text = "Check Studio For Money",
+    Func = function(_973, _973_2, _973_3, _973_4)
+    end,
+    Tooltip = "Check if there is money available to collect in the studio",
+})
+local _call975 = _call32:AddLeftGroupbox("Target")
+local _call977 = game:GetService("Players")
+for _981, _981_2 in ipairs(_call977:GetPlayers()) do
+    local _ = _981_2 == _call977.LocalPlayer
 end
-
-local function teleportAndFire(gunName)
-    local gunFolder = workspace:FindFirstChild("GUNS")
-    if not gunFolder then return end
-    local gunObj = gunFolder:FindFirstChild(gunName)
-    if not gunObj then return end
-
-    local prompt = gunObj:FindFirstChildOfClass("ProximityPrompt")
-    if not prompt then return end
-
-    local character = player.Character or player.CharacterAdded:Wait()
-    local hrp = character:FindFirstChild("HumanoidRootPart")
-    local humanoid = character:FindFirstChild("Humanoid")
-    if not hrp or not humanoid then return end
-
-    -- Save current position
-    local oldCFrame = hrp.CFrame
-
-    -- Determine target CFrame
-    local targetCFrame
-    if gunObj:IsA("Model") then
-        if gunObj.PrimaryPart then
-            targetCFrame = gunObj.PrimaryPart.CFrame + Vector3.new(0, 3, 0)
-        elseif gunObj:FindFirstChild("Handle") then
-            targetCFrame = gunObj.Handle.CFrame + Vector3.new(0, 3, 0)
-        else
-            for _, part in pairs(gunObj:GetChildren()) do
-                if part:IsA("BasePart") then
-                    targetCFrame = part.CFrame + Vector3.new(0, 3, 0)
-                    break
-                end
-            end
-        end
-    elseif gunObj:IsA("BasePart") then
-        targetCFrame = gunObj.CFrame + Vector3.new(0, 3, 0)
-    end
-
-    if not targetCFrame then return end
-
-    -- Teleport using safe method
-    humanoid:ChangeState(0)
-    repeat task.wait() until not player:GetAttribute("LastACPos")
-    hrp.CFrame = targetCFrame
-    task.wait(0.1)
-
-    -- Fire ProximityPrompt
-    prompt:InputHoldBegin()
-    task.wait(0.1)
-    prompt:InputHoldEnd()
-
-    -- Return to old position
-    task.wait(0.1)
-    hrp.CFrame = oldCFrame
-end
-
--- ===== UI =====
-local QuickBuyTab = Window:CreateTab("Quick Buy", 4483362458)
-
--- Dropdown for selecting gun
-local GunDropdown = QuickBuyTab:CreateDropdown({
-    Name = "Select Gun",
-    Options = getGunList(),
-    CurrentOption = "",
-    Flag = "GunDropdown",
-    Callback = function(option)
-        selectedGun = option
-    end
+_call975:AddDropdown("SelectPlayer", {
+    Values = {
+        [1] = _981_2.Name,
+    },
+    Text = "Select Player",
+    Multi = false,
+    Callback = function(_986, _986_2, _986_3, _986_4, _986_5)
+    end,
+    Default = 1,
 })
+_call977.PlayerAdded:Connect(function(_990)
 
--- Purchase button
-QuickBuyTab:CreateButton({
-    Name = "🚀 Purchase Selected Gun",
-    Callback = function()
-        if selectedGun then
-            teleportAndFire(selectedGun)
-        end
-    end
+end)
+_call977.PlayerRemoving:Connect(function(_994, _994_2, _994_3, _994_4)
+
+end)
+_call975:AddToggle("SpectateToggle", {
+    Text = "Spectate Selected Player",
+    Default = false,
+    Callback = function(_997, _997_2)
+    end,
 })
+_call975:AddButton("TeleportButton", {
+    Func = function(_1000, _1000_2)
+    end,
+    Text = "Teleport To Selected Player",
+})
+_call975:AddToggle("LoopTeleportToggle", {
+    Text = "Loop Teleport To Selected Player",
+    Default = false,
+    Callback = function(_1003, _1003_2, _1003_3, _1003_4, _1003_5, _1003_6)
+    end,
+})
+_call975:AddToggle("LoopBringToggle", {
+    Text = "Loop Bring Selected Player",
+    Default = false,
+    Callback = function(_1006, _1006_2, _1006_3)
+    end,
+})
+local _call1008 = _call32:AddLeftGroupbox("Tweet")
+_call1008:AddInput("TweetMessageInput", {
+    Finished = true,
+    Default = "Valley.GG On Top",
+    Numeric = false,
+    Text = "Tweet Message",
+    Callback = function(_1011, _1011_2)
+    end,
+    Tooltip = "Enter the tweet message you want to send.",
+})
+_call1008:AddSlider("SpamDelaySlider", {
+    Visible = true,
+    Disabled = false,
+    Compact = false,
+    Max = 10,
+    Text = "Spam Tweets Delay",
+    Callback = function(_1014)
+    end,
+    Rounding = 1,
+    Min = 0,
+    Default = 10,
+    DisabledTooltip = "This slider is disabled!",
+    Tooltip = "Set the delay between tweets (in seconds).",
+})
+_call1008:AddToggle("SpamTweetsToggle", {
+    Visible = true,
+    Default = false,
+    Disabled = false,
+    DisabledTooltip = "Toggle disabled!",
+    Text = "Spam Tweets",
+    Callback = function(_1017)
+    end,
+    Tooltip = "Enable to repeatedly send tweets automatically.",
+})
+local _call1019 = _call34:AddLeftGroupbox("Esp")
+local _call1021 = game:GetService("Players")
+game:GetService("RunService")
+local _ = workspace.CurrentCamera
+local _ = _call1021.LocalPlayer
+_call1021.PlayerAdded:Connect(function(_1041, _1041_2, _1041_3)
+
+end)
+_call1021.PlayerRemoving:Connect(function(_1045, _1045_2, _1045_3, _1045_4)
+
+end)
+_call1019:AddToggle("MainESPToggle", {
+    Text = "Enable ESP",
+    Default = false,
+    Callback = function(_1048, _1048_2, _1048_3, _1048_4)
+    end,
+})
+_call1019:AddToggle("BoxToggle", {
+    Text = "Enable Box",
+    Default = false,
+    Callback = function(_1051, _1051_2)
+    end,
+})
+_call1019:AddLabel("Box Color"):AddColorPicker("BoxColorPicker", {
+    Callback = function(_1056, _1056_2, _1056_3, _1056_4, _1056_5, _1056_6)
+    end,
+    Default = Color3.fromRGB(255, 255, 255),
+    Title = "Box Color",
+})
+_Options14.BoxColorPicker:OnChanged(function()
+
+end)
+_call1019:AddToggle("RainbowBoxToggle", {
+    Text = "Rainbow Box",
+    Default = false,
+    Callback = function(_1063, _1063_2, _1063_3, _1063_4, _1063_5)
+    end,
+})
+_call1019:AddToggle("NameToggle", {
+    Text = "Enable Names",
+    Default = false,
+    Callback = function(_1066, _1066_2, _1066_3, _1066_4)
+    end,
+})
+_call1019:AddLabel("Name Color"):AddColorPicker("NameColorPicker", {
+    Callback = function(_1071, _1071_2, _1071_3, _1071_4, _1071_5, _1071_6)
+    end,
+    Default = Color3.fromRGB(255, 255, 255),
+    Title = "Name Color",
+})
+_Options14.NameColorPicker:OnChanged(function()
+
+end)
+_call1019:AddToggle("RainbowNameToggle", {
+    Text = "Rainbow Names",
+    Default = false,
+    Callback = function(_1078, _1078_2, _1078_3)
+    end,
+})
+_call1019:AddToggle("HealthToggle", {
+    Text = "Enable Health",
+    Default = false,
+    Callback = function(_1081, _1081_2, _1081_3, _1081_4)
+    end,
+})
+_call1019:AddLabel("Health Color"):AddColorPicker("HealthColorPicker", {
+    Callback = function(_1086, _1086_2, _1086_3)
+    end,
+    Default = Color3.fromRGB(255, 255, 255),
+    Title = "Health Color",
+})
+_Options14.HealthColorPicker:OnChanged(function(_1090, _1090_2, _1090_3, _1090_4, _1090_5)
+
+end)
+_call1019:AddToggle("RainbowHealthToggle", {
+    Text = "Rainbow Health",
+    Default = false,
+    Callback = function(_1093, _1093_2)
+    end,
+})
+_call1019:AddToggle("DistanceToggle", {
+    Text = "Enable Distance",
+    Default = false,
+    Callback = function(_1096, _1096_2, _1096_3, _1096_4, _1096_5, _1096_6)
+    end,
+})
+_call1019:AddLabel("Distance Color"):AddColorPicker("DistanceColorPicker", {
+    Callback = function(_1101, _1101_2, _1101_3, _1101_4, _1101_5)
+    end,
+    Default = Color3.fromRGB(255, 255, 255),
+    Title = "Distance Color",
+})
+_Options14.DistanceColorPicker:OnChanged(function(_1105)
+
+end)
+_call1019:AddToggle("RainbowDistanceToggle", {
+    Text = "Rainbow Distance",
+    Default = false,
+    Callback = function(_1108, _1108_2, _1108_3)
+    end,
+})
+_call1019:AddToggle("ToolToggle", {
+    Text = "Enable Weapon",
+    Default = false,
+    Callback = function(_1111, _1111_2, _1111_3, _1111_4, _1111_5, _1111_6)
+    end,
+})
+_call1019:AddLabel("Weapon Color"):AddColorPicker("ToolColorPicker", {
+    Callback = function(_1116, _1116_2)
+    end,
+    Default = Color3.fromRGB(255, 255, 255),
+    Title = "Weapon Color",
+})
+_Options14.ToolColorPicker:OnChanged(function(_1120, _1120_2, _1120_3, _1120_4)
+
+end)
+_call1019:AddToggle("RainbowToolToggle", {
+    Text = "Rainbow Weapon",
+    Default = false,
+    Callback = function(_1123, _1123_2, _1123_3, _1123_4)
+    end,
+})
+_call1019:AddToggle("TracerToggle", {
+    Text = "Enable Tracer",
+    Default = false,
+    Callback = function(_1126, _1126_2, _1126_3, _1126_4, _1126_5)
+    end,
+})
+_call1019:AddLabel("Tracer Color"):AddColorPicker("TracerColorPicker", {
+    Callback = function(_1131, _1131_2, _1131_3, _1131_4, _1131_5)
+    end,
+    Default = Color3.fromRGB(255, 255, 255),
+    Title = "Tracer Color",
+})
+_Options14.TracerColorPicker:OnChanged(function(_1135)
+
+end)
+_call1019:AddToggle("RainbowTracerToggle", {
+    Text = "Rainbow Tracer",
+    Default = false,
+    Callback = function(_1138, _1138_2)
+    end,
+})
+local _call1140 = _call36:AddLeftGroupbox("Menu")
+_call1140:AddToggle("KeybindMenuOpen", {
+    Text = "Open Keybind Menu",
+    Default = _5.KeybindFrame.Visible,
+    Callback = function(_1145)
+    end,
+})
+_call1140:AddToggle("ShowCustomCursor", {
+    Text = "Custom Cursor \xF0\x9F\x96\xB1\xEF\xB8\x8F",
+    Default = false,
+    Callback = function(_1148)
+    end,
+})
+_call1140:AddDivider()
+_call1140:AddLabel("Menu bind"):AddKeyPicker("MenuKeybind", {
+    NoUI = true,
+    Default = "RightShift",
+    Text = "Menu keybind",
+})
+_call1140:AddButton("Unload", function(_1157, _1157_2)
+
+end)
+_5:OnUnload(function()
+
+end)
+_call1140:AddButton({
+    Visible = true,
+    Risky = false,
+    DoubleClick = false,
+    Disabled = false,
+    DisabledTooltip = "You can\xE2\x80\x99t rejoin right now!",
+    Text = "Rejoin Same Server",
+    Func = function(_1163, _1163_2, _1163_3, _1163_4)
+    end,
+    Tooltip = "Rejoin the same server you\xE2\x80\x99re currently in",
+})
+_call1140:AddButton({
+    Visible = true,
+    Risky = false,
+    DoubleClick = false,
+    Disabled = false,
+    DisabledTooltip = "You can\xE2\x80\x99t hop servers right now!",
+    Text = "Hop Server",
+    Func = function()
+    end,
+    Tooltip = "Hop to a new server (avoids same server twice)",
+})
+_call1140:AddButton({
+    Visible = true,
+    Risky = false,
+    DoubleClick = false,
+    Disabled = false,
+    DisabledTooltip = "You can\xE2\x80\x99t join servers right now!",
+    Text = "Join Low Pop Server",
+    Func = function(_1169, _1169_2, _1169_3, _1169_4)
+    end,
+    Tooltip = "Join the server with the fewest players",
+})
+_call1140:AddButton({
+    Visible = true,
+    Risky = false,
+    DoubleClick = false,
+    Disabled = false,
+    DisabledTooltip = "You can\xE2\x80\x99t join the VC server right now!",
+    Text = "Join VC Server",
+    Func = function()
+    end,
+    Tooltip = "Join the Voice Chat (VC) server",
+})
+_call1140:AddDropdown("DPIDropdown", {
+    Callback = function(_1175, _1175_2, _1175_3, _1175_4, _1175_5, _1175_6)
+    end,
+    Text = "DPI Scale",
+    Values = {
+        [1] = "50%",
+        [2] = "75%",
+        [3] = "100%",
+        [4] = "125%",
+        [5] = "150%",
+        [6] = "175%",
+        [7] = "200%",
+    },
+    Default = "100%",
+})
+_5.ToggleKeybind = _Options14.MenuKeybind
+_9:SetLibrary(_5)
+_13:SetLibrary(_5)
+_13:IgnoreThemeSettings()
+_13:SetIgnoreIndexes({
+    [1] = "MenuKeybind",
+})
+_9:SetFolder("MyScriptHub")
+_13:SetFolder("MyScriptHub/specific-game")
+_13:SetSubFolder("specific-place")
+_13:BuildConfigSection(_call36)
+_9:ApplyToGroupbox(_call1140)
