@@ -97,21 +97,23 @@ GeneralTab:CreateButton({
         humanoid:ChangeState(0)
         repeat task.wait() until not player:GetAttribute("LastACPos")
 
-        local targetCFrame
-        if gun:IsA("Model") and gun.PrimaryPart then
-            targetCFrame = gun.PrimaryPart.CFrame * CFrame.new(0, 0, -2)
+        local targetPart
+        if gun:IsA("Model") then
+            targetPart = gun.PrimaryPart or gun:FindFirstChildWhichIsA("BasePart", true)
         elseif gun:IsA("BasePart") then
-            targetCFrame = gun.CFrame * CFrame.new(0, 0, -2)
-        else
+            targetPart = gun
+        end
+
+        if not targetPart then
             Rayfield:Notify({
                 Title = "Failed",
-                Content = "Cannot TP to this gun",
+                Content = "Cannot find part to TP to",
                 Duration = 2
             })
             return
         end
 
-        hrp.CFrame = targetCFrame
+        hrp.CFrame = targetPart.CFrame * CFrame.new(0, 0, -2)
         task.wait(0.25)
 
         local prompt = gun:FindFirstChildWhichIsA("ProximityPrompt", true)
