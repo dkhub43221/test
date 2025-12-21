@@ -36,6 +36,16 @@ local function getGunList()
     return guns
 end
 
+local function FirePrompt(prompt)
+    if typeof(fireproximityprompt) == "function" then
+        fireproximityprompt(prompt)
+    else
+        prompt:InputHoldBegin()
+        task.wait(prompt.HoldDuration or 0)
+        prompt:InputHoldEnd()
+    end
+end
+
 local selectedGun
 
 GeneralTab:CreateDropdown({
@@ -65,25 +75,59 @@ GeneralTab:CreateButton({
         local hrp = char:WaitForChild("HumanoidRootPart")
 
         local folder = workspace:FindFirstChild("GUNS") or ReplicatedStorage:FindFirstChild("GUNS")
-        if not folder then return end
+        if not folder then
+            Rayfield:Notify({
+                Title = "Failed",
+                Content = "Gun folder not found",
+                Duration = 2
+            })
+            return
+        end
 
         local gun = folder:FindFirstChild(selectedGun)
-        if not gun then return end
+        if not gun then
+            Rayfield:Notify({
+                Title = "Failed",
+                Content = "Gun not found",
+                Duration = 2
+            })
+            return
+        end
 
         humanoid:ChangeState(0)
         repeat task.wait() until not player:GetAttribute("LastACPos")
 
+        local targetCFrame
         if gun:IsA("Model") and gun.PrimaryPart then
-            hrp.CFrame = gun.PrimaryPart.CFrame * CFrame.new(0, 0, -2)
+            targetCFrame = gun.PrimaryPart.CFrame * CFrame.new(0, 0, -2)
         elseif gun:IsA("BasePart") then
-            hrp.CFrame = gun.CFrame * CFrame.new(0, 0, -2)
+            targetCFrame = gun.CFrame * CFrame.new(0, 0, -2)
+        else
+            Rayfield:Notify({
+                Title = "Failed",
+                Content = "Cannot TP to this gun",
+                Duration = 2
+            })
+            return
         end
 
+        hrp.CFrame = targetCFrame
         task.wait(0.25)
 
         local prompt = gun:FindFirstChildWhichIsA("ProximityPrompt", true)
-        if prompt and fireproximityprompt then
-            fireproximityprompt(prompt)
+        if prompt then
+            FirePrompt(prompt)
+            Rayfield:Notify({
+                Title = "Success",
+                Content = "Bought " .. selectedGun,
+                Duration = 2
+            })
+        else
+            Rayfield:Notify({
+                Title = "Failed",
+                Content = "ProximityPrompt not found",
+                Duration = 2
+            })
         end
     end
 })
