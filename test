@@ -1,135 +1,112 @@
-local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "Gun Purchaser",
-    LoadingTitle = "Gun Purchaser",
-    LoadingSubtitle = "by YourName",
+    Name = "Streetz War Quick Buy",
+    LoadingTitle = "Quick Buy",
+    LoadingSubtitle = "By You",
     ConfigurationSaving = {
         Enabled = true,
-        FolderName = "GunPurchaserConfig",
-        FileName = "UserConfig"
+        FolderName = "QuickBuyConfig",
+        FileName = "Config"
     },
-    Discord = {
-        Enabled = false,
-        Invite = "",
-        RememberJoins = false
-    }
+    Discord = { Enabled = false }
 })
 
-local GeneralTab = Window:CreateTab("General", 4483362458)
+-- ===== Variables =====
+local selectedGun = nil
 
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local LocalPlayer = Players.LocalPlayer
+-- ===== Functions =====
+local function CannotAffordNotification(text)
+    Rayfield:Notify({
+        Title = "Quick Buy",
+        Content = text,
+        Duration = 3,
+        Image = 4483362458,
+        Actions = {}
+    })
+end
 
+-- Get gun list with prices
 local function getGunList()
+    local gunFolder = workspace:FindFirstChild("GUNS")
+    if not gunFolder then return {} end
     local guns = {}
-    local folder = workspace:FindFirstChild("GUNS") or ReplicatedStorage:FindFirstChild("GUNS")
-    if not folder then return guns end
-
-    for _, gun in ipairs(folder:GetChildren()) do
-        if gun:IsA("Model") or gun:IsA("BasePart") then
-            table.insert(guns, gun.Name)
-        end
+    for _, gun in pairs(gunFolder:GetChildren()) do
+        local price = gun:FindFirstChild("Price") and gun.Price.Value or 0
+        table.insert(guns, gun.Name .. " ($" .. price .. ")")
     end
-
     return guns
 end
 
-local function FirePrompt(prompt)
-    if typeof(fireproximityprompt) == "function" then
-        fireproximityprompt(prompt)
-    else
-        prompt:InputHoldBegin()
-        task.wait(prompt.HoldDuration or 0)
-        prompt:InputHoldEnd()
-    end
+-- Extract the actual gun name from dropdown option
+local function extractGunName(option)
+    return option:match("^(.-) %(%$.-%)$") or option
 end
 
-local selectedGun
+-- Purchase using ProximityPrompt with money check
+local function purchaseGunPrompt(gunName)
+    local gunObj = workspace:FindFirstChild("GUNS") and workspace.GUNS:FindFirstChild(gunName)
+    if not gunObj then return false end
 
-GeneralTab:CreateDropdown({
+    local price = gunObj:FindFirstChild("Price") and gunObj.Price.Value or 0
+    local playerMoney = game:GetService("Players").LocalPlayer.stored.Money.Value
+
+    if playerMoney < price then
+        CannotAffordNotification("❌ You cannot afford this weapon ($" .. price .. ")")
+        return false
+    end
+
+    local prompt = gunObj:FindFirstChildOfClass("ProximityPrompt")
+    if not prompt then return false end
+
+    local success, _ = pcall(function()
+        prompt:InputHoldBegin()
+        task.wait(0.1)
+        prompt:InputHoldEnd()
+    end)
+
+    return success
+end
+
+-- Auto purchase function
+local function autoPurchaseGun()
+    if not selectedGun then return end
+    purchaseGunPrompt(extractGunName(selectedGun))
+end
+
+-- ===== UI =====
+local QuickBuyTab = Window:CreateTab("Quick Buy", 4483362458)
+
+-- Selected gun label
+local SelectedLabel = QuickBuyTab:CreateLabel("Selected: None")
+
+-- Dropdown for selecting gun
+local GunDropdown = QuickBuyTab:CreateDropdown({
     Name = "Select Gun",
     Options = getGunList(),
-    CurrentOption = {},
+    CurrentOption = "",
+    Flag = "GunDropdown",
     Callback = function(option)
-        selectedGun = option[1]
+        selectedGun = option
+        SelectedLabel:Set("Selected: " .. option)
     end
 })
 
-GeneralTab:CreateButton({
-    Name = "Buy Selected Gun",
+-- Purchase button
+QuickBuyTab:CreateButton({
+    Name = "🚀 Purchase Selected Gun",
     Callback = function()
-        if not selectedGun then
-            Rayfield:Notify({
-                Title = "Error",
-                Content = "Select a gun first",
-                Duration = 2
-            })
-            return
-        end
+        autoPurchaseGun()
+    end
+})
 
-        local player = LocalPlayer
-        local char = player.Character or player.CharacterAdded:Wait()
-        local humanoid = char:WaitForChild("Humanoid")
-        local hrp = char:WaitForChild("HumanoidRootPart")
-
-        local folder = workspace:FindFirstChild("GUNS") or ReplicatedStorage:FindFirstChild("GUNS")
-        if not folder then
-            Rayfield:Notify({
-                Title = "Failed",
-                Content = "Gun folder not found",
-                Duration = 2
-            })
-            return
-        end
-
-        local gun = folder:FindFirstChild(selectedGun)
-        if not gun then
-            Rayfield:Notify({
-                Title = "Failed",
-                Content = "Gun not found",
-                Duration = 2
-            })
-            return
-        end
-
-        humanoid:ChangeState(0)
-        repeat task.wait() until not player:GetAttribute("LastACPos")
-
-        local targetPart
-        if gun:IsA("Model") then
-            targetPart = gun.PrimaryPart or gun:FindFirstChildWhichIsA("BasePart", true)
-        elseif gun:IsA("BasePart") then
-            targetPart = gun
-        end
-
-        if not targetPart then
-            Rayfield:Notify({
-                Title = "Failed",
-                Content = "Cannot find part to TP to",
-                Duration = 2
-            })
-            return
-        end
-
-        hrp.CFrame = targetPart.CFrame * CFrame.new(0, 0, -2)
-        task.wait(0.25)
-
-        local prompt = gun:FindFirstChildWhichIsA("ProximityPrompt", true)
-        if prompt then
-            FirePrompt(prompt)
-            Rayfield:Notify({
-                Title = "Success",
-                Content = "Bought " .. selectedGun,
-                Duration = 2
-            })
-        else
-            Rayfield:Notify({
-                Title = "Failed",
-                Content = "ProximityPrompt not found",
-                Duration = 2
-            })
-        end
+-- Refresh dropdown button
+QuickBuyTab:CreateButton({
+    Name = "🔄 Refresh Gun List",
+    Callback = function()
+        local guns = getGunList()
+        GunDropdown:UpdateOptions(guns)
+        selectedGun = nil
+        SelectedLabel:Set("Selected: None")
     end
 })
