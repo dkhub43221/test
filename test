@@ -16,6 +16,16 @@ local Window = Rayfield:CreateWindow({
 local selectedGun = nil
 
 -- ===== Functions =====
+local function getGunList()
+    local gunFolder = workspace:FindFirstChild("GUNS")
+    if not gunFolder then return {} end
+    local guns = {}
+    for _, gun in pairs(gunFolder:GetChildren()) do
+        table.insert(guns, gun.Name)
+    end
+    return guns
+end
+
 local function F9Notification(text)
     Rayfield:Notify({
         Title = "Quick Buy",
@@ -26,36 +36,11 @@ local function F9Notification(text)
     })
 end
 
--- Get gun list with prices
-local function getGunList()
-    local gunFolder = workspace:FindFirstChild("GUNS")
-    if not gunFolder then return {} end
-    local guns = {}
-    for _, gun in pairs(gunFolder:GetChildren()) do
-        local price = gun:FindFirstChild("Price") and gun.Price.Value or 0
-        table.insert(guns, gun.Name .. " ($" .. price .. ")")
-    end
-    return guns
-end
-
--- Extract the actual gun name from dropdown option
-local function extractGunName(option)
-    return option:match("^(.-) %(%$.-%)$") or option
-end
-
--- Purchase using ProximityPrompt with money check
+-- Purchase using ProximityPrompt (if exists)
 local function purchaseGunPrompt(gunName)
     local gunObj = workspace:FindFirstChild("GUNS") and workspace.GUNS:FindFirstChild(gunName)
     if not gunObj then
         F9Notification("❌ Gun not found in GUNS folder")
-        return false
-    end
-
-    local price = gunObj:FindFirstChild("Price") and gunObj.Price.Value or 0
-    local playerMoney = game:GetService("Players").LocalPlayer.stored.Money.Value
-
-    if playerMoney < price then
-        F9Notification("❌ You cannot afford this weapon ($" .. price .. ")")
         return false
     end
 
@@ -67,12 +52,12 @@ local function purchaseGunPrompt(gunName)
 
     local success, err = pcall(function()
         prompt:InputHoldBegin()
-        task.wait(0.1)
+        task.wait(0.1) -- small wait for prompt
         prompt:InputHoldEnd()
     end)
 
     if success then
-        F9Notification("✅ Purchased: " .. gunName .. " ($" .. price .. ")")
+        F9Notification("✅ Purchased: " .. gunName)
     else
         F9Notification("❌ Purchase Failed: " .. tostring(err))
     end
@@ -86,7 +71,7 @@ local function autoPurchaseGun()
         F9Notification("❌ Please select a gun first")
         return
     end
-    purchaseGunPrompt(extractGunName(selectedGun))
+    purchaseGunPrompt(selectedGun)
 end
 
 -- ===== UI =====
@@ -107,7 +92,7 @@ local GunDropdown = QuickBuyTab:CreateDropdown({
     end
 })
 
--- Purchase button
+-- Purchase button (fires ProximityPrompt)
 QuickBuyTab:CreateButton({
     Name = "🚀 Purchase Selected Gun",
     Callback = function()
