@@ -1,4 +1,4 @@
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
 local Window = Rayfield:CreateWindow({
     Name = "Gun Purchaser",
@@ -11,8 +11,8 @@ local Window = Rayfield:CreateWindow({
     },
     Discord = {
         Enabled = false,
-        Invite = "your-invite-code",
-        RememberJoins = true
+        Invite = "",
+        RememberJoins = false
     }
 })
 
@@ -34,63 +34,6 @@ local function getGunList()
     end
 
     return guns
-end
-
-local function FirePrompt(prompt)
-    if typeof(fireproximityprompt) == "function" then
-        fireproximityprompt(prompt)
-    else
-        prompt:InputHoldBegin()
-        task.wait(prompt.HoldDuration or 0)
-        prompt:InputHoldEnd()
-    end
-end
-
-local function purchaseGun(gunName)
-    if type(gunName) ~= "string" then return false end
-
-    local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-    local hrp = char:WaitForChild("HumanoidRootPart")
-
-    local folder = workspace:FindFirstChild("GUNS") or ReplicatedStorage:FindFirstChild("GUNS")
-    if not folder then return false end
-
-    local gun = folder:FindFirstChild(gunName)
-    if not gun then return false end
-
-    if gun:IsA("Model") and gun.PrimaryPart then
-        hrp.CFrame = gun.PrimaryPart.CFrame * CFrame.new(0, 0, -2)
-    elseif gun:IsA("BasePart") then
-        hrp.CFrame = gun.CFrame * CFrame.new(0, 0, -2)
-    end
-
-    task.wait(0.3)
-
-    local prompt = gun:FindFirstChildWhichIsA("ProximityPrompt", true)
-    if prompt then
-        FirePrompt(prompt)
-        return true
-    end
-
-    local click = gun:FindFirstChildWhichIsA("ClickDetector", true)
-    if click and fireclickdetector then
-        fireclickdetector(click)
-        return true
-    end
-
-    local remotes = ReplicatedStorage:FindFirstChild("Remotes")
-    if remotes then
-        for _, r in ipairs(remotes:GetChildren()) do
-            if r:IsA("RemoteEvent") then
-                pcall(function()
-                    r:FireServer(gunName)
-                end)
-            end
-        end
-        return true
-    end
-
-    return false
 end
 
 local selectedGun
@@ -116,12 +59,31 @@ GeneralTab:CreateButton({
             return
         end
 
-        local success = purchaseGun(selectedGun)
+        local player = LocalPlayer
+        local char = player.Character or player.CharacterAdded:Wait()
+        local humanoid = char:WaitForChild("Humanoid")
+        local hrp = char:WaitForChild("HumanoidRootPart")
 
-        Rayfield:Notify({
-            Title = success and "Success" or "Failed",
-            Content = success and ("Bought " .. selectedGun) or "Purchase failed",
-            Duration = 2
-        })
+        local folder = workspace:FindFirstChild("GUNS") or ReplicatedStorage:FindFirstChild("GUNS")
+        if not folder then return end
+
+        local gun = folder:FindFirstChild(selectedGun)
+        if not gun then return end
+
+        humanoid:ChangeState(0)
+        repeat task.wait() until not player:GetAttribute("LastACPos")
+
+        if gun:IsA("Model") and gun.PrimaryPart then
+            hrp.CFrame = gun.PrimaryPart.CFrame * CFrame.new(0, 0, -2)
+        elseif gun:IsA("BasePart") then
+            hrp.CFrame = gun.CFrame * CFrame.new(0, 0, -2)
+        end
+
+        task.wait(0.25)
+
+        local prompt = gun:FindFirstChildWhichIsA("ProximityPrompt", true)
+        if prompt and fireproximityprompt then
+            fireproximityprompt(prompt)
+        end
     end
 })
