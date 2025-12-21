@@ -26,16 +26,18 @@ local function getGunList()
     local guns = {}
     local folder = workspace:FindFirstChild("GUNS") or ReplicatedStorage:FindFirstChild("GUNS")
     if not folder then return guns end
-    for _, gun in pairs(folder:GetChildren()) do
+
+    for _, gun in ipairs(folder:GetChildren()) do
         if gun:IsA("Model") or gun:IsA("BasePart") then
             table.insert(guns, gun.Name)
         end
     end
+
     return guns
 end
 
 local function FirePrompt(prompt)
-    if fireproximityprompt then
+    if typeof(fireproximityprompt) == "function" then
         fireproximityprompt(prompt)
     else
         prompt:InputHoldBegin()
@@ -45,8 +47,10 @@ local function FirePrompt(prompt)
 end
 
 local function purchaseGun(gunName)
-    local char = LocalPlayer.Character
-    if not char or not char:FindFirstChild("HumanoidRootPart") then return false end
+    if type(gunName) ~= "string" then return false end
+
+    local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+    local hrp = char:WaitForChild("HumanoidRootPart")
 
     local folder = workspace:FindFirstChild("GUNS") or ReplicatedStorage:FindFirstChild("GUNS")
     if not folder then return false end
@@ -55,12 +59,12 @@ local function purchaseGun(gunName)
     if not gun then return false end
 
     if gun:IsA("Model") and gun.PrimaryPart then
-        char.HumanoidRootPart.CFrame = gun.PrimaryPart.CFrame * CFrame.new(0, 0, -2)
+        hrp.CFrame = gun.PrimaryPart.CFrame * CFrame.new(0, 0, -2)
     elseif gun:IsA("BasePart") then
-        char.HumanoidRootPart.CFrame = gun.CFrame * CFrame.new(0, 0, -2)
+        hrp.CFrame = gun.CFrame * CFrame.new(0, 0, -2)
     end
 
-    task.wait(0.25)
+    task.wait(0.3)
 
     local prompt = gun:FindFirstChildWhichIsA("ProximityPrompt", true)
     if prompt then
@@ -69,14 +73,14 @@ local function purchaseGun(gunName)
     end
 
     local click = gun:FindFirstChildWhichIsA("ClickDetector", true)
-    if click then
+    if click and fireclickdetector then
         fireclickdetector(click)
         return true
     end
 
     local remotes = ReplicatedStorage:FindFirstChild("Remotes")
     if remotes then
-        for _, r in pairs(remotes:GetChildren()) do
+        for _, r in ipairs(remotes:GetChildren()) do
             if r:IsA("RemoteEvent") then
                 pcall(function()
                     r:FireServer(gunName)
@@ -89,16 +93,14 @@ local function purchaseGun(gunName)
     return false
 end
 
- 
-
 local selectedGun
 
 GeneralTab:CreateDropdown({
     Name = "Select Gun",
     Options = getGunList(),
-    CurrentOption = nil,
+    CurrentOption = {},
     Callback = function(option)
-        selectedGun = option
+        selectedGun = option[1]
     end
 })
 
