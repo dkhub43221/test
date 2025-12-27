@@ -60,7 +60,7 @@ local function setInfiniteFuel(state)
     print(state and "[Infinite Fuel] Enabled" or "[Infinite Fuel] Disabled")
 end
 
-MiscTab:CreateToggle({
+MainTab:CreateToggle({
     Name = "Inf Fuel",
     CurrentValue = false,
     Callback = function(Value)
